@@ -640,7 +640,7 @@ h2,.title,.sideTitle{color:#6f625b}.small{color:#8b817b}
           <div class="lessonSettingsLayout">
             <div class="lessonEditor">
               <h2>見取り内容編集</h2>
-              <div class="lessonTitleRow"><label>タイトル</label><input id="lessonNameInput" placeholder="例：外国語 基本"></div>
+              <div class="lessonTitleRow"><label>タイトル</label><input id="lessonNameInput" placeholder="例：見取り内容"></div>
               <div class="lessonEditGrid">
                 <div class="lessonColumn"><h3>👍 よかったこと</h3><textarea id="lessonGoodText" placeholder="1行に1つずつ入力・貼り付け"></textarea></div>
                 <div class="lessonColumn"><h3>✏️ 気になったこと</h3><textarea id="lessonBadText" placeholder="1行に1つずつ入力・貼り付け"></textarea></div>
@@ -660,8 +660,8 @@ h2,.title,.sideTitle{color:#6f625b}.small{color:#8b817b}
           <div class="lessonSettingsLayout">
             <div class="lessonEditor">
               <h2>授業内容リスト編集</h2>
-              <div class="lessonTitleRow"><label>タイトル</label><input id="lessonListNameInput" placeholder="例：５年外国語"></div>
-              <div class="lessonColumn" style="flex:1"><h3>授業内容リスト</h3><textarea id="lessonListText" class="listEditorText" placeholder="５年外国語 Unit1&#10;５年外国語 Unit2&#10;５年外国語 Unit3"></textarea></div>
+              <div class="lessonTitleRow"><label>タイトル</label><input id="lessonListNameInput" placeholder="例：授業内容リスト"></div>
+              <div class="lessonColumn" style="flex:1"><h3>授業内容リスト</h3><textarea id="lessonListText" class="listEditorText" placeholder="1行に1つずつ入力・貼り付け"></textarea></div>
               <div class="lessonEditorActions">
                 <button class="btn danger" id="deleteLessonListBtn">削除</button>
                 <div><button class="btn" id="copyLessonListBtn">コピー作成</button> <button class="btn primary" id="saveLessonListBtn">保存</button></div>
@@ -709,24 +709,23 @@ h2,.title,.sideTitle{color:#6f625b}.small{color:#8b817b}
 <script>
 const KEY='MITORI_V033_SETTINGS_LAYOUT_SYNC';
 const today=new Date().toISOString().slice(0,10);
-const initialClasses=[
-  ['i32','岩西3-2','grade3','tag3'],['i51','岩西5-1','grade5','tag5'],['i52','岩西5-2','grade5','tag5'],['i61','岩西6-1','grade6','tag6'],['i62','岩西6-2','grade6','tag6'],
-  ['t31','高森3-1','grade3','tag3'],['t32','高森3-2','grade3','tag3'],['t41','高森4-1','grade4','tag4'],['t42','高森4-2','grade4','tag4'],['t51','高森5-1','grade5','tag5'],['t52','高森5-2','grade5','tag5']
-];
+const initialClasses=[];
 let state=JSON.parse(localStorage.getItem(KEY)||'null')||{
   date:today,mode:'record',currentClass:null,nameDisplay:'kanji',
   classes:initialClasses.map(x=>({id:x[0],name:x[1],color:x[2],hours:0,count:35,tagSetId:x[3]})),
-  tagSets:[
-    {id:'tag3',name:'3年 外国語活動',good:['積極的に参加','英語を使った','相手を見て聞いた','友達を助けた','ジェスチャーで伝えた'],bad:['活動に参加しにくい','指示が入りにくい','私語','遊び','ペア活動から離れていた']},
-    {id:'tag4',name:'4年 外国語活動',good:['進んで伝えようとした','相手の反応を見て話した','友達と協力した'],bad:['活動から離れていた','指示が入りにくい','準備が不十分']},
-    {id:'tag5',name:'5年 外国語',good:['英語でやり取りした','相手に質問した','伝え方を工夫した'],bad:['英語を使おうとしなかった','ペア活動に参加しにくい','私語']},
-    {id:'tag6',name:'6年 外国語',good:['英語で自分の考えを伝えた','相手に応じて反応した','既習表現を活用した'],bad:['活動への参加が不十分','指示が入りにくい','別のことをしていた']}
-  ],
-  board:{},classData:{},classLayout:[],records:[],lessonLists:[{id:'lessonDefault',name:'基本',items:['５年外国語 Unit1','５年外国語 Unit2','５年書写','３年音楽']}]
+  tagSets:[],
+  board:{},classData:{},classLayout:[],records:[],lessonLists:[]
 };
-state.lessonLists=state.lessonLists||[{id:'lessonDefault',name:'基本',items:['５年外国語 Unit1','５年外国語 Unit2','５年書写','３年音楽']}];
-const defaultLessonListId=(state.lessonLists&&state.lessonLists[0]&&state.lessonLists[0].id)||'lessonDefault';
-state.classes.forEach(c=>{if(!c.lessonListId)c.lessonListId=defaultLessonListId;});
+state.classes=Array.isArray(state.classes)?state.classes:[];
+state.tagSets=Array.isArray(state.tagSets)?state.tagSets:[];
+state.lessonLists=Array.isArray(state.lessonLists)?state.lessonLists:[];
+state.board=state.board&&typeof state.board==='object'?state.board:{};
+state.classData=state.classData&&typeof state.classData==='object'?state.classData:{};
+state.classLayout=Array.isArray(state.classLayout)?state.classLayout:[];
+state.records=Array.isArray(state.records)?state.records:[];
+function firstTagSetId(){return state.tagSets[0]?.id||''}
+function firstLessonListId(){return state.lessonLists[0]?.id||''}
+state.classes.forEach(c=>{if(!c.lessonListId)c.lessonListId=firstLessonListId();});
 state.classes.forEach(c=>{state.classData[c.id]=state.classData[c.id]||{image:'',locked:false,positions:{},roster:{}};state.classData[c.id].absences=state.classData[c.id].absences||{};state.classData[c.id].dayMeta=state.classData[c.id].dayMeta||{};state.classData[c.id].lastLessonContent=state.classData[c.id].lastLessonContent||'';state.classData[c.id].lastObservationId=state.classData[c.id].lastObservationId||c.tagSetId;});
 if(!state.classLayout.length)state.classLayout=[...state.classes.map(c=>c.id),...Array(24-state.classes.length).fill(null)];
 while(state.classLayout.length<24)state.classLayout.push(null);
@@ -737,14 +736,15 @@ let selectedStudentNos=new Set(), selectionDrag=null;
 
 function save(){localStorage.setItem(KEY,JSON.stringify(state));$('status').textContent='保存済み '+new Date().toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit'})}
 function cls(id){return state.classes.find(c=>c.id===id)}
-function tagSet(id){return state.tagSets.find(t=>t.id===id)||state.tagSets[0]}
+function tagSet(id){return state.tagSets.find(t=>t.id===id)||state.tagSets[0]||null}
 function allLessonItems(){return (state.lessonLists||[]).flatMap(g=>g.items||[]).filter(Boolean)}
-function classLessonList(classId=state.currentClass){const c=cls(classId);return (state.lessonLists||[]).find(g=>g.id===c?.lessonListId)||state.lessonLists?.[0]}
+function classLessonList(classId=state.currentClass){const c=cls(classId);return (state.lessonLists||[]).find(g=>g.id===c?.lessonListId)||state.lessonLists?.[0]||null}
 function classLessonItems(classId=state.currentClass){const g=classLessonList(classId);const items=(g?.items||[]).filter(Boolean);return items.length?items:allLessonItems()}
 function data(id=state.currentClass){return state.classData[id]}
 function show(id){['homeView','recordView','reportView','settingsView'].forEach(v=>$(v).classList.remove('active'));$(id).classList.add('active');$('homeBtn').classList.toggle('active',id==='homeView');$('settingsBtn').classList.toggle('active',id==='settingsView')}
 function setMode(m){state.mode=m;save();$('recordMode').classList.toggle('active',m==='record');$('reportMode').classList.toggle('active',m==='report');m==='report'?(show('reportView'),renderReport()):show('homeView')}
 function studentName(classId,num){const r=(state.classData[classId]?.roster||{})[String(Number(num))];if(!r)return'';return state.nameDisplay==='kana'?(r.kana||r.kanji||''):(r.kanji||r.kana||'')}
+function displayStudentLabel(num,classId=state.currentClass){const name=studentName(classId,num);return `${num}番${name?' '+name:''}`}
 function parseRosterPaste(text){const rows=[];text.split(/\r?\n/).map(x=>x.trim()).filter(Boolean).forEach(line=>{let cols=line.includes('\t')?line.split('\t'):(line.includes(',')?line.split(','):line.split(/\s+/));cols=cols.map(x=>x.trim()).filter(Boolean);const n=cols[0]?.replace(/[^0-9]/g,'');if(!n)return;rows.push({num:String(Number(n)),kanji:cols[1]||'',kana:cols[2]||''})});return rows}
 function render(){ $('dateInput').value=state.date; if($('defaultNameDisplay'))$('defaultNameDisplay').value=state.nameDisplay; renderBoard(); renderClasses(); renderRecordPage(); renderReport(); renderSettings(); }
 
@@ -841,7 +841,7 @@ function renderRecordSelectors(){
   const tagExists=id=>state.tagSets.some(t=>t.id===id);
   let currentObs=meta.observationId||d.lastObservationId||c.tagSetId||'';
   if(!tagExists(currentObs))currentObs=tagExists(c.tagSetId)?c.tagSetId:(state.tagSets[0]?.id||'');
-  os.innerHTML=state.tagSets.map(t=>`<option value="${t.id}">${escapeOptionText(t.name)}</option>`).join('');
+  os.innerHTML=state.tagSets.length?state.tagSets.map(t=>`<option value="${t.id}">${escapeOptionText(t.name)}</option>`).join(''):'<option value="">見取り内容未設定</option>';
   os.value=currentObs;
   meta.observationId=currentObs;
   d.lastObservationId=currentObs;
@@ -1037,7 +1037,7 @@ function renderBalancePanel(){
 }
 function toggleBalancePanel(){const p=$('balancePanel');if(!p)return;p.classList.toggle('open');renderBalancePanel()}
 
-function openRecordModal(num,type){const set=tagSet(getDayMeta().observationId||cls(state.currentClass).tagSetId);selectedRecord={num,tags:{good:[],bad:[]}};$('recordModalTitle').textContent=`${num}番：記録`;function renderTagButtons(kind,items,gridId){const grid=$(gridId);grid.innerHTML='';items.forEach(t=>{const b=document.createElement('button');b.textContent=t;b.onclick=()=>{const arr=selectedRecord.tags[kind];if(arr.includes(t)){selectedRecord.tags[kind]=arr.filter(x=>x!==t);b.classList.remove('selected')}else{arr.push(t);b.classList.add('selected')}};grid.appendChild(b)});}renderTagButtons('good',set.good||[],'recordGoodTagGrid');renderTagButtons('bad',set.bad||[],'recordBadTagGrid');$('memo').value='';$('recordModal').style.display='flex'}
+function openRecordModal(num,type){const set=tagSet(getDayMeta().observationId||cls(state.currentClass)?.tagSetId);if(!set){alert('設定で見取り内容を作成してください。');return}selectedRecord={num,tags:{good:[],bad:[]}};$('recordModalTitle').textContent=`${num}番：記録`;function renderTagButtons(kind,items,gridId){const grid=$(gridId);grid.innerHTML='';items.forEach(t=>{const b=document.createElement('button');b.textContent=t;b.onclick=()=>{const arr=selectedRecord.tags[kind];if(arr.includes(t)){selectedRecord.tags[kind]=arr.filter(x=>x!==t);b.classList.remove('selected')}else{arr.push(t);b.classList.add('selected')}};grid.appendChild(b)});}renderTagButtons('good',set.good||[],'recordGoodTagGrid');renderTagButtons('bad',set.bad||[],'recordBadTagGrid');$('memo').value='';$('recordModal').style.display='flex'}
 function renderRecords(){const box=$('records');box.innerHTML='';if(!state.currentClass)return;const list=state.records.filter(r=>r.date===state.date&&r.classId===state.currentClass).slice().reverse();if(!list.length){box.innerHTML='<span class="small">今日の記録はまだありません</span>';return}list.forEach(r=>{const div=document.createElement('div');div.className='record';div.textContent=`${r.time}｜${r.num}番｜${r.type==='good'?'👍':'✏️'}｜${r.tag}${r.test?'｜テスト実施':''}${r.memo?'｜'+r.memo:''}`;box.appendChild(div)})}
 function renderReport(){const box=$('reportGrid');box.innerHTML='';state.classes.forEach(c=>{const all=state.records.filter(r=>r.classId===c.id),good=all.filter(r=>r.type==='good').length,bad=all.filter(r=>r.type==='bad').length,recorded=new Set(all.map(r=>String(r.num))),none=[];for(let i=1;i<=Math.min(40,Number(c.count||40));i++)if(!recorded.has(String(i)))none.push(i+'番');const div=document.createElement('div');div.className='reportCard';div.innerHTML=`<h2>${c.name}</h2><p>実施時間数：<b>${c.hours||0}</b>時間</p><p>👍 ${good}件　✏️ ${bad}件</p><div class="reportCard obs"><b>観察バランス</b><br><span class="small">記録がまだない番号</span><br>${none.length?none.join('、'):'全員に記録あり'}</div>`;box.appendChild(div)})}
 
@@ -1053,7 +1053,7 @@ function renderClassSettings(){
     if(c){
       const div=document.createElement('div');
       div.className='settingClassCard '+(c.color||'gray');
-      div.innerHTML=`<div class="classTitle">${c.name}</div><div class="classMeta">${c.count||40}人</div><div class="classMeta">見取り：${tagSet(c.tagSetId).name}</div><div class="classMeta">授業：${classLessonList(c.id)?.name||'未設定'}</div>`;
+      div.innerHTML=`<div class="classTitle">${c.name}</div><div class="classMeta">${c.count||40}人</div><div class="classMeta">見取り：${tagSet(c.tagSetId)?.name||'未設定'}</div><div class="classMeta">授業：${classLessonList(c.id)?.name||'未設定'}</div>`;
       div.onclick=()=>openClassEdit(c.id);
       slot.appendChild(div);
     }
@@ -1066,8 +1066,8 @@ function renderClassSettings(){
   grid.appendChild(add);
 }
 function renderTagSettings(){
-  if(!state.tagSets.length){state.tagSets.push({id:'tag'+Date.now(),name:'新しい見取り内容',good:['よかったこと'],bad:['気になったこと']})}
-  if(!editingTagSetId || !state.tagSets.some(t=>t.id===editingTagSetId))editingTagSetId=state.tagSets[0].id;
+  if(!state.tagSets.length)editingTagSetId=null;
+  else if(!editingTagSetId || !state.tagSets.some(t=>t.id===editingTagSetId))editingTagSetId=state.tagSets[0].id;
   renderLessonTitleList();
   loadLessonEditor(editingTagSetId);
 }
@@ -1105,7 +1105,9 @@ function loadLessonEditor(id){
   $('lessonNameInput').value=t?.name||'';
   $('lessonGoodText').value=(t?.good||[]).join('\n');
   $('lessonBadText').value=(t?.bad||[]).join('\n');
-  $('deleteLessonBtn').style.visibility=state.tagSets.length>1?'visible':'hidden';
+  $('deleteLessonBtn').style.visibility=t&&state.tagSets.length>1?'visible':'hidden';
+  $('copyLessonBtn').disabled=!t;
+  $('saveLessonBtn').disabled=!t;
 }
 function newLessonEdit(){
   const id='tag'+Date.now();
@@ -1129,6 +1131,7 @@ function saveLessonEdit(doRender=true){
 function copyTagSet(id=editingTagSetId){
   saveLessonEdit(false);
   const t=tagSet(id);
+  if(!t)return;
   const nid='tag'+Date.now();
   state.tagSets.push({id:nid,name:(t?.name||'見取り内容')+'（コピー）',good:[...(t?.good||[])],bad:[...(t?.bad||[])]});
   editingTagSetId=nid;
@@ -1151,11 +1154,11 @@ function deleteLessonEdit(){
 let editingLessonListId=null;
 function renderLessonListSettings(){
   if(!state.lessonLists)state.lessonLists=[];
-  if(!state.lessonLists.length)state.lessonLists.push({id:'lessonList'+Date.now(),name:'基本',items:['５年外国語 Unit1']});
-  if(!editingLessonListId||!state.lessonLists.some(x=>x.id===editingLessonListId))editingLessonListId=state.lessonLists[0].id;
+  if(!state.lessonLists.length)editingLessonListId=null;
+  else if(!editingLessonListId||!state.lessonLists.some(x=>x.id===editingLessonListId))editingLessonListId=state.lessonLists[0].id;
   renderLessonListEditor(editingLessonListId);renderLessonListTitleList();
 }
-function lessonList(id){return (state.lessonLists||[]).find(x=>x.id===id)||state.lessonLists[0]}
+function lessonList(id){return (state.lessonLists||[]).find(x=>x.id===id)||state.lessonLists?.[0]||null}
 function renderLessonListTitleList(){
   const grid=$('lessonListGrid');if(!grid)return;grid.innerHTML='';
   const q=($('lessonListSearchInput')?.value||'').trim().toLowerCase();
@@ -1172,22 +1175,22 @@ function renderLessonListTitleList(){
     grid.appendChild(b)
   });
 }
-function renderLessonListEditor(id){const x=lessonList(id);if(!$('lessonListNameInput'))return;$('lessonListNameInput').value=x?.name||'';$('lessonListText').value=(x?.items||[]).join('\n');$('deleteLessonListBtn').style.visibility=state.lessonLists.length>1?'visible':'hidden';}
+function renderLessonListEditor(id){const x=lessonList(id);if(!$('lessonListNameInput'))return;$('lessonListNameInput').value=x?.name||'';$('lessonListText').value=(x?.items||[]).join('\n');$('deleteLessonListBtn').style.visibility=x&&state.lessonLists.length>1?'visible':'hidden';$('copyLessonListBtn').disabled=!x;$('saveLessonListBtn').disabled=!x;}
 function splitLines(v){return String(v||'').split(/\r?\n/).map(x=>x.trim()).filter(Boolean)}
-function saveLessonListEdit(notify=false){if(!editingLessonListId||!$('lessonListNameInput'))return;const x=lessonList(editingLessonListId);x.name=$('lessonListNameInput').value.trim()||'新しい授業内容リスト';x.items=splitLines($('lessonListText').value);if(!x.items.length)x.items=['授業内容未設定'];save();renderLessonListTitleList();if(notify)alert('授業内容リストを保存しました。')}
+function saveLessonListEdit(notify=false){if(!editingLessonListId||!$('lessonListNameInput'))return;const x=lessonList(editingLessonListId);if(!x)return;x.name=$('lessonListNameInput').value.trim()||'新しい授業内容リスト';x.items=splitLines($('lessonListText').value);if(!x.items.length)x.items=['授業内容未設定'];save();renderLessonListTitleList();if(notify)alert('授業内容リストを保存しました。')}
 function newLessonListEdit(){saveLessonListEdit(false);const id='lessonList'+Date.now();state.lessonLists.push({id,name:'新しい授業内容リスト',items:['新しい授業内容']});editingLessonListId=id;save();renderLessonListSettings()}
-function copyLessonListEdit(){const x=lessonList(editingLessonListId);const id='lessonList'+Date.now();state.lessonLists.push({id,name:(x?.name||'授業内容リスト')+'（コピー）',items:[...(x?.items||[])]});editingLessonListId=id;save();renderLessonListSettings()}
+function copyLessonListEdit(){const x=lessonList(editingLessonListId);if(!x)return;const id='lessonList'+Date.now();state.lessonLists.push({id,name:(x.name||'授業内容リスト')+'（コピー）',items:[...(x.items||[])]});editingLessonListId=id;save();renderLessonListSettings()}
 function deleteLessonListEdit(){if(state.lessonLists.length<=1){alert('授業内容リストは最低1つ必要です。');return}if(!confirm('この授業内容リストを削除しますか？'))return;const fallback=state.lessonLists.find(x=>x.id!==editingLessonListId)?.id;state.classes.forEach(c=>{if(c.lessonListId===editingLessonListId)c.lessonListId=fallback});state.lessonLists=state.lessonLists.filter(x=>x.id!==editingLessonListId);editingLessonListId=state.lessonLists[0].id;save();renderLessonListSettings();renderClassSettings()}
 function finalizeLessonRecord(){if(!state.currentClass){alert('クラスを選択してください。');return}const c=cls(state.currentClass), meta=getDayMeta();meta.confirmed=true;meta.lessonContent=($('lessonSelect')?.value)||meta.lessonContent||'';meta.observationId=($('observationSelect')?.value)||meta.observationId||c.tagSetId;data().lastLessonContent=meta.lessonContent;data().lastObservationId=meta.observationId;c.tagSetId=meta.observationId;if(!meta.hourCounted){c.hours=(c.hours||0)+1;meta.hourCounted=true;}state.board[state.date]=state.board[state.date]||{};if(!Object.values(state.board[state.date]).includes(state.currentClass)){for(let i=1;i<=6;i++){if(!state.board[state.date][i]){state.board[state.date][i]=state.currentClass;break;}}}save();render();show('homeView');alert('授業記録を確定しました。')}
 
-function openClassEdit(id){editingClassId=id;const c=id?cls(id):{name:'',count:35,color:'grade3',tagSetId:state.tagSets[0].id,lessonListId:defaultLessonListId};$('classModalTitle').textContent=id?'クラス編集':'クラス追加';$('classNameInput').value=c.name;$('classCountInput').value=c.count||35;$('classColorInput').value=c.color||'grade3';$('classTagSetInput').innerHTML=state.tagSets.map(t=>`<option value="${t.id}">${t.name}</option>`).join('');$('classTagSetInput').value=c.tagSetId||state.tagSets[0].id;const lli=$('classLessonListInput');if(lli){lli.innerHTML=(state.lessonLists||[]).map(g=>`<option value="${g.id}">${g.name}</option>`).join('');lli.value=c.lessonListId||defaultLessonListId;}const roster=data(id)?.roster||{};$('rosterText').value=Object.entries(roster).map(([n,r])=>`${n}\t${r.kanji||''}\t${r.kana||''}`).join('\n');updateRosterPreview();$('deleteClassBtn').style.display=id?'inline-block':'none';$('classModal').style.display='flex'}
-function saveClassEdit(){let id=editingClassId;if(!id){id='c'+Date.now();state.classes.push({id,name:'',color:'grade3',hours:0,count:35,tagSetId:state.tagSets[0].id,lessonListId:defaultLessonListId});state.classData[id]={image:'',locked:false,positions:{},roster:{},absences:{},dayMeta:{}};const empty=state.classLayout.findIndex(x=>!x);if(empty>=0)state.classLayout[empty]=id;else state.classLayout.push(id)}const c=cls(id);const oldTagSetId=c.tagSetId;const oldLessonListId=c.lessonListId;c.name=$('classNameInput').value.trim()||'新しいクラス';c.count=Math.min(40,Math.max(1,Number($('classCountInput').value||35)));c.color=$('classColorInput').value;c.tagSetId=$('classTagSetInput').value;c.lessonListId=($('classLessonListInput')?.value)||defaultLessonListId;const cd=state.classData[id]||(state.classData[id]={image:'',locked:false,positions:{},roster:{},absences:{},dayMeta:{}});if(oldTagSetId!==c.tagSetId){cd.lastObservationId=c.tagSetId;Object.values(cd.dayMeta||{}).forEach(m=>{if(m && !m.confirmed)m.observationId=c.tagSetId;});}if(oldLessonListId!==c.lessonListId){const first=(classLessonItems(id)||[])[0]||'';cd.lastLessonContent=first;Object.values(cd.dayMeta||{}).forEach(m=>{if(m && !m.confirmed)m.lessonContent=first;});}const roster={};parseRosterPaste($('rosterText').value).forEach(r=>roster[r.num]={kanji:r.kanji,kana:r.kana});cd.roster=roster;const max=Math.max(0,...Object.keys(roster).map(Number));if(max&&max<=40)c.count=max;if(state.currentClass===id||!state.currentClass)state.currentClass=id;save();$('classModal').style.display='none';render();alert(Object.keys(roster).length?`名簿を${Object.keys(roster).length}人分登録しました。`:'クラス設定を保存しました。')}
+function openClassEdit(id){editingClassId=id;const c=id?cls(id):{name:'',count:35,color:'grade3',tagSetId:firstTagSetId(),lessonListId:firstLessonListId()};if(!c)return;$('classModalTitle').textContent=id?'クラス編集':'クラス追加';$('classNameInput').value=c.name;$('classCountInput').value=c.count||35;$('classColorInput').value=c.color||'grade3';const tsi=$('classTagSetInput');tsi.innerHTML='<option value="">未設定</option>'+state.tagSets.map(t=>`<option value="${t.id}">${escapeOptionText(t.name)}</option>`).join('');tsi.value=c.tagSetId||firstTagSetId();const lli=$('classLessonListInput');if(lli){lli.innerHTML='<option value="">未設定</option>'+(state.lessonLists||[]).map(g=>`<option value="${g.id}">${escapeOptionText(g.name)}</option>`).join('');lli.value=c.lessonListId||firstLessonListId();}const roster=data(id)?.roster||{};$('rosterText').value=Object.entries(roster).map(([n,r])=>`${n}\t${r.kanji||''}\t${r.kana||''}`).join('\n');updateRosterPreview();$('deleteClassBtn').style.display=id?'inline-block':'none';$('classModal').style.display='flex'}
+function saveClassEdit(){let id=editingClassId;const selectedTagSetId=$('classTagSetInput')?.value||'';const selectedLessonListId=$('classLessonListInput')?.value||'';if(!id){id='c'+Date.now();state.classes.push({id,name:'',color:'grade3',hours:0,count:35,tagSetId:selectedTagSetId,lessonListId:selectedLessonListId});state.classData[id]={image:'',locked:false,positions:{},roster:{},absences:{},dayMeta:{}};const empty=state.classLayout.findIndex(x=>!x);if(empty>=0)state.classLayout[empty]=id;else state.classLayout.push(id)}const c=cls(id);if(!c)return;const oldTagSetId=c.tagSetId;const oldLessonListId=c.lessonListId;c.name=$('classNameInput').value.trim()||'新しいクラス';c.count=Math.min(40,Math.max(1,Number($('classCountInput').value||35)));c.color=$('classColorInput').value;c.tagSetId=selectedTagSetId;c.lessonListId=selectedLessonListId;const cd=state.classData[id]||(state.classData[id]={image:'',locked:false,positions:{},roster:{},absences:{},dayMeta:{}});if(oldTagSetId!==c.tagSetId){cd.lastObservationId=c.tagSetId;Object.values(cd.dayMeta||{}).forEach(m=>{if(m && !m.confirmed)m.observationId=c.tagSetId;});}if(oldLessonListId!==c.lessonListId){const first=(classLessonItems(id)||[])[0]||'';cd.lastLessonContent=first;Object.values(cd.dayMeta||{}).forEach(m=>{if(m && !m.confirmed)m.lessonContent=first;});}const roster={};parseRosterPaste($('rosterText').value).forEach(r=>roster[r.num]={kanji:r.kanji,kana:r.kana});cd.roster=roster;const max=Math.max(0,...Object.keys(roster).map(Number));if(max&&max<=40)c.count=max;if(state.currentClass===id||!state.currentClass)state.currentClass=id;save();$('classModal').style.display='none';render();alert(Object.keys(roster).length?`名簿を${Object.keys(roster).length}人分登録しました。`:'クラス設定を保存しました。')}
 function deleteClass(){if(!editingClassId||!confirm('このクラスを削除しますか？'))return;state.classes=state.classes.filter(c=>c.id!==editingClassId);state.classLayout=state.classLayout.map(x=>x===editingClassId?null:x);delete state.classData[editingClassId];state.records=state.records.filter(r=>r.classId!==editingClassId);save();$('classModal').style.display='none';render()}
 function updateRosterPreview(){const rows=parseRosterPaste($('rosterText').value);$('rosterPreview').textContent=rows.length?`${rows.length}人を読み込み予定：`+rows.slice(0,3).map(r=>`${r.num}:${r.kanji||'名前なし'}${r.kana?' / '+r.kana:''}`).join('、')+(rows.length>3?' …':''):'貼り付けると読み込み予定人数を表示します。'}
 
-function openTagEdit(id,type){editingTagSetId=id;editingTagType=type;const t=tagSet(id);$('tagEditTitle').textContent=`${t.name}：${type==='good'?'👍 よかったこと':'✏️ 気になったこと'}`;$('editableTagList').innerHTML='';(type==='good'?t.good:t.bad).forEach(addEditableTag);$('tagEditModal').style.display='flex'}
+function openTagEdit(id,type){editingTagSetId=id;editingTagType=type;const t=tagSet(id);if(!t)return;$('tagEditTitle').textContent=`${t.name}：${type==='good'?'👍 よかったこと':'✏️ 気になったこと'}`;$('editableTagList').innerHTML='';(type==='good'?t.good:t.bad).forEach(addEditableTag);$('tagEditModal').style.display='flex'}
 function addEditableTag(v=''){const div=document.createElement('div');div.className='tagItem';div.innerHTML=`<input value="${String(v).replaceAll('"','&quot;')}"><button class="btn danger">削除</button>`;div.querySelector('button').onclick=()=>div.remove();$('editableTagList').appendChild(div)}
-function saveTagEdit(){const vals=[...$('editableTagList').querySelectorAll('input')].map(i=>i.value.trim()).filter(Boolean);const t=tagSet(editingTagSetId);editingTagType==='good'?t.good=vals:t.bad=vals;save();$('tagEditModal').style.display='none';render()}
+function saveTagEdit(){const vals=[...$('editableTagList').querySelectorAll('input')].map(i=>i.value.trim()).filter(Boolean);const t=tagSet(editingTagSetId);if(!t)return;editingTagType==='good'?t.good=vals:t.bad=vals;save();$('tagEditModal').style.display='none';render()}
 function showSettingsPane(k){
   ['class','tag','lessonList'].forEach(x=>{
     const pane=$(x+'SettingsPane');
