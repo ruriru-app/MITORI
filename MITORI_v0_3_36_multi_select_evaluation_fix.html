@@ -1,0 +1,1344 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MITORI v0.3.36</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%20standalone%3D%22no%22%3F%3E%0A%3C%21DOCTYPE%20svg%20PUBLIC%20%22-%2F%2FW3C%2F%2FDTD%20SVG%201.1%2F%2FEN%22%20%22http%3A%2F%2Fwww.w3.org%2FGraphics%2FSVG%2F1.1%2FDTD%2Fsvg11.dtd%22%3E%0A%3C%21--%20Created%20with%20Linearity%20Curve%20%28http%3A%2F%2Flinearity.io%2Fcurve%29%20--%3E%0A%3Csvg%20height%3D%221024.0px%22%20stroke-miterlimit%3D%2210%22%20style%3D%22fill-rule%3Anonzero%3Bclip-rule%3Aevenodd%3Bstroke-linecap%3Around%3Bstroke-linejoin%3Around%3B%22%20version%3D%221.1%22%20viewBox%3D%220%200%201024%201024%22%20width%3D%221024.0px%22%20xml%3Aspace%3D%22preserve%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%3E%0A%3Cdefs%3E%0A%3Cfilter%20color-interpolation-filters%3D%22sRGB%22%20filterUnits%3D%22userSpaceOnUse%22%20height%3D%22840.013%22%20id%3D%22Filter%22%20width%3D%22839.151%22%20x%3D%2245.0609%22%20y%3D%2246.4953%22%3E%0A%3CfeGaussianBlur%20in%3D%22SourceGraphic%22%20result%3D%22Blur%22%20stdDeviation%3D%2218.0026%22%2F%3E%0A%3C%2Ffilter%3E%0A%3Cfilter%20color-interpolation-filters%3D%22sRGB%22%20filterUnits%3D%22userSpaceOnUse%22%20height%3D%22801.151%22%20id%3D%22Filter_2%22%20width%3D%22793.804%22%20x%3D%2259.0581%22%20y%3D%2265.4718%22%3E%0A%3CfeGaussianBlur%20in%3D%22SourceGraphic%22%20result%3D%22Blur%22%20stdDeviation%3D%220.223106%22%2F%3E%0A%3C%2Ffilter%3E%0A%3Cfilter%20color-interpolation-filters%3D%22sRGB%22%20filterUnits%3D%22userSpaceOnUse%22%20height%3D%22198.044%22%20id%3D%22Filter_3%22%20width%3D%22189.411%22%20x%3D%22537.08%22%20y%3D%22760.609%22%3E%0A%3CfeGaussianBlur%20in%3D%22SourceGraphic%22%20result%3D%22Blur%22%20stdDeviation%3D%220.226051%22%2F%3E%0A%3C%2Ffilter%3E%0A%3Cfilter%20color-interpolation-filters%3D%22sRGB%22%20filterUnits%3D%22userSpaceOnUse%22%20height%3D%2286.7421%22%20id%3D%22Filter_4%22%20width%3D%2281.9072%22%20x%3D%22536.068%22%20y%3D%22873.893%22%3E%0A%3CfeGaussianBlur%20in%3D%22SourceGraphic%22%20result%3D%22Blur%22%20stdDeviation%3D%220.226051%22%2F%3E%0A%3C%2Ffilter%3E%0A%3Cfilter%20color-interpolation-filters%3D%22sRGB%22%20filterUnits%3D%22userSpaceOnUse%22%20height%3D%22141.742%22%20id%3D%22Filter_5%22%20width%3D%22152.586%22%20x%3D%22815.741%22%20y%3D%22442.055%22%3E%0A%3CfeGaussianBlur%20in%3D%22SourceGraphic%22%20result%3D%22Blur%22%20stdDeviation%3D%220.225343%22%2F%3E%0A%3C%2Ffilter%3E%0A%3Cfilter%20color-interpolation-filters%3D%22sRGB%22%20filterUnits%3D%22userSpaceOnUse%22%20height%3D%22357.517%22%20id%3D%22Filter_6%22%20width%3D%22330.871%22%20x%3D%22593.623%22%20y%3D%22508.066%22%3E%0A%3CfeGaussianBlur%20in%3D%22SourceGraphic%22%20result%3D%22Blur%22%20stdDeviation%3D%220.226051%22%2F%3E%0A%3C%2Ffilter%3E%0A%3Cfilter%20color-interpolation-filters%3D%22sRGB%22%20filterUnits%3D%22userSpaceOnUse%22%20height%3D%22131.578%22%20id%3D%22Filter_7%22%20width%3D%22153.729%22%20x%3D%22792.998%22%20y%3D%22479.917%22%3E%0A%3CfeGaussianBlur%20in%3D%22SourceGraphic%22%20result%3D%22Blur%22%20stdDeviation%3D%220.226051%22%2F%3E%0A%3C%2Ffilter%3E%0A%3Cfilter%20color-interpolation-filters%3D%22sRGB%22%20filterUnits%3D%22userSpaceOnUse%22%20height%3D%22416.148%22%20id%3D%22Filter_8%22%20width%3D%22430.418%22%20x%3D%22247.136%22%20y%3D%22248.419%22%3E%0A%3CfeGaussianBlur%20in%3D%22SourceGraphic%22%20result%3D%22Blur%22%20stdDeviation%3D%220.226051%22%2F%3E%0A%3C%2Ffilter%3E%0A%3C%2Fdefs%3E%0A%3Cg%20id%3D%22%E3%83%AC%E3%82%A4%E3%83%A4%E3%83%BC-1%22%3E%0A%3Cpath%20d%3D%22M90.0674%20466.502C90.0674%20259.395%20257.768%2091.5018%20464.636%2091.5018C671.505%2091.5018%20839.205%20259.395%20839.205%20466.502C839.205%20673.609%20671.505%20841.502%20464.636%20841.502C257.768%20841.502%2090.0674%20673.609%2090.0674%20466.502Z%22%20fill%3D%22%23f8f8f8%22%20fill-rule%3D%22nonzero%22%20filter%3D%22url%28%23Filter%29%22%20opacity%3D%221%22%20stroke%3D%22none%22%2F%3E%0A%3Cpath%20d%3D%22M458.438%2066.0312C332.599%2066.3954%20212.11%20126.257%20136.094%20230.812C42.535%20359.496%2034.1227%20531.4%20114.688%20668.594C195.252%20805.787%20349.479%20882.204%20507.438%20863.188L507.406%20862.969C514.375%20861.911%20520.717%20858.238%20525.062%20852.562C529.573%20846.671%20531.592%20839.166%20530.688%20831.719C529.783%20824.272%20526.041%20817.484%20520.25%20812.844C515.907%20809.364%20510.692%20807.312%20505.281%20806.875C503.478%20806.729%20501.634%20806.747%20499.812%20806.969L499.844%20807.219C364.468%20823.179%20232.428%20757.622%20163.375%20640.031C94.178%20522.196%20101.392%20374.557%20181.75%20264.031C262.108%20153.505%20400.318%20101.109%20533.75%20130.594C665.361%20159.677%20767.462%20263.006%20795.469%20394.5C795.538%20396.196%20795.709%20397.91%20796.094%20399.625C799.542%20415.014%20814.789%20424.694%20830.156%20421.25C844.877%20417.951%20854.227%20403.805%20851.969%20389.094C851.889%20388.572%20851.892%20388.054%20851.781%20387.531C851.737%20387.312%20851.701%20387.094%20851.656%20386.875C820.339%20231.795%20700.559%20109.636%20545.938%2075.4688C516.809%2069.0321%20487.477%2065.9472%20458.438%2066.0312Z%22%20fill%3D%22%238ccbc2%22%20fill-rule%3D%22nonzero%22%20filter%3D%22url%28%23Filter_2%29%22%20opacity%3D%221%22%20stroke%3D%22%23000000%22%20stroke-linecap%3D%22butt%22%20stroke-linejoin%3D%22round%22%20stroke-opacity%3D%220%22%20stroke-width%3D%224.86845%22%2F%3E%0A%3Cg%20opacity%3D%221%22%3E%0A%3Cpath%20d%3D%22M592.403%20768.027C593.053%20766.752%20593.323%20763.68%20595.353%20762.222C597.208%20760.89%20600.765%20761.095%20602.719%20761.403L721.952%20853.64C725.373%20856.422%20732.855%20860.824%20710.233%20874.176L622.87%20916.652C590.015%20932.626%20553.766%20902.133%20563.88%20867.029L592.403%20768.027Z%22%20fill%3D%22%23ffe3cf%22%20fill-rule%3D%22nonzero%22%20filter%3D%22url%28%23Filter_3%29%22%20opacity%3D%221%22%20stroke%3D%22%23000000%22%20stroke-linecap%3D%22butt%22%20stroke-linejoin%3D%22round%22%20stroke-opacity%3D%220%22%20stroke-width%3D%224.93271%22%2F%3E%0A%3Cpath%20d%3D%22M562.676%20874.458L562.676%20874.458C585.203%20882.263%20604.327%20897.639%20616.787%20917.965L617.41%20918.981L564.76%20945.763C554.205%20951.132%20542.371%20941.209%20545.817%20929.879L562.676%20874.458Z%22%20fill%3D%22%237a6e65%22%20fill-rule%3D%22nonzero%22%20filter%3D%22url%28%23Filter_4%29%22%20opacity%3D%221%22%20stroke%3D%22%23000000%22%20stroke-linecap%3D%22butt%22%20stroke-linejoin%3D%22round%22%20stroke-opacity%3D%220%22%20stroke-width%3D%224.93271%22%2F%3E%0A%3Cpath%20d%3D%22M892.466%20443.551C862.551%20438.338%20835.608%20455.514%20816.304%20481.696C823.736%20486.546%20938.317%20578.113%20945.307%20583.234C953.888%20573.069%20965.33%20557.756%20967.645%20525.07C970.025%20491.467%20936.21%20451.175%20892.466%20443.551Z%22%20fill%3D%22%23fb84a8%22%20fill-rule%3D%22nonzero%22%20filter%3D%22url%28%23Filter_5%29%22%20opacity%3D%221%22%20stroke%3D%22%23000000%22%20stroke-linecap%3D%22butt%22%20stroke-linejoin%3D%22round%22%20stroke-opacity%3D%220%22%20stroke-width%3D%224.91727%22%2F%3E%0A%3Cpath%20d%3D%22M594.189%20763.475L795.18%20508.631L923.93%20610.174L722.939%20865.018L692.726%20861.445L681.77%20829.896L647.908%20827.893L636.062%20791.091L604.233%20788.905L594.189%20763.475Z%22%20fill%3D%22%238ccbc2%22%20fill-rule%3D%22nonzero%22%20filter%3D%22url%28%23Filter_6%29%22%20opacity%3D%221%22%20stroke%3D%22%23000000%22%20stroke-linecap%3D%22butt%22%20stroke-linejoin%3D%22round%22%20stroke-opacity%3D%220%22%20stroke-width%3D%224.93271%22%2F%3E%0A%3Cpath%20d%3D%22M816.368%20480.482L946.162%20581.682L923.357%20610.93L793.563%20509.73L816.368%20480.482Z%22%20fill%3D%22%23f7e7c6%22%20fill-rule%3D%22nonzero%22%20filter%3D%22url%28%23Filter_7%29%22%20opacity%3D%221%22%20stroke%3D%22%23000000%22%20stroke-linecap%3D%22butt%22%20stroke-linejoin%3D%22round%22%20stroke-opacity%3D%220%22%20stroke-width%3D%224.93271%22%2F%3E%0A%3C%2Fg%3E%0A%3Cpath%20d%3D%22M300.858%20249.051C298.952%20248.953%20297.041%20248.959%20295.132%20249.09C285.965%20249.719%20276.895%20253.004%20269.106%20259.082C268.948%20259.205%20268.827%20259.352%20268.672%20259.477C256.05%20267.791%20247.701%20282.054%20247.701%20298.299L247.701%20616.532C247.701%20642.209%20268.507%20663.054%20294.184%20663.054C319.862%20663.054%20340.667%20642.209%20340.667%20616.532L340.667%20428.309L424.893%20537.637C432.09%20546.861%20445.841%20556.859%20445.841%20556.859C445.841%20556.859%20460.789%20562.12%20473.877%20558.693C484.87%20555.815%20493.739%20544.962%20499.31%20537.823L584.022%20429.257L584.022%20617.48C584.022%20643.157%20604.828%20664.002%20630.505%20664.002C634.571%20664.002%20638.527%20663.526%20642.274%20662.501C643.72%20662.106%20677.125%20616.919%20676.988%20617.48L676.988%20299.246C676.988%20283.002%20668.639%20268.738%20656.017%20260.425C655.862%20260.3%20655.741%20260.153%20655.583%20260.03C647.794%20253.952%20638.724%20250.667%20629.557%20250.038C627.648%20249.907%20625.737%20249.901%20623.831%20249.999C610.489%20250.683%20597.506%20256.925%20588.643%20268.284L462.7%20429.652L336.046%20267.336C327.183%20255.977%20314.2%20249.735%20300.858%20249.051Z%22%20fill%3D%22%238ccbc2%22%20fill-rule%3D%22nonzero%22%20filter%3D%22url%28%23Filter_8%29%22%20opacity%3D%221%22%20stroke%3D%22none%22%2F%3E%0A%3C%2Fg%3E%0A%3C%2Fsvg%3E">
+<style>
+:root{
+  --bg:#f6f8fb;--panel:#fff;--ink:#263244;--muted:#6b7280;--line:#d8dee9;
+  --accent:#2563eb;--slot:#eef2ff;--good:#dcfce7;--bad:#fee2e2;
+  --goodText:#166534;--badText:#991b1b;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}
+button,input,textarea,select{font:inherit}
+.app{height:100%;max-width:1280px;margin:auto;padding:12px;display:flex;flex-direction:column;gap:10px}
+.header{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:10px 14px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 8px rgba(20,30,50,.05)}
+.logo{font-size:26px;font-weight:900;letter-spacing:.05em}
+.copy{font-size:12px;color:var(--muted)}
+.spacer{flex:1}.small{font-size:12px;color:var(--muted)}
+.btn{border:1px solid var(--line);background:white;border-radius:12px;padding:8px 12px;cursor:pointer}
+.btn.primary{background:var(--accent);color:white;border-color:var(--accent);font-weight:800}
+.btn.warn{background:#fef3c7;border-color:#fbbf24}.btn.danger{background:#fee2e2;border-color:#fecaca;color:#991b1b}
+.mode{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:#f8fafc}
+.mode button{border:0;background:transparent;padding:8px 16px;cursor:pointer}
+.mode button.active{background:var(--accent);color:white;font-weight:800}
+.navIconBtn{width:72px;height:56px;border:1px solid var(--line);background:white;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer}
+.navIconBtn .icon{font-size:22px;line-height:1}.navIconBtn .label{font-size:11px;line-height:1;color:var(--ink)}
+.navIconBtn.active{background:#eff6ff;border-color:#93c5fd}
+.view{display:none;flex:1;min-height:0}.view.active{display:flex}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:12px;box-shadow:0 2px 8px rgba(20,30,50,.05)}
+h2{font-size:18px;margin:0 0 10px}
+.home{display:grid;grid-template-rows:auto 1fr auto;gap:10px;flex:1;min-height:0}
+.boardHeader{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}.boardHeader h2{margin:0}
+.board{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+.slot{height:92px;border:2px dashed #b8c1d8;border-radius:14px;background:var(--slot);padding:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer}
+.slot.filled{border-style:solid;background:#f8fafc;cursor:grab}.slot .period{font-weight:900;color:#4f46e5}
+.slotClear{font-size:12px;border:1px solid var(--line);background:white;border-radius:999px;padding:2px 8px;cursor:pointer}
+.classGrid{display:grid;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(4,82px);gap:8px;align-content:start}
+.classSlot{border:1px dashed transparent;border-radius:12px;min-height:82px}
+.classSlot.empty{border-color:#e5e7eb;background:#f8fafc}.classSlot.dragOver{outline:3px solid var(--accent);background:#eff6ff}
+.classCard{height:82px;border:1px solid var(--line);border-left:8px solid #60a5fa;border-radius:12px;background:white;padding:9px;cursor:grab;display:flex;flex-direction:column;gap:2px}
+.classCard.grade3{border-left-color:#22c55e}.classCard.grade4{border-left-color:#f59e0b}.classCard.grade5{border-left-color:#3b82f6}.classCard.grade6{border-left-color:#ec4899}.classCard.gray{border-left-color:#94a3b8}
+.classTitle{font-size:17px;font-weight:900}.classMeta{font-size:12px;color:var(--muted)}
+.footer{display:flex;align-items:center;justify-content:space-between;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:8px 12px}
+.recordLayout{flex:1;min-height:0;display:grid;grid-template-columns:1fr 230px;gap:10px}
+.stagePanel,.sidePanel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:10px;min-height:0;box-shadow:0 2px 8px rgba(20,30,50,.05)}
+.stagePanel{display:flex;flex-direction:column;gap:8px}
+.toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.title{font-size:18px;font-weight:800;margin-right:8px}
+.stage{position:relative;flex:1;min-height:420px;background:#eef2f7;border:1px solid var(--line);border-radius:14px;overflow:hidden;touch-action:none}
+#seatImage{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none}
+.noImage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#64748b;text-align:center;padding:20px;font-size:18px}
+.sidePanel{display:flex;flex-direction:column;gap:8px}.sideTitle{font-weight:800;text-align:center}
+.rosterGrid{border:1px solid var(--line);border-radius:12px;background:#f8fafc;padding:6px;display:grid;grid-template-columns:repeat(5,1fr);gap:5px;align-content:start}
+.numChip{height:34px;border:1px solid var(--line);border-radius:9px;background:white;display:flex;align-items:center;justify-content:center;font-weight:900;cursor:grab;user-select:none;font-size:14px}
+.numChip.used{opacity:.35}
+.studentTile{position:absolute;width:116px;height:76px;border:2px solid #475569;border-radius:10px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.16);overflow:hidden;user-select:none;touch-action:none}
+.studentTile.locked{border-color:#94a3b8}
+.studentTile.absent{opacity:.72;background:#f1f5f9;border-color:#cbd5e1}
+.studentTile.absent .studentNo{background:#fee2e2;color:#991b1b;font-weight:900}
+.studentTile.absent .studentName{text-decoration:line-through;color:#8b817b}
+.studentTop{height:34px;display:grid;grid-template-columns:34px 1fr;border-bottom:1px solid var(--line);font-weight:900}
+.studentNo{display:flex;align-items:center;justify-content:center;border-right:1px solid var(--line);background:#f8fafc;font-size:14px}
+.studentName{display:flex;align-items:center;justify-content:center;padding:0 4px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.studentBtns{height:40px;display:grid;grid-template-columns:1fr 1fr}
+.studentBtns button{border:0;font-size:22px;font-weight:800;cursor:pointer;line-height:1}
+.studentBtns .good{background:var(--good);color:var(--goodText);border-right:1px solid var(--line)}
+.studentBtns .bad{background:var(--bad);color:var(--badText)}
+.previousAbsence{border:1px solid var(--line);border-radius:12px;background:#fffdf9;padding:8px 10px;font-size:13px;color:var(--muted)}
+.sideTopActions{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.switchBtn.active{background:#e8f7f5;border-color:#91d7cf;color:#399b90;font-weight:900}
+.switchBtn.off{background:#fff7ed;border-color:#fed7aa;color:#9a5b20;font-weight:900}
+.numChip.selected{outline:3px solid var(--accent);background:#e8f7f5}
+.studentTile.selected{outline:4px solid #63c3b7}
+.stage.placeMode{cursor:crosshair}
+.testToggle{margin-left:auto}
+.lessonMemoBox{border:1px solid var(--line);border-radius:12px;background:#fffdf9;padding:8px;display:flex;flex-direction:column;gap:6px}
+.memoLabel{font-weight:900;font-size:13px;color:#6f625b}
+.previousMemo{min-height:44px;border:1px solid var(--line);border-radius:10px;background:#f8fafc;padding:8px;font-size:13px;color:#8b817b;white-space:pre-wrap}
+#todayMemo{min-height:72px;resize:vertical;font-size:13px}
+.balancePanel{display:none;position:absolute;left:12px;right:12px;top:58px;z-index:5;border:1px solid #fed7aa;border-radius:14px;background:#fff7ed;box-shadow:0 10px 30px rgba(129,104,87,.18);padding:10px;font-size:13px;color:#6f625b}
+.balancePanel.open{display:block}
+.balancePanelTitle{font-weight:900;margin-bottom:6px}
+.balanceList{display:flex;flex-wrap:wrap;gap:6px 12px}
+.records{height:150px;overflow:auto;border:1px solid var(--line);border-radius:12px;background:#f8fafc;padding:8px;font-size:13px}
+.record{padding:4px 0;border-bottom:1px solid var(--line)}
+.reportGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;align-content:start;flex:1}
+.reportCard{background:white;border:1px solid var(--line);border-radius:14px;padding:12px}.obs{background:#fff7ed;border-color:#fed7aa;margin-top:8px}
+.settings{display:grid;grid-template-columns:260px 1fr;gap:12px;flex:1;min-height:0}.dangerZone{margin-top:auto;border:1px solid #fecaca;background:#fff7f7;border-radius:16px;padding:12px;display:flex;flex-direction:column;align-items:stretch;gap:8px}.dangerZone h2{margin:0;color:#991b1b;font-size:15px}
+.settingsNav{display:flex;flex-direction:column;gap:8px;min-height:0}.settingsNav button{text-align:left}.settingsNav button.active{background:var(--accent);color:white;border-color:var(--accent);font-weight:800}
+.settingsContent{overflow:auto}.settingGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-content:start}
+.settingTile{border:1px solid var(--line);border-radius:14px;background:white;padding:12px;min-height:86px;cursor:pointer}
+.settingTile.add{display:flex;align-items:center;justify-content:center;border-style:dashed;color:var(--accent);font-weight:900}
+.settingClassGrid{display:grid;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(4,82px);gap:8px;align-content:start}
+.settingClassSlot{border:1px dashed transparent;border-radius:12px;min-height:82px}
+.settingClassSlot.empty{border-color:#e5e7eb;background:#f8fafc}
+.settingClassCard{height:82px;border:1px solid var(--line);border-left:8px solid #60a5fa;border-radius:12px;background:white;padding:9px;cursor:pointer;display:flex;flex-direction:column;gap:2px}
+.settingClassCard.grade3{border-left-color:#22c55e}.settingClassCard.grade4{border-left-color:#f59e0b}.settingClassCard.grade5{border-left-color:#3b82f6}.settingClassCard.grade6{border-left-color:#ec4899}.settingClassCard.gray{border-left-color:#94a3b8}
+.tagTile{border:1px solid var(--line);border-radius:14px;background:white;overflow:hidden}.tagName{padding:12px;font-weight:900;border-bottom:1px solid var(--line)}
+.tagActions{display:grid;grid-template-columns:1fr 1fr 64px}.tagActions button{border:0;border-right:1px solid var(--line);min-height:52px;font-size:20px;cursor:pointer;background:#f8fafc}
+.formRow{display:grid;grid-template-columns:140px 1fr;gap:10px;align-items:center;margin:8px 0}.formRow input,.formRow select{border:1px solid var(--line);border-radius:10px;padding:8px}
+.modalBack{display:none;position:fixed;inset:0;background:rgba(15,23,42,.35);z-index:99;align-items:center;justify-content:center}
+.modal{background:white;width:min(700px,92vw);max-height:92vh;overflow:auto;border-radius:18px;border:1px solid var(--line);box-shadow:0 20px 60px rgba(0,0,0,.25);padding:18px}
+.tagGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}.tagColumn{border:1px solid var(--line);border-radius:14px;background:#fff;padding:10px}.tagColumnTitle{font-weight:900;margin-bottom:8px}.tagColumn.goodCol .tagColumnTitle{color:var(--goodText)}.tagColumn.badCol .tagColumnTitle{color:var(--badText)}.tagColumn button{width:100%;min-height:48px;border:1px solid var(--line);border-radius:12px;background:#f8fafc;text-align:left;padding:10px;cursor:pointer;margin-bottom:8px}.tagColumn button.selected{outline:3px solid var(--accent);background:#eff6ff}
+textarea{width:100%;min-height:70px;border:1px solid var(--line);border-radius:12px;padding:10px}
+.tagList{display:flex;flex-direction:column;gap:8px;margin-top:12px}.tagItem{display:flex;gap:8px}.tagItem input{flex:1;border:1px solid var(--line);border-radius:10px;padding:8px}
+
+/* ===== MITORI v0.3.7 safe brand skin: features/layout preserved ===== */
+:root{
+  --bg:#fffdfa;--panel:#fff;--ink:#6f625b;--muted:#8b817b;--line:#eadfd8;
+  --accent:#63c3b7;--slot:#fbfffd;--good:#dcf8ef;--bad:#ffe8ee;
+  --goodText:#3c998d;--badText:#c45a74;
+}
+body{background:linear-gradient(180deg,#fffdfa 0%,#fffaf4 100%);color:var(--ink)}
+.header{border-color:#f0e7df;box-shadow:0 3px 14px rgba(129,104,87,.07)}
+.safeLogo{display:flex;align-items:center;gap:8px;min-width:335px}
+.safeBird{width:58px;height:50px;flex:0 0 auto}
+.safeLogoText{display:flex;flex-direction:column;align-items:center;line-height:1}
+.safePhrase{font-size:12px;color:#7a6e67;letter-spacing:.12em;margin-bottom:2px;white-space:nowrap}
+.safeWord{font-size:34px;font-weight:900;letter-spacing:.06em;line-height:.9;white-space:nowrap}
+.safeWord span:nth-child(1){color:#63c3b7}.safeWord span:nth-child(2){color:#95c65d}.safeWord span:nth-child(3){color:#ffab45}.safeWord span:nth-child(4){color:#f17892}.safeWord span:nth-child(5){color:#9d7ac7}.safeWord span:nth-child(6){color:#78aee5}
+.safeSmile{display:inline-flex;width:.95em;height:.95em;border-radius:50%;align-items:center;justify-content:center;color:#f17892;border:.14em solid #f17892;font-size:.72em;vertical-align:.08em}
+.safePencil{width:30px;height:30px;transform:rotate(-24deg);flex:0 0 auto}
+.logo,.copy{display:none!important}
+input[type="date"]{border:1px solid #eadfd8;border-radius:10px;padding:8px 10px;color:#6f625b;background:#fff}
+.mode{border-color:#eadfd8;background:#f8f4ef}
+.mode button.active{background:#63c3b7;color:white}
+.navIconBtn{border-color:#eadfd8;color:#6f625b}
+.navIconBtn.active{background:#e8f7f5;border-color:#bfe5df}
+.btn.primary{background:#63c3b7;border-color:#63c3b7;box-shadow:0 3px 8px rgba(99,195,183,.2)}
+.panel,.stagePanel,.sidePanel,.reportCard,.settingTile,.tagTile,.modal{border-color:#f0e7df;box-shadow:0 3px 14px rgba(129,104,87,.06)}
+.boardHeader .btn.primary{border-radius:999px;background:#fff;color:#58b8ad;border-color:#91d7cf;box-shadow:none}
+.boardHeader .btn.primary::before{content:"✓ ";font-weight:900}
+.slot{background:linear-gradient(180deg,#fff 0%,#fffdf9 100%);border-color:#cdece7;border-width:1px;box-shadow:0 3px 10px rgba(129,104,87,.05);color:#6f625b}
+.slot .period{color:#6f625b}
+.slot.filled{border-color:#91d7cf;background:#f8fffd}
+.slotClear{border-color:#cdece7;color:#58b8ad}
+.classCard,.settingClassCard{border-color:#efe5dc;box-shadow:0 2px 9px rgba(129,104,87,.05);color:#6f625b}
+.classCard.grade3,.settingClassCard.grade3{border-left-color:#8ccbc2}
+.classCard.grade4,.settingClassCard.grade4{border-left-color:#ffb463}
+.classCard.grade5,.settingClassCard.grade5{border-left-color:#b59ad9}
+.classCard.grade6,.settingClassCard.grade6{border-left-color:#8bb7e8}
+.classCard.gray,.settingClassCard.gray{border-left-color:#c8c3be}
+.classSlot.empty,.settingClassSlot.empty{border-color:#cae9e5;background:#fffefb}
+h2,.title,.sideTitle{color:#6f625b}.small{color:#8b817b}
+
+/* Low decorative background at the bottom of the home view, no extra information */
+#homeView .home{position:relative;overflow:hidden}
+#homeView .home::after{
+  content:"";
+  position:absolute;
+  left:0;right:0;bottom:0;
+  height:48px;
+  pointer-events:none;
+  opacity:.95;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1400 48' preserveAspectRatio='none'%3E%3Cpath d='M0 34 C150 22 260 44 390 30 C520 17 610 42 740 29 C870 17 1000 41 1140 30 C1260 21 1340 31 1400 25 L1400 48 L0 48 Z' fill='%23dff1c7'/%3E%3Cpath d='M0 40 C160 30 300 42 460 37 C610 29 750 45 920 34 C1090 23 1230 41 1400 33 L1400 48 L0 48 Z' fill='%23cdebd9' opacity='.72'/%3E%3Crect x='632' y='25' width='52' height='18' rx='2' fill='%23fff1d2'/%3E%3Cpath d='M626 25 L658 10 L690 25 Z' fill='%23f48ba8'/%3E%3Crect x='652' y='31' width='12' height='12' fill='%2363c3b7'/%3E%3Ccircle cx='658' cy='21' r='5' fill='%23fff' stroke='%238ccbc2'/%3E%3Cpath d='M658 10 v-8 l18 5 -18 5' fill='%23ffb463'/%3E%3Cg opacity='.78'%3E%3Crect x='150' y='34' width='28' height='10' fill='%23fff1d2'/%3E%3Cpath d='M146 34 L164 25 L182 34 Z' fill='%23f48ba8'/%3E%3Crect x='382' y='36' width='24' height='9' fill='%23fff1d2'/%3E%3Cpath d='M378 36 L394 28 L410 36 Z' fill='%23ffb463'/%3E%3Crect x='1025' y='35' width='30' height='10' fill='%23fff1d2'/%3E%3Cpath d='M1020 35 L1040 26 L1060 35 Z' fill='%23b59ad9'/%3E%3Crect x='1220' y='34' width='30' height='11' fill='%23fff1d2'/%3E%3Cpath d='M1215 34 L1235 24 L1260 34 Z' fill='%23f48ba8'/%3E%3C/g%3E%3Cg fill='%238ccbc2' opacity='.86'%3E%3Cellipse cx='88' cy='32' rx='9' ry='15'/%3E%3Crect x='85' y='42' width='6' height='6' fill='%23a98b75'/%3E%3Cellipse cx='252' cy='30' rx='10' ry='17'/%3E%3Crect x='249' y='42' width='6' height='6' fill='%23a98b75'/%3E%3Cellipse cx='940' cy='33' rx='9' ry='15'/%3E%3Crect x='937' y='43' width='6' height='5' fill='%23a98b75'/%3E%3Cellipse cx='1306' cy='32' rx='8' ry='16'/%3E%3Crect x='1303' y='43' width='6' height='5' fill='%23a98b75'/%3E%3C/g%3E%3Cg fill='%23a8d08d' opacity='.86'%3E%3Cellipse cx='58' cy='31' rx='8' ry='16'/%3E%3Crect x='55' y='42' width='6' height='6' fill='%23a98b75'/%3E%3Ccircle cx='325' cy='36' r='8'/%3E%3Ccircle cx='337' cy='33' r='7'/%3E%3Ccircle cx='348' cy='37' r='8'/%3E%3Ccircle cx='704' cy='38' r='7'/%3E%3Ccircle cx='715' cy='34' r='8'/%3E%3Ccircle cx='727' cy='38' r='7'/%3E%3Ccircle cx='1145' cy='38' r='8'/%3E%3Ccircle cx='1157' cy='34' r='7'/%3E%3Ccircle cx='1168' cy='38' r='8'/%3E%3C/g%3E%3Cg fill='%23d9f0f2' opacity='.8'%3E%3Cellipse cx='215' cy='27' rx='18' ry='5'/%3E%3Cellipse cx='455' cy='30' rx='17' ry='5'/%3E%3Cellipse cx='905' cy='28' rx='18' ry='5'/%3E%3Cellipse cx='1320' cy='27' rx='17' ry='5'/%3E%3C/g%3E%3C/svg%3E") center bottom/100% 48px no-repeat;
+}
+#homeView .home > *{position:relative;z-index:1}
+#homeView .home{padding-bottom:34px}
+
+
+/* ===== v0.3.16 lesson content settings ===== */
+.lessonSettingsLayout{height:calc(100vh - 142px);min-height:520px;display:grid;grid-template-columns:minmax(0,1fr) 240px;gap:12px}
+.lessonEditor{min-width:0;display:flex;flex-direction:column;gap:10px}
+.lessonTitleRow{display:grid;grid-template-columns:120px minmax(0,1fr);gap:10px;align-items:center}
+.lessonTitleRow input,.lessonSearch input{border:1px solid var(--line);border-radius:10px;padding:9px;background:#fff}
+.lessonEditGrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;min-height:0;flex:1}
+.lessonColumn{border:1px solid var(--line);border-radius:14px;background:#fffdfa;padding:10px;display:flex;flex-direction:column;min-height:0}
+.lessonColumn h3{margin:0 0 8px;font-size:16px;color:#6f625b}
+.lessonColumn textarea{flex:1;min-height:260px;resize:none;line-height:1.7;background:white}
+.lessonEditorActions{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.lessonListPane{border-left:1px solid var(--line);padding-left:10px;display:flex;flex-direction:column;min-height:0;gap:8px}
+.lessonSearch{display:flex;flex-direction:column;gap:8px}
+.lessonTitleList{overflow:auto;display:flex;flex-direction:column;gap:6px;padding-right:4px}
+.lessonTitleBtn{border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px;text-align:left;cursor:pointer;font-weight:800;color:#6f625b}
+.lessonTitleBtn.active{background:#e8f7f5;border-color:#91d7cf;color:#399b90}
+
+.recordSelectLabel{display:inline-flex;align-items:center;gap:4px;font-weight:800;color:#6f625b}
+.exportZone{margin-top:auto;display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--line);padding-top:10px}
+.dragHandle{font-weight:900;color:#8b817b;margin-right:6px;cursor:grab}
+.lessonTitleBtn.dragging{opacity:.45}
+.foldBody .switchBtn{width:100%;text-align:center}
+
+@media(max-width:800px){.lessonSettingsLayout{grid-template-columns:1fr;height:auto}.lessonListPane{border-left:0;border-top:1px solid var(--line);padding-left:0;padding-top:10px}.lessonEditGrid{grid-template-columns:1fr}.lessonColumn textarea{min-height:180px}}
+
+
+/* ===== v0.3.34 seat placement mode ===== */
+.placementControls{display:grid;grid-template-columns:auto 64px auto 64px;gap:6px;align-items:center;margin:7px 0}
+.placementControls label{font-size:13px;font-weight:900;color:#6f625b;white-space:nowrap}
+.placementControls input{width:64px;border:1px solid var(--line);border-radius:9px;padding:6px;text-align:center;background:#fff}
+.alignTools{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin:7px 0}
+.alignTools .btn{padding:6px 3px;font-size:12px;white-space:nowrap}
+.placementHint{font-size:12px;color:#8b817b;line-height:1.45;margin:5px 0}
+.placementGrid{position:absolute;inset:0;z-index:1;pointer-events:none;display:none}
+.placementGrid.active{display:grid}
+.placementGridCell{border-right:1px dashed rgba(99,195,183,.7);border-bottom:1px dashed rgba(99,195,183,.7);background:rgba(255,255,255,.025)}
+.placementGridCell:nth-child(1){ }
+.stage.gridActive{cursor:crosshair}
+.studentTile{z-index:3}
+.studentTile.multiSelected{outline:4px solid #63c3b7;box-shadow:0 0 0 3px rgba(99,195,183,.22),0 2px 8px rgba(0,0,0,.16)}
+.numChip.multiSelected{outline:3px solid #63c3b7;background:#e8f7f5}
+.selectionRect{position:absolute;z-index:5;border:2px solid #63c3b7;background:rgba(99,195,183,.16);pointer-events:none;display:none}
+
+/* ===== v0.3.12 camera only ===== */
+.cameraModal .modal{width:min(780px,94vw)}
+.cameraBox{position:relative;background:#0f172a;border-radius:14px;overflow:hidden;min-height:420px;display:flex;align-items:center;justify-content:center}
+#cameraVideo,#cameraPreview{width:100%;max-height:64vh;object-fit:contain;background:#0f172a}
+.cameraStatus{font-size:13px;color:#8b817b;margin:8px 0}
+.cameraActions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin-top:12px}
+
+
+/* ===== v0.3.20 record workflow/settings ===== */
+.recordSelect{border:1px solid var(--line);border-radius:10px;padding:7px 9px;background:#fff;color:#6f625b;min-width:150px}
+.confirmBtn{font-weight:900}
+.foldBox{border:1px solid var(--line);border-radius:12px;background:#fffdf9;overflow:hidden}
+.foldHeader{width:100%;border:0;background:#f8f4ef;color:#6f625b;font-weight:900;text-align:left;padding:7px 10px;cursor:pointer;font-size:13px;line-height:1.25}
+.foldBody{display:none;padding:8px}
+.foldBox.open .foldBody{display:block}
+#seatMakerBox .foldBody{max-height:270px;overflow-y:auto;overflow-x:hidden}
+#seatMakerBox .sideTitle{font-size:12px;text-align:left;margin-top:6px;color:#8b817b}
+#seatMakerBox .rosterGrid{display:grid!important;max-height:156px;overflow-y:auto;grid-template-columns:repeat(5,1fr);flex:0 0 auto}
+#displayOptionsBox .foldBody{padding:6px 8px;display:none;gap:6px}
+#displayOptionsBox.open .foldBody{display:grid;grid-template-columns:1fr;align-items:stretch}
+.displayOptionBtn{width:100%;min-height:34px;padding:6px 8px;display:flex;align-items:center;justify-content:space-between;white-space:nowrap;font-size:13px;border-radius:10px}
+.displayOptionLabel{font-weight:900;color:#6f625b}
+.displayOptionValue{font-weight:900}
+.memoFixed{border:1px solid var(--line);border-radius:12px;background:#fffdf9;padding:8px;display:flex;flex-direction:column;gap:6px}
+.memoTitleRow{display:flex;justify-content:space-between;align-items:center;font-weight:900;font-size:13px;color:#6f625b}
+.memoDate{font-size:12px;color:#8b817b;font-weight:700}
+.memoRead,.memoFixed textarea{height:72px;white-space:nowrap;overflow-x:auto;overflow-y:hidden;border:1px solid var(--line);border-radius:10px;background:#fff;padding:8px;line-height:1.5}
+.memoFixed textarea{resize:none}
+.sidePanel .records{height:130px}
+.listEditorText{flex:1;min-height:360px;resize:none;line-height:1.8;background:white}
+
+
+/* ===== v0.3.24 right side scroll / switches fix ===== */
+.recordLayout{grid-template-columns:1fr 260px;align-items:stretch;overflow:hidden}
+.sidePanel{overflow-y:auto;overflow-x:hidden;min-height:0;max-height:100%;padding-right:8px;gap:9px}
+.sidePanel .foldBox{flex:0 0 auto;overflow:visible}
+.sidePanel .foldHeader{font-size:15px;line-height:1.35;padding:9px 10px;border-radius:0;background:#f8f4ef}
+.sidePanel .foldBody{padding:9px;overflow:visible!important;max-height:none!important}
+#seatMakerBox .foldBody{max-height:none!important;overflow:visible!important}
+#seatMakerBox .sideTitle{font-size:14px;text-align:left;margin:8px 0 5px;color:#6f625b;font-weight:900}
+#seatMakerBox .rosterGrid{display:grid!important;grid-template-columns:repeat(5,1fr);gap:5px;max-height:none!important;overflow:visible!important;padding:7px;align-content:start}
+#seatMakerBox .numChip{height:32px;min-width:0;font-size:14px}
+.sideTopActions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:7px}
+.switchBtn,.displayOptionBtn{border-radius:999px;border-color:#d7eee9;background:#f8fffd;color:#6f625b;font-weight:900}
+.switchBtn.active,.displayOptionBtn.active{background:#e8f7f5;border-color:#8ccbc2;color:#3c998d}
+.switchBtn.off,.displayOptionBtn.off{background:#fff7ed;border-color:#fed7aa;color:#9a6b2f}
+#lockBtn{width:100%;min-height:36px;margin-bottom:4px}
+#displayOptionsBox .foldBody{padding:8px 9px;gap:7px;overflow:visible!important;max-height:none!important}
+#displayOptionsBox.open .foldBody{display:flex;flex-direction:column}
+.displaySwitchRow{display:grid;grid-template-columns:64px 1fr;align-items:center;gap:7px;font-size:13px;line-height:1.2}
+.displaySwitchLabel{font-weight:900;color:#6f625b;white-space:nowrap}
+.segmentSwitch{display:grid;grid-template-columns:1fr 1fr;border:1px solid #d7eee9;border-radius:999px;overflow:hidden;background:#fff;min-height:34px}
+.segmentSwitch button{border:0;background:transparent;color:#8b817b;font-size:12px;font-weight:900;cursor:pointer;padding:6px 4px;white-space:nowrap}
+.segmentSwitch button.active{background:#63c3b7;color:white}
+.memoTitleRow{font-size:14px}
+
+
+/* ===== v0.3.25 record top unified controls ===== */
+.recordSelectLabel{display:none}
+.selectControl{display:inline-grid;grid-template-columns:92px minmax(170px,230px);align-items:stretch;height:38px;border:1px solid #8ccbc2;border-radius:11px;overflow:hidden;background:#fff;box-shadow:0 2px 7px rgba(129,104,87,.04)}
+.selectControl .selectLabel{display:flex;align-items:center;justify-content:center;background:#8ccbc2;color:#fff;font-weight:900;font-size:14px;white-space:nowrap;letter-spacing:.02em}
+.selectControl .recordSelect{width:100%;height:100%;min-width:0;border:0;border-radius:0;padding:0 26px 0 10px;background:#fff;color:#6f625b;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;appearance:auto}
+.testCheck{height:38px;display:inline-flex;align-items:center;gap:7px;border:1px solid #d7eee9;border-radius:11px;background:#fff;padding:0 12px;color:#6f625b;font-weight:900;white-space:nowrap;cursor:pointer}
+.testCheck input{width:18px;height:18px;accent-color:#8ccbc2;cursor:pointer}
+.testCheck:has(input:checked){background:#e8f7f5;border-color:#8ccbc2;color:#3c998d}
+@media (max-width:980px){.selectControl{grid-template-columns:86px minmax(140px,1fr)}.selectControl .selectLabel{font-size:13px}.selectControl .recordSelect{font-size:13px}}
+
+
+/* ===== v0.3.28 embedded logo/icons ===== */
+.logoSvgWrap{min-width:260px;display:flex;align-items:center;justify-content:flex-start}
+.mitoriInlineLogo{display:block;width:250px;height:74px;max-height:74px;object-fit:contain}
+.navIconBtn .svgIconWrap{width:26px;height:26px;display:flex;align-items:center;justify-content:center}
+.navSvgIcon{width:26px;height:26px;display:block}
+.iconBtn{display:inline-flex;align-items:center;justify-content:center;gap:7px;line-height:1}
+.btnIconWrap{width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;flex:0 0 22px}
+.btnSvgIcon{width:22px;height:22px;display:block}
+.confirmBtn,.confirmRecordBtn,#finalSaveBtn.confirmAllBtn{background:#A8D08D!important;border-color:#A8D08D!important;color:#fff;font-weight:900;box-shadow:0 3px 8px rgba(168,208,141,.25)}
+.boardHeader .btn.primary::before{content:none!important}
+
+
+/* ===== v0.3.28 logo/icon/top UI adjustment ===== */
+.logoSvgWrap{min-width:365px!important;max-width:390px!important}
+.mitoriInlineLogo{width:360px!important;height:104px!important;max-height:104px!important;object-fit:contain}
+.header{min-height:88px;gap:10px}
+.navIconBtn{width:58px!important;height:58px!important;border-color:transparent!important;background:transparent!important;border-radius:16px!important;padding:6px!important;box-shadow:none!important}
+.navIconBtn .label{display:none!important}
+.navIconBtn .svgIconWrap{width:40px!important;height:40px!important}
+.navSvgIcon{width:40px!important;height:40px!important}
+.navIconBtn:hover,.navIconBtn.active{background:#eefaf7!important;border-color:#d7eee9!important}
+.confirmRecordBtn{width:42px!important;height:42px!important;min-width:42px!important;padding:0!important;border-radius:14px!important;gap:0!important}
+.confirmRecordBtn .btnIconWrap{width:30px!important;height:30px!important;flex:0 0 30px!important}
+.confirmRecordBtn .btnSvgIcon{width:30px!important;height:30px!important}
+.confirmRecordBtn span:not(.btnIconWrap){display:none!important}
+.sidePanel .foldHeader{display:flex!important;align-items:center;justify-content:flex-start;gap:6px;font-size:15px!important;font-weight:900!important}
+.sidePanel .foldHeader::before{content:"▶";display:inline-block;width:1.2em;color:#6f625b;font-weight:900}
+.sidePanel .foldBox.open>.foldHeader::before{content:"▼"}
+
+/* ===== v0.3.28 new logo + icon-only home confirm ===== */
+#finalSaveBtn.confirmAllBtn{width:42px!important;height:42px!important;min-width:42px!important;padding:0!important;border-radius:14px!important;gap:0!important}
+#finalSaveBtn.confirmAllBtn .btnIconWrap{width:30px!important;height:30px!important;flex:0 0 30px!important}
+#finalSaveBtn.confirmAllBtn .btnSvgIcon{width:30px!important;height:30px!important}
+#finalSaveBtn.confirmAllBtn span:not(.btnIconWrap){display:none!important}
+.boardHeader{align-items:center}
+
+
+/* ===== v0.3.30 class setting reflection + readable compact selects ===== */
+.header{min-height:76px!important;padding:7px 12px!important;align-items:center!important}
+.logoSvgWrap{min-width:330px!important;max-width:350px!important}
+.logoSvgWrap svg{width:330px!important;height:auto!important;max-height:66px!important}
+#dateInput{height:34px!important;padding:6px 9px!important}
+.mode button{padding:7px 13px!important}
+.navIconBtn{width:44px!important;height:44px!important;min-width:44px!important;border:0!important;background:transparent!important;border-radius:12px!important;padding:4px!important;box-shadow:none!important}
+.navIconBtn .label{display:none!important}
+.navIconBtn .svgIconWrap{width:36px!important;height:36px!important}
+.navIconBtn svg{width:36px!important;height:36px!important}
+.navIconBtn:hover,.navIconBtn.active{background:#eefaf7!important}
+.toolbar{gap:7px!important;flex-wrap:nowrap!important;align-items:center!important}
+.toolbar .title{white-space:nowrap;font-size:17px!important;margin-right:4px!important;max-width:110px;overflow:hidden;text-overflow:ellipsis}
+.selectControl{grid-template-columns:82px minmax(140px,190px)!important;height:38px!important;min-height:38px!important;border-radius:10px!important;flex:0 1 auto!important;overflow:hidden!important}
+.selectControl .selectLabel{font-size:14px!important;letter-spacing:0!important;font-weight:900!important;white-space:nowrap!important}
+.selectControl .recordSelect{font-size:14px!important;line-height:1.2!important;padding-left:9px!important;padding-right:24px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;min-width:0!important;height:100%!important}
+.testCheck{font-size:14px!important;white-space:nowrap!important;padding:6px 6px!important}
+.confirmRecordBtn,#finalSaveBtn.confirmAllBtn{width:40px!important;height:40px!important;min-width:40px!important;border:0!important;background:transparent!important;box-shadow:none!important;border-radius:12px!important;padding:4px!important}
+.confirmRecordBtn:hover,#finalSaveBtn.confirmAllBtn:hover{background:#eefaf7!important}
+.confirmRecordBtn .btnIconWrap,#finalSaveBtn.confirmAllBtn .btnIconWrap{width:32px!important;height:32px!important;flex:0 0 32px!important}
+.confirmRecordBtn .btnSvgIcon,#finalSaveBtn.confirmAllBtn .btnSvgIcon{width:32px!important;height:32px!important}
+.confirmRecordBtn span:not(.btnIconWrap),#finalSaveBtn.confirmAllBtn span:not(.btnIconWrap){display:none!important}
+.btn.iconBtn{gap:0!important}
+.sidePanel .foldHeader{font-size:15px!important;line-height:1.35!important}
+.classLessonHint{font-size:12px;color:var(--muted);margin-top:2px}
+
+
+/* ===== v0.3.34 top layout / guide / icon visibility polish ===== */
+.toolbar{display:flex!important;align-items:center!important;gap:8px!important;flex-wrap:nowrap!important;width:100%!important}
+.toolbar .title{margin-right:auto!important;max-width:190px!important;font-size:20px!important;font-weight:900!important;letter-spacing:.02em!important}
+.selectControl{flex:0 0 auto!important}
+.testCheck{flex:0 0 auto!important}
+.confirmRecordBtn{flex:0 0 44px!important;width:44px!important;height:44px!important;min-width:44px!important}
+.confirmRecordBtn .btnIconWrap{width:36px!important;height:36px!important;flex-basis:36px!important}
+.confirmRecordBtn .btnSvgIcon{width:36px!important;height:36px!important}
+.navIconBtn .svgIconWrap{width:42px!important;height:42px!important}
+.navIconBtn svg,.navSvgIcon{width:42px!important;height:42px!important}
+.noImage{font-size:18px!important;line-height:1.8!important;color:#6f625b!important}
+.emptyGuide{display:flex;flex-direction:column;gap:10px;text-align:left;background:rgba(255,255,255,.82);border:1px solid #eadfd8;border-radius:16px;padding:18px 22px;box-shadow:0 3px 14px rgba(129,104,87,.06)}
+@media (max-width:1100px){
+  .toolbar .title{max-width:150px!important;font-size:18px!important}
+  .selectControl{grid-template-columns:78px minmax(120px,160px)!important}
+}
+
+
+/* ===== v0.3.34 full logo only ===== */
+.logoSvgWrap{min-width:360px!important;max-width:385px!important;display:flex!important;align-items:center!important}
+.logoSvgWrap .mitoriInlineLogo{width:360px!important;height:auto!important;max-height:72px!important;display:block!important}
+.header{align-items:center!important}
+
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <div class="safeLogo logoSvgWrap">
+      <svg class="mitoriInlineLogo" aria-hidden="true" focusable="false" height="900.0px" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 4000 900" width="4000.0px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <defs/>
+      <g id="MITORI">
+      <g opacity="1">
+      <path d="M3316.36 519.972C3316.36 495.088 3336.53 474.915 3361.41 474.915L3361.41 474.915C3386.3 474.915 3406.47 495.088 3406.47 519.972L3406.47 759.835C3406.47 784.719 3386.3 804.892 3361.41 804.892L3361.41 804.892C3336.53 804.892 3316.36 784.719 3316.36 759.835L3316.36 519.972Z" fill="#8bb7e8" fill-rule="nonzero" opacity="1" stroke="none"/>
+      <path d="M3316.19 399.205C3316.19 374.352 3336.34 354.205 3361.19 354.205L3361.19 354.205C3386.04 354.205 3406.19 374.352 3406.19 399.205L3406.19 399.205C3406.19 424.057 3386.04 444.205 3361.19 444.205L3361.19 444.205C3336.34 444.205 3316.19 424.057 3316.19 399.205L3316.19 399.205Z" fill="#8bb7e8" fill-rule="nonzero" opacity="1" stroke="none"/>
+      </g>
+      <g opacity="1">
+      <path d="M2839.25 399.536C2839.25 374.652 2859.42 354.479 2884.31 354.479L2884.31 354.479C2909.19 354.479 2929.37 374.652 2929.37 399.536L2929.37 762.352C2929.37 787.236 2909.19 807.409 2884.31 807.409L2884.31 807.409C2859.42 807.409 2839.25 787.236 2839.25 762.352L2839.25 399.536Z" fill="#b59ad9" fill-rule="nonzero" opacity="1" stroke="none"/>
+      <path d="M2999.12 641.422C2987 619.69 2994.79 592.246 3016.52 580.124L3016.52 580.124C3038.25 568.002 3065.7 575.793 3077.82 597.525L3157.39 740.18C3169.51 761.912 3161.72 789.356 3139.99 801.478L3139.99 801.478C3118.25 813.6 3090.81 805.809 3078.69 784.077L2999.12 641.422Z" fill="#b59ad9" fill-rule="nonzero" opacity="1" stroke="none"/>
+      <path d="M3003.64 354.381C3028.53 354.381 3048.7 374.554 3048.7 399.438L3048.7 399.438C3048.7 424.323 3028.53 444.495 3003.64 444.495L2886.3 444.495C2861.41 444.495 2841.24 424.323 2841.24 399.438L2841.24 399.438C2841.24 374.554 2861.41 354.381 2886.3 354.381L3003.64 354.381Z" fill="#b59ad9" fill-rule="nonzero" opacity="1" stroke="none"/>
+      <path d="M3030.07 563.617C3054.95 563.617 3075.13 583.79 3075.13 608.674L3075.13 608.674C3075.13 633.559 3054.95 653.731 3030.07 653.731L2890.12 653.731C2865.24 653.731 2845.06 633.559 2845.06 608.674L2845.06 608.674C2845.06 583.79 2865.24 563.617 2890.12 563.617L3030.07 563.617Z" fill="#b59ad9" fill-rule="nonzero" opacity="1" stroke="none"/>
+      <path d="M3011.07 354.775C3051.5 354.775 3090.27 370.561 3118.86 398.659C3147.45 426.757 3163.51 464.866 3163.51 504.603C3163.51 544.339 3147.45 582.448 3118.86 610.547C3090.27 638.645 3051.5 654.43 3011.07 654.43L3011.07 564.222C3027.16 564.222 3042.59 557.941 3053.96 546.76C3065.34 535.579 3071.73 520.415 3071.73 504.603C3071.73 488.791 3065.34 473.626 3053.96 462.445C3042.59 451.264 3027.16 444.983 3011.07 444.983L3011.07 354.775Z" fill="#b59ad9" fill-rule="nonzero" opacity="1" stroke="none"/>
+      </g>
+      <g opacity="1">
+      <path d="M2243.68 583.639C2243.68 455.233 2347.77 351.139 2476.18 351.139C2604.58 351.139 2708.68 455.233 2708.68 583.639C2708.68 712.045 2604.58 816.139 2476.18 816.139C2347.77 816.139 2243.68 712.045 2243.68 583.639ZM2321.25 583.639C2321.25 669.202 2390.61 738.565 2476.18 738.565C2561.74 738.565 2631.1 669.202 2631.1 583.639C2631.1 498.076 2561.74 428.713 2476.18 428.713C2390.61 428.713 2321.25 498.076 2321.25 583.639Z" fill="#f48ba8" fill-rule="nonzero" opacity="1" stroke="none"/>
+      <path d="M2562.82 622.9C2556.04 639.874 2544.42 654.444 2529.42 664.766C2514.42 675.089 2496.72 680.7 2478.55 680.891C2460.38 681.083 2442.57 675.845 2427.36 665.84C2412.15 655.836 2400.22 641.514 2393.1 624.686L2393.1 624.686C2388.89 607.738 2411.51 597.8 2421.15 612.365L2421.29 612.578C2426.04 623.791 2433.98 633.334 2444.12 640.001C2454.25 646.667 2466.12 650.158 2478.23 650.03C2490.33 649.903 2502.13 646.164 2512.13 639.285C2522.12 632.407 2529.87 622.699 2534.38 611.388L2534.38 611.388C2543.63 596.638 2566.43 605.861 2562.82 622.892L2562.82 622.9Z" fill="#f48ba8" fill-rule="nonzero" opacity="1" stroke="none"/>
+      <g opacity="1">
+      <path d="M2393.19 545.913C2393.19 531.277 2405.05 519.413 2419.69 519.413C2434.32 519.413 2446.19 531.277 2446.19 545.913C2446.19 560.548 2434.32 572.413 2419.69 572.413C2405.05 572.413 2393.19 560.548 2393.19 545.913Z" fill="#f48ba8" fill-rule="nonzero" opacity="1" stroke="none"/>
+      <path d="M2506.16 546.455C2506.16 531.819 2518.03 519.955 2532.66 519.955C2547.3 519.955 2559.16 531.819 2559.16 546.455C2559.16 561.091 2547.3 572.955 2532.66 572.955C2518.03 572.955 2506.16 561.091 2506.16 546.455Z" fill="#f48ba8" fill-rule="nonzero" opacity="1" stroke="none"/>
+      </g>
+      </g>
+      <g opacity="1">
+      <path d="M1948.03 439.956C1948.03 415.071 1968.21 394.899 1993.09 394.899L1993.09 394.899C2017.97 394.899 2038.15 415.071 2038.15 439.956L2038.15 760.456C2038.15 785.34 2017.97 805.513 1993.09 805.513L1993.09 805.513C1968.21 805.513 1948.03 785.34 1948.03 760.456L1948.03 439.956Z" fill="#ffb463" fill-rule="nonzero" opacity="1" stroke="none"/>
+      <path d="M2113.83 354.171C2138.72 354.171 2158.89 374.344 2158.89 399.228L2158.89 399.228C2158.89 424.112 2138.72 444.285 2113.83 444.285L1872.35 444.285C1847.46 444.285 1827.29 424.112 1827.29 399.228L1827.29 399.228C1827.29 374.344 1847.46 354.171 1872.35 354.171L2113.83 354.171Z" fill="#ffb463" fill-rule="nonzero" opacity="1" stroke="none"/>
+      </g>
+      <g opacity="1">
+      <path d="M1582.81 519.504C1582.81 494.62 1602.99 474.447 1627.87 474.447L1627.87 474.447C1652.75 474.447 1672.93 494.62 1672.93 519.504L1672.93 759.366C1672.93 784.251 1652.75 804.423 1627.87 804.423L1627.87 804.423C1602.99 804.423 1582.81 784.251 1582.81 759.366L1582.81 519.504Z" fill="#a8d08d" fill-rule="nonzero" opacity="1" stroke="none"/>
+      <path d="M1582.65 398.736C1582.65 373.883 1602.79 353.736 1627.65 353.736L1627.65 353.736C1652.5 353.736 1672.65 373.883 1672.65 398.736L1672.65 398.736C1672.65 423.589 1652.5 443.736 1627.65 443.736L1627.65 443.736C1602.79 443.736 1582.65 423.589 1582.65 398.736L1582.65 398.736Z" fill="#a8d08d" fill-rule="nonzero" opacity="1" stroke="none"/>
+      </g>
+      <g opacity="1">
+      <g opacity="1">
+      <path d="M981.786 399.207C981.786 374.323 1001.96 354.15 1026.84 354.15L1026.84 354.15C1051.73 354.15 1071.9 374.323 1071.9 399.207L1071.9 758.986C1071.9 783.87 1051.73 804.043 1026.84 804.043L1026.84 804.043C1001.96 804.043 981.786 783.87 981.786 758.986L981.786 399.207Z" fill="#8ccbc2" fill-rule="nonzero" opacity="1" stroke="none"/>
+      <path d="M988.854 422.25C975.908 400.998 982.641 373.276 1003.89 360.33L1003.89 360.33C1025.14 347.384 1052.87 354.117 1065.81 375.369L1231.59 647.512C1244.54 668.764 1237.81 696.486 1216.56 709.432L1216.56 709.432C1195.3 722.378 1167.58 715.645 1154.64 694.393L988.854 422.25Z" fill="#8ccbc2" fill-rule="nonzero" opacity="1" stroke="none"/>
+      </g>
+      <g opacity="1">
+      <path d="M1411.1 399.522C1411.1 374.638 1390.93 354.465 1366.04 354.465L1366.04 354.465C1341.16 354.465 1320.98 374.638 1320.98 399.522L1320.98 759.301C1320.98 784.185 1341.16 804.358 1366.04 804.358L1366.04 804.358C1390.93 804.358 1411.1 784.185 1411.1 759.301L1411.1 399.522Z" fill="#8ccbc2" fill-rule="nonzero" opacity="1" stroke="none"/>
+      <path d="M1404.03 422.565C1416.98 401.313 1410.24 373.591 1388.99 360.645L1388.99 360.645C1367.74 347.699 1340.02 354.432 1327.07 375.684L1161.29 647.827C1148.34 669.079 1155.08 696.801 1176.33 709.747L1176.33 709.747C1197.58 722.693 1225.3 715.96 1238.25 694.708L1404.03 422.565Z" fill="#8ccbc2" fill-rule="nonzero" opacity="1" stroke="none"/>
+      </g>
+      </g>
+      </g>
+      <g id="bird">
+      <g opacity="1">
+      <g opacity="1">
+      <path d="M532.884 828.151C525.507 818.633 542.969 808.751 569.301 806.428C595.632 804.104 630.067 808.309 625.598 824.756C623.446 832.677 615.452 832.925 605.736 830.431C596.02 827.938 589.982 825.798 579.775 825.885C553.001 826.354 538.691 835.644 532.884 828.151Z" fill="#7a6e65" fill-rule="nonzero" opacity="1" stroke="none"/>
+      <path d="M525.636 753.146L547.986 743.618L571.431 811.174L553.891 819.423L525.636 753.146Z" fill="#7a6e65" fill-rule="nonzero" opacity="1" stroke="none"/>
+      </g>
+      <g opacity="1">
+      <path d="M394.928 830.559C389.289 819.917 406.679 812.12 433.113 812.12C459.547 812.12 497.553 815.998 491.028 836.996C486.719 848.163 473.371 841.727 442.573 833.486C415.436 829.53 400.974 841.968 394.928 830.559Z" fill="#7a6e65" fill-rule="nonzero" opacity="1" stroke="none"/>
+      <path d="M394.26 751.328L418.907 743.811L438.373 815.667L416.51 822.154L394.26 751.328Z" fill="#7a6e65" fill-rule="nonzero" opacity="1" stroke="none"/>
+      </g>
+      <path d="M464.819 401.449C430.921 251.813 428.881 132.069 571.838 92.361C714.795 52.6534 749.06 127.324 795.87 326.684C838.466 485.693 787.597 613.171 694.594 634.24C601.591 655.309 498.717 551.085 464.819 401.449Z" fill="#fffbfb" fill-rule="nonzero" opacity="1" stroke="none"/>
+      <path d="M617.625 223.162C617.625 205.252 632.144 190.733 650.055 190.733C667.965 190.733 682.484 205.252 682.484 223.162C682.484 241.072 667.965 255.592 650.055 255.592C632.144 255.592 617.625 241.072 617.625 223.162Z" fill="#7a6e65" fill-rule="nonzero" opacity="1" stroke="none"/>
+      <path d="M578.714 305.384C578.714 289.265 591.781 276.198 607.901 276.198C624.02 276.198 637.087 289.265 637.087 305.384C637.087 321.504 624.02 334.571 607.901 334.571C591.781 334.571 578.714 321.504 578.714 305.384Z" fill="#f48ba8" fill-rule="nonzero" opacity="1" stroke="none"/>
+      <path d="M275.188 716.393C334.113 751.317 328.427 752.53 403.205 762.8C477.983 773.071 557.912 766.751 625.084 735.823C692.255 704.895 741.997 652.381 775.62 592.199C809.243 532.017 822.077 460.522 809.167 394.328C809.167 394.328 731.984 387.87 654.932 429.253C577.879 470.636 518.623 584.267 475.556 607.369C475.556 607.369 275.188 716.393 275.188 716.393Z" fill="#f7e7c6" fill-rule="nonzero" opacity="1" stroke="none"/>
+      <g opacity="1">
+      <g opacity="1">
+      <path d="M272.174 385.054C348.798 308.3 461.987 297.066 524.99 359.962C567.712 402.611 581.588 469.217 558.855 531.081C548.063 560.449 529.484 593.271 504.819 617.978C474.218 648.631 432.455 677.565 387.83 696.424C320.716 724.785 240.235 731.32 202.394 693.543C139.391 630.647 195.551 461.808 272.174 385.054Z" fill="#8ccbc2" fill-rule="nonzero" opacity="1" stroke="none"/>
+      <path d="M204.446 508.594C314.771 360.304 293.088 520.363 328.849 561.462C352.68 588.849 341.932 644.187 302.024 690.775C282.046 714.098 258.964 737.153 229.355 753.948C212.944 763.256 167.731 777.384 129.192 777.701C105.287 777.898 76.8525 774.665 59.8834 768.126C33.4687 757.948 24.5575 740.435 24.5461 720.586C24.53 692.546 70.393 697.793 115.768 660.494C146.766 635.013 171.806 585.418 204.446 508.594Z" fill="#8ccbc2" fill-rule="nonzero" opacity="1" stroke="none"/>
+      </g>
+      <path d="M751.613 173.161C751.259 165.855 727.93 126.242 722.801 120.133C688.654 79.4557 633.343 50.6845 577.346 44.3825C512.939 37.1339 449.973 58.1749 400.567 97.5422C382.179 112.093 370.459 119.963 352.464 148.557C329.476 185.084 304.01 225.189 300.762 320.591C300.03 342.108 280.285 390.163 296.075 400.558C316.448 413.971 408.588 374.472 444.017 392.489C468.838 379.656 489.443 366.235 482.661 330.395C478.114 306.362 474.067 255.67 481.358 225.908C490.224 189.717 513.424 164.779 522.786 154.934C550.764 125.512 594.326 110.775 625.086 109.361C706.476 102.289 751.613 173.161 751.613 173.161Z" fill="#8ccbc2" fill-rule="nonzero" opacity="1" stroke="none"/>
+      </g>
+      <path d="M746.641 172.532C745.307 168.466 748.936 164.507 753.102 165.482L817.274 180.501C829.009 183.248 833.476 197.592 825.374 206.515L783.897 252.201C780.251 256.216 773.63 254.804 771.939 249.651L746.641 172.532Z" fill="#7a6e65" fill-rule="nonzero" opacity="1" stroke="none"/>
+      </g>
+      <g opacity="1">
+      <path d="M909.55 232.063C911.832 217.048 925.855 206.725 940.87 209.007C955.886 211.289 966.208 225.311 963.926 240.327C961.644 255.342 947.622 265.665 932.606 263.383C917.591 261.101 907.268 247.078 909.55 232.063Z" fill="#f48ba8" fill-rule="nonzero" opacity="1" stroke="none"/>
+      <path d="M975.389 45.1486C980.452 27.4086 999.452 17.6379 1016.83 23.8393L1017.05 23.9179C1034.19 30.036 1042.36 49.5641 1034.69 66.0685L979.245 185.341C974.564 195.41 962.912 200.169 952.521 196.254L952.521 196.254C942.185 192.361 936.564 181.192 939.595 170.572L975.389 45.1486Z" fill="#f48ba8" fill-rule="nonzero" opacity="1" stroke="none"/>
+      </g>
+      </g>
+      <g id="みとるのこすつなげる">
+      <g opacity="1">
+      <g opacity="1">
+      <path d="M1182.19 132.678C1190.34 131.934 1189.12 133.504 1205 131.864C1219.62 130.353 1221.82 128.205 1229.39 127.031C1223.16 144.78 1216.92 163.982 1210.27 181.605C1205.78 193.53 1198.45 212.297 1188.49 220.611C1160.08 244.342 1136.6 205.546 1175.96 187.005C1187.94 181.36 1189.91 181.23 1202.09 180.47C1216.73 179.556 1232.6 183.374 1246.03 187.161C1262.68 191.854 1279.14 198.798 1294.34 206.576" fill="none" opacity="1" stroke="#7a6265" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/>
+      <path d="M1271.14 160.298C1266.53 204.057 1255.75 222.832 1231.8 242.683" fill="none" opacity="1" stroke="#7a6265" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/>
+      </g>
+      <g opacity="1">
+      <path d="M1391.27 118.183C1392.49 139.286 1397.87 162.313 1402.71 177.253" fill="none" opacity="1" stroke="#7a6265" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/>
+      <path d="M1451.1 156.308C1437.09 161.145 1420.5 167.666 1405.88 176.802C1390.58 186.367 1379.59 197.811 1375.38 206.759C1373.02 211.775 1370.89 220.976 1376.52 230.525C1383.75 242.798 1404.61 246.236 1426.16 244.344C1447.28 242.489 1450.92 240.206 1456.93 238.687" fill="none" opacity="1" stroke="#7a6265" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/>
+      </g>
+      <path d="M1555.44 131.819C1588.26 133.192 1598.83 130.051 1619.62 124.924C1606.64 141.849 1595.26 154.58 1586.02 164.363C1569.41 181.945 1562.37 188.672 1541.19 206.62C1569.21 188.809 1576.96 183.592 1593.34 180.079C1601.74 178.277 1614.01 175.28 1628.02 182.061C1642.03 188.842 1645.34 195.169 1646.49 204.133C1647.63 213.031 1641.73 222.995 1634.23 230.024C1624.34 239.297 1605.43 250.639 1588.34 246.957C1563.76 241.658 1567.49 227.862 1568.86 224.741C1570.36 221.305 1576.87 214.881 1591.9 217.477C1600.32 218.932 1606.71 223.506 1608.04 225.124C1609.36 226.741 1611.97 227.692 1615.61 239.264" fill="none" opacity="1" stroke="#7a6265" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/>
+      <path d="M1737.29 185.272C1737.29 174.835 1746.54 166.374 1757.96 166.374C1769.38 166.374 1778.63 174.835 1778.63 185.272C1778.63 195.71 1769.38 204.171 1757.96 204.171C1746.54 204.171 1737.29 195.71 1737.29 185.272Z" fill="#7a6265" fill-rule="nonzero" opacity="1" stroke="#7a6265" stroke-linecap="round" stroke-linejoin="round" stroke-width="10"/>
+      <path d="M1924.76 134.584C1926.45 164.844 1919.33 193.114 1912.77 203.95C1907.71 212.316 1892.4 239.621 1872.28 224.338C1843.57 202.528 1868.79 140.443 1921.3 134.275C1977.52 127.673 1993.36 168.766 1992.1 185.986C1991.28 197.233 1990.6 205.186 1979.55 219.178C1968.5 233.17 1958.26 235.858 1940.96 240.235" fill="none" opacity="1" stroke="#7a6265" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/>
+      <g opacity="1">
+      <path d="M2069.69 207.572C2059.22 251.051 2143.84 243.266 2171.5 231.758" fill="none" opacity="1" stroke="#7a6265" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/>
+      <path d="M2080.03 132.318C2106.65 135.391 2133.81 136.868 2160.63 134.823C2154.46 137.811 2152.3 138.1 2146.68 141.14C2141.45 143.966 2133.21 149.175 2124.55 153.82" fill="none" opacity="1" stroke="#7a6265" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/>
+      </g>
+      <g opacity="1">
+      <path d="M2237.24 147.313C2279.31 149.162 2288.29 148.354 2314.79 147.494C2347.16 146.445 2343.82 145.332 2373.34 142.051" fill="none" opacity="1" stroke="#7a6265" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/>
+      <path d="M2314.77 115.408C2320.3 152.483 2319.58 158.699 2319.38 180.548C2319.34 184.016 2319.3 187.298 2318.97 190.425C2318.41 195.697 2317.02 200.525 2313.45 205.057C2295.53 227.801 2259.2 198.313 2288.78 176.32C2292.73 173.384 2298.95 172.842 2302.55 173.024C2310.05 173.402 2319.39 184.153 2320 187.683C2321.6 197.017 2322.61 207.214 2318.88 217.541C2315.12 227.919 2308.76 241.521 2288.63 250.274" fill="none" opacity="1" stroke="#7a6265" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/>
+      </g>
+      <path d="M2445.23 185.9C2445.23 175.463 2454.48 167.002 2465.9 167.002C2477.31 167.002 2486.57 175.463 2486.57 185.9C2486.57 196.338 2477.31 204.799 2465.9 204.799C2454.48 204.799 2445.23 196.338 2445.23 185.9Z" fill="#7a6265" fill-rule="nonzero" opacity="1" stroke="#7a6265" stroke-linecap="round" stroke-linejoin="round" stroke-width="10"/>
+      <path d="M2563.45 165.988C2615.02 153.647 2621.62 144.65 2652.36 144.733C2675.9 144.796 2692.6 159.585 2693.95 178.902C2696.05 208.978 2662.76 234.092 2624.25 233.848" fill="none" opacity="1" stroke="#7a6265" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/>
+      <g opacity="1">
+      <path d="M2768.98 148.161C2783.3 151 2803.53 146.48 2831.52 139.87" fill="none" opacity="1" stroke="#7a6265" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/>
+      <path d="M2810.08 117.084C2802.06 154.06 2791.63 179.98 2768.75 215.161" fill="none" opacity="1" stroke="#7a6265" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/>
+      <path d="M2862.09 145.441C2876.24 149.138 2880.82 151.298 2892.48 160.189" fill="none" opacity="1" stroke="#7a6265" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/>
+      <path d="M2850.45 174.563C2853.88 194.033 2861.09 227.013 2854.13 236.152C2847.8 244.463 2845.77 244.539 2833.39 247.001C2825.52 248.564 2811.77 245.191 2808.1 233.725C2806.24 227.923 2810.04 221.964 2813.28 219.647C2817.24 216.821 2822.98 215.629 2827.49 214.803C2843.54 211.867 2874.87 223.116 2890.09 237.256" fill="none" opacity="1" stroke="#7a6265" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/>
+      </g>
+      <g opacity="1">
+      <path d="M2969.17 126.49C2965.54 148.089 2964.04 155.321 2962.01 171.649C2959.2 194.192 2961.85 220.989 2969.26 242.161C2972.56 237.25 2969.55 230.526 2971.59 225.075C2975.86 213.67 2975.87 208.816 2982.22 201.581" fill="none" opacity="1" stroke="#7a6265" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/>
+      <path d="M3010.85 162.228C3038.29 165.221 3063.59 164.582 3086.89 155.288" fill="none" opacity="1" stroke="#7a6265" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/>
+      <path d="M3054.95 122.947C3058.96 163.333 3067.49 232.805 3027.18 248.378" fill="none" opacity="1" stroke="#7a6265" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/>
+      <path d="M3080.91 116.034C3084.83 123.096 3085.48 125.832 3087.25 132.413" fill="none" opacity="1" stroke="#7a6265" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/>
+      <path d="M3099.73 110.274C3103.35 116.384 3104.71 118.72 3106.71 125.628" fill="none" opacity="1" stroke="#7a6265" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/>
+      </g>
+      <path d="M3171.79 130.457C3204.62 131.83 3215.18 128.689 3235.97 123.562C3222.99 140.487 3211.61 153.218 3202.37 163.001C3185.77 180.583 3178.73 187.31 3157.54 205.258C3185.56 187.447 3193.31 182.23 3209.69 178.717C3218.09 176.916 3230.37 173.918 3244.37 180.699C3258.38 187.48 3261.69 193.807 3262.84 202.771C3263.98 211.669 3258.08 221.633 3250.59 228.662C3240.69 237.935 3221.78 249.277 3204.7 245.595C3180.11 240.296 3183.84 226.5 3185.21 223.379C3186.71 219.943 3193.22 213.519 3208.25 216.115C3216.68 217.57 3223.06 222.144 3224.39 223.762C3225.72 225.38 3228.32 226.33 3231.96 237.902" fill="none" opacity="1" stroke="#7a6265" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/>
+      </g>
+      </g>
+      <g id="レイヤー-2">
+      <path d="M126.877 872.265C126.877 863.158 134.259 855.776 143.366 855.776L3498.58 855.776C3507.68 855.776 3515.07 863.158 3515.07 872.265L3515.07 872.265C3515.07 881.371 3507.68 888.754 3498.58 888.754L143.366 888.754C134.259 888.754 126.877 881.371 126.877 872.265L126.877 872.265Z" fill="#8ccbc2" fill-rule="nonzero" opacity="1" stroke="none"/>
+      <g opacity="1">
+      <path d="M3573.75 621.142C3584.1 610.567 3596.23 603.268 3606.18 610.226L3724.44 701.252C3735.62 709.864 3724.51 732.708 3724.51 732.708L3564.14 817.782C3550.21 825.17 3533.97 812.988 3537.18 797.549L3573.75 621.142Z" fill="#f7e7c6" fill-rule="nonzero" opacity="1" stroke="none"/>
+      <path d="M3769.57 356.572L3920.36 468.194L3724.52 732.746L3708.62 689.546C3707.5 686.496 3704.68 684.392 3701.44 684.177L3653.05 680.965C3649.13 680.706 3645.74 678.174 3644.37 674.498L3628.29 631.302C3627.06 627.976 3624.02 625.656 3620.48 625.338L3573.73 621.125L3769.57 356.572Z" fill="#8ccbc2" fill-rule="nonzero" opacity="1" stroke="none"/>
+      <path d="M3789.71 331.962L3940.5 443.584L3921.73 468.936L3770.95 357.315L3789.71 331.962Z" fill="#f3fbf9" fill-rule="nonzero" opacity="1" stroke="none"/>
+      <path d="M3822.69 288.123C3836.59 269.337 3863.1 265.382 3881.88 279.288L3964.64 340.55C3983.42 354.457 3987.38 380.959 3973.47 399.745L3939.61 445.479L3788.83 333.858L3822.69 288.123Z" fill="#f48ba8" fill-rule="nonzero" opacity="1" stroke="none"/>
+      <path d="M3550.76 732.732L3556.3 734.488C3584.03 743.293 3607.54 762.004 3622.35 787.049L3622.35 787.049L3543.52 833.871C3537.14 837.661 3529.31 832.025 3530.88 824.772L3550.76 732.732Z" fill="#7a6e65" fill-rule="nonzero" opacity="1" stroke="none"/>
+      </g>
+      </g>
+      </svg>
+    
+    </div>
+    <input type="date" id="dateInput">
+    <div class="mode"><button id="recordMode" class="active">記録モード</button><button id="reportMode">レポートモード</button></div>
+    <div class="spacer"></div>
+    <button class="navIconBtn" id="homeBtn" title="ホーム" aria-label="ホーム"><span class="icon svgIconWrap"><svg class="navSvgIcon" aria-hidden="true" focusable="false" height="1024.0px" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 1024 1024" width="1024.0px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs/>
+<g id="レイヤー-1">
+<g opacity="1">
+<path d="M2 132C2 60.203 60.203 2 132 2L892 2C963.797 2 1022 60.203 1022 132L1022 892C1022 963.797 963.797 1022 892 1022L132 1022C60.203 1022 2 963.797 2 892L2 132Z" fill="#fcfaf5" fill-rule="nonzero" opacity="1" stroke="none"/>
+<g opacity="1">
+<path d="M672.217 224.844C672.217 213.451 681.452 204.216 692.844 204.216L767.821 204.216C779.213 204.216 788.448 213.451 788.448 224.844L788.448 392.369C788.448 403.762 779.213 412.997 767.821 412.997L692.844 412.997C681.452 412.997 672.217 403.762 672.217 392.369L672.217 224.844Z" fill="#f48ba8" fill-rule="nonzero" opacity="1" stroke="none"/>
+<path d="M221.79 547.085C221.79 464.333 274.597 417.832 329.885 364.677C382.395 314.193 434.52 239.404 513.114 239.404L529.4 240.316C603.846 244.485 638.671 316.807 685.807 367.835C731.478 417.275 790.629 444.337 790.629 516.581L790.629 853.274C790.629 872.815 774.788 888.656 755.247 888.656L257.172 888.656C237.631 888.656 221.79 872.815 221.79 853.274L221.79 547.085Z" fill="#f7e7c6" fill-rule="nonzero" opacity="1" stroke="none"/>
+<path d="M507.775 132.54C494.035 132.54 480.289 137.776 469.806 148.259L149.806 468.259C128.84 489.224 128.84 523.23 149.806 544.196C170.771 565.161 204.746 565.162 225.712 544.196L492.978 276.96C501.047 268.892 514.127 268.893 522.195 276.961L789.9 544.665C810.865 565.63 844.873 565.63 865.837 544.665C886.803 523.699 886.803 489.693 865.837 468.727L548.837 151.727C547.844 150.548 546.822 149.369 545.712 148.259C535.229 137.776 521.515 132.54 507.775 132.54Z" fill="#8ccbc2" fill-rule="nonzero" opacity="1" stroke="none"/>
+<path d="M399.915 559.236C399.915 545.429 411.108 534.236 424.915 534.236L480.054 534.236C487.198 534.236 492.99 540.027 492.99 547.171L492.99 614.66C492.99 621.803 487.198 627.595 480.054 627.595L412.85 627.595C405.707 627.595 399.915 621.803 399.915 614.66L399.915 559.236Z" fill="#8ccbc2" fill-rule="nonzero" opacity="1" stroke="none"/>
+<path d="M614.686 559.442C614.686 545.634 603.493 534.442 589.686 534.442L534.547 534.442C527.403 534.442 521.612 540.233 521.612 547.377L521.612 614.865C521.612 622.009 527.403 627.801 534.547 627.801L601.751 627.801C608.895 627.801 614.686 622.009 614.686 614.865L614.686 559.442Z" fill="#8ccbc2" fill-rule="nonzero" opacity="1" stroke="none"/>
+<path d="M615.747 723.069C615.747 736.876 604.554 748.069 590.747 748.069L535.608 748.069C528.464 748.069 522.673 742.277 522.673 735.133L522.673 667.645C522.673 660.501 528.464 654.71 535.608 654.71L602.812 654.71C609.956 654.71 615.747 660.501 615.747 667.645L615.747 723.069Z" fill="#8ccbc2" fill-rule="nonzero" opacity="1" stroke="none"/>
+<path d="M399.114 723.655C399.114 737.463 410.307 748.655 424.114 748.655L479.253 748.655C486.397 748.655 492.189 742.864 492.189 735.72L492.189 668.232C492.189 661.088 486.397 655.296 479.253 655.296L412.049 655.296C404.906 655.296 399.114 661.088 399.114 668.232L399.114 723.655Z" fill="#8ccbc2" fill-rule="nonzero" opacity="1" stroke="none"/>
+<path d="M810.306 675.821C778.25 680.447 731.212 709.17 731.212 764.821C701.184 765.845 682.101 765.619 653.574 789.545C633.74 806.18 623.161 860.672 648.411 879.664C659.836 888.258 670.768 890.129 685.341 890.526C732.426 891.81 779.544 891.505 826.644 891.158C834.757 891.098 845.506 886.99 852.366 883.781C872.241 874.483 887.801 851.601 888.955 828.847C890.384 800.669 890.018 772.4 889.181 744.196C888.152 709.53 867.24 667.605 810.306 675.821Z" fill="#a8d08d" fill-rule="nonzero" opacity="1" stroke="none"/>
+</g>
+</g>
+</g>
+</svg></span><span class="label">ホーム</span></button>
+    <button class="navIconBtn" id="settingsBtn" title="各種設定" aria-label="各種設定"><span class="icon svgIconWrap"><svg class="navSvgIcon" aria-hidden="true" focusable="false" height="1024.0px" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 1024 1024" width="1024.0px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs/>
+<g id="設定">
+<path d="M2 132C2 60.203 60.203 2 132 2L892 2C963.797 2 1022 60.203 1022 132L1022 892C1022 963.797 963.797 1022 892 1022L132 1022C60.203 1022 2 963.797 2 892L2 132Z" fill="#fcfaf5" fill-rule="nonzero" opacity="1" stroke="none"/>
+<path d="M469.906 197.844C455.976 197.844 444.534 208.833 443.969 222.75L441.375 284.75L441.344 285.531L441.344 285.594L441.344 285.656C438.07 286.678 434.862 287.834 431.656 289C431.282 289.138 430.898 289.269 430.531 289.406C429.031 289.957 427.524 290.538 426.031 291.094C425.832 291.174 425.638 291.265 425.438 291.344C422.662 292.435 419.926 293.558 417.188 294.75C417.064 294.804 416.922 294.851 416.813 294.906C416.056 295.239 415.312 295.594 414.563 295.937C414.303 296.056 414.041 296.165 413.781 296.281C413.718 296.31 413.657 296.345 413.594 296.375C410.896 297.608 408.221 298.899 405.563 300.219C405.55 300.225 405.534 300.243 405.531 300.25C404.472 300.775 403.394 301.231 402.344 301.781C401.462 302.243 400.538 302.619 399.656 303.094L399.188 302.687L354 260.969C348.876 256.241 342.36 253.962 335.875 254.094C329.39 254.226 322.934 256.788 318 261.719L260.094 319.625C250.244 329.475 249.942 345.313 259.375 355.562L301.375 401.25L301.875 401.812L301.938 401.875L302 401.906C300.558 404.657 299.258 407.456 297.938 410.25C297.634 410.911 297.307 411.56 297 412.219C296.327 413.672 295.666 415.138 295 416.594C294.914 416.791 294.832 416.99 294.75 417.187C293.625 419.767 292.525 422.36 291.5 424.969C291.339 425.398 291.156 425.82 291 426.25C290.759 426.873 290.542 427.501 290.313 428.125C290.215 428.388 290.099 428.643 290 428.906C289.966 428.999 289.944 429.095 289.906 429.187C289.825 429.408 289.734 429.624 289.656 429.844C289.645 429.874 289.636 429.906 289.625 429.937C288.952 431.754 288.359 433.606 287.719 435.437C287.379 436.439 287.018 437.431 286.688 438.437C286.683 438.45 286.664 438.456 286.656 438.469C286.646 438.486 286.631 438.512 286.625 438.531C286.604 438.596 286.583 438.652 286.563 438.719C286.321 439.452 286.043 440.168 285.813 440.906C285.516 441.856 285.129 442.763 284.844 443.719L284.219 443.75L222.781 446.219C208.848 446.779 197.844 458.243 197.844 472.187L197.844 554.094C197.844 568.024 208.83 579.453 222.75 580.031L284.75 582.625L285.5 582.656L285.625 582.656L285.656 582.656C286.289 584.683 287.034 586.658 287.719 588.656C288.348 590.381 288.932 592.12 289.563 593.844C290.166 595.48 290.798 597.111 291.406 598.75C292.465 601.441 293.568 604.106 294.719 606.75C294.818 606.977 294.9 607.213 295 607.437C295.028 607.501 295.07 607.563 295.094 607.625C295.215 607.898 295.343 608.165 295.469 608.437C295.873 609.335 296.275 610.232 296.688 611.125C296.697 611.146 296.713 611.168 296.719 611.187C296.722 611.197 296.715 611.212 296.719 611.219C296.729 611.24 296.74 611.258 296.75 611.281C298.002 613.988 299.301 616.664 300.656 619.312C300.671 619.342 300.668 619.379 300.688 619.406C300.764 619.556 300.861 619.692 300.938 619.844C301.215 620.39 301.433 620.956 301.719 621.5C302.201 622.423 302.566 623.394 303.063 624.312L302.656 624.781L260.969 669.969C251.513 680.217 251.827 696.108 261.688 705.969L319.594 763.875C329.444 773.725 345.314 774.059 355.563 764.625L401.219 722.594L401.75 722.156L401.844 722.031L401.875 722C406.189 724.261 410.618 726.312 415.031 728.281C415.55 728.525 416.067 728.756 416.594 729C416.957 729.169 417.315 729.335 417.688 729.5C418.245 729.734 418.824 729.95 419.375 730.187C423.524 731.945 427.716 733.544 431.938 735.062C433.449 735.613 434.983 736.13 436.5 736.656C437.919 737.142 439.31 737.677 440.75 738.125C441.744 738.436 442.683 738.857 443.688 739.156L443.719 739.781L446.188 801.219C446.748 815.152 458.212 826.156 472.156 826.156L554.063 826.156C567.992 826.156 579.429 815.165 580 801.25L582.594 739.25L582.625 738.562L582.625 738.375L582.625 738.344C587.156 736.929 591.599 735.278 596 733.594C597.212 733.153 598.415 732.708 599.625 732.25C600.01 732.092 600.404 731.935 600.781 731.781C605.029 730.061 609.179 728.166 613.313 726.219C614.8 725.527 616.265 724.812 617.75 724.094C618.824 723.569 619.905 723.084 620.969 722.531C622.069 721.96 623.222 721.529 624.313 720.937L624.781 721.344L669.969 763.031C680.217 772.487 696.113 772.172 705.969 762.312L763.875 704.406C773.725 694.556 774.05 678.688 764.625 668.437L722.594 622.781L722.125 622.25L722 622.125C722.883 620.44 723.641 618.699 724.469 617C725.352 615.117 726.279 613.261 727.156 611.375C727.784 610.012 728.403 608.641 729.031 607.281C729.099 607.127 729.152 606.97 729.219 606.812C729.943 605.135 730.642 603.442 731.344 601.75C731.552 601.24 731.745 600.728 731.969 600.219C732.107 599.873 732.253 599.534 732.406 599.187C733.029 597.54 733.667 595.904 734.281 594.25C735.181 591.809 736.04 589.343 736.875 586.875C737.009 586.469 737.142 586.065 737.281 585.656C737.487 585.036 737.741 584.435 737.938 583.812C738.311 582.631 738.809 581.5 739.156 580.312L739.781 580.281L801.219 577.812C815.152 577.252 826.156 565.79 826.156 551.844L826.156 469.937C826.156 456.008 815.175 444.578 801.25 444L739.25 441.406L738.531 441.375L738.375 441.375L738.344 441.375C737.746 439.461 737.037 437.608 736.375 435.719C735.752 433.983 735.192 432.232 734.563 430.5C733.902 428.702 733.195 426.914 732.531 425.125C731.894 423.533 731.224 421.957 730.563 420.375C730.349 419.868 730.143 419.355 729.938 418.844C729.8 418.523 729.669 418.199 729.531 417.875C729.398 417.576 729.305 417.268 729.156 416.969C728.697 415.922 728.207 414.884 727.75 413.844C726.687 411.515 725.541 409.215 724.406 406.906C724.056 406.202 723.739 405.483 723.375 404.781C722.982 403.998 722.65 403.183 722.25 402.406C721.773 401.495 721.385 400.565 720.906 399.656L721.313 399.187L763.031 354C772.487 343.752 772.141 327.86 762.281 318L704.375 260.094C699.45 255.169 693.032 252.63 686.563 252.5C680.087 252.369 673.561 254.657 668.438 259.375L622.75 301.375L622.188 301.906L622.125 301.969L622.094 302C619.965 300.884 617.781 299.912 615.625 298.875C614.324 298.268 613.051 297.607 611.75 297C609.863 296.126 607.968 295.287 606.063 294.437C603.64 293.389 601.199 292.402 598.75 291.437C598.558 291.365 598.394 291.261 598.188 291.187C597.174 290.793 596.19 290.407 595.156 290.031C595.095 290.008 595.038 289.993 594.969 289.969C592.172 288.925 589.344 287.959 586.5 287C586.481 286.994 586.442 287.006 586.438 287C585.347 286.632 584.281 286.189 583.188 285.844C582.206 285.537 581.28 285.14 580.281 284.844L580.25 284.219L577.781 222.781C577.221 208.848 565.757 197.844 551.813 197.844L469.906 197.844ZM511.75 393.844C512.195 393.844 512.621 393.924 513.063 393.937C538.74 394.115 564.308 402.634 585.469 419.531C587.455 421.118 589.415 422.766 591.313 424.5C591.892 425.023 592.448 425.558 593.031 426.094C593.808 426.83 594.614 427.52 595.375 428.281C595.714 428.62 595.981 428.997 596.313 429.344C614.303 447.616 626.342 471.727 629.344 498.594C629.624 501.095 629.817 503.61 629.938 506.156C629.978 506.949 630.013 507.738 630.031 508.531C630.061 509.619 630.164 510.686 630.156 511.781C630.156 512.311 630.09 512.819 630.063 513.344C629.826 538.92 621.292 564.397 604.469 585.469C602.841 587.507 601.165 589.517 599.375 591.469C598.999 591.884 598.601 592.279 598.219 592.687C597.374 593.587 596.597 594.526 595.719 595.406C595.284 595.841 594.791 596.184 594.344 596.594C574.334 616.161 547.414 628.603 517.531 629.937C516.989 629.964 516.442 629.984 515.906 630C514.673 630.038 513.462 630.156 512.219 630.156C511.646 630.156 511.09 630.057 510.531 630.031C487.701 629.802 464.98 622.978 445.375 609.531C443.03 607.923 440.711 606.238 438.469 604.437C438.423 604.401 438.375 604.347 438.344 604.312C436.433 602.781 434.56 601.198 432.719 599.531C432.093 598.967 431.481 598.388 430.875 597.812C430.124 597.099 429.331 596.456 428.594 595.719C428.228 595.353 427.939 594.942 427.594 594.562C409.658 576.306 397.655 552.265 394.656 525.437C394.644 525.333 394.641 525.229 394.625 525.125C394.356 522.658 394.145 520.168 394.031 517.656C393.993 516.896 393.992 516.136 393.969 515.375C393.941 514.33 393.847 513.303 393.844 512.25C393.844 511.795 393.92 511.358 393.938 510.906C394.116 485.432 402.507 460.056 419.156 439C419.389 438.703 419.639 438.421 419.875 438.125C421.164 436.526 422.489 434.953 423.875 433.406C424.772 432.397 425.695 431.414 426.625 430.437C427.194 429.845 427.705 429.207 428.281 428.625C428.589 428.317 428.933 428.075 429.25 427.781C445.551 411.699 466.494 400.377 489.906 395.969C492.484 395.484 495.099 395.095 497.719 394.781C498.23 394.718 498.738 394.651 499.25 394.594C501.339 394.373 503.45 394.203 505.563 394.094C506.708 394.029 507.854 393.999 509 393.969C509.919 393.948 510.826 393.844 511.75 393.844Z" fill="#b59ad9" fill-rule="nonzero" opacity="1" stroke="none"/>
+</g>
+</svg></span><span class="label">各種設定</span></button>
+  </div>
+
+  <div id="homeView" class="view active">
+    <div class="home">
+      <div class="panel">
+        <div class="boardHeader"><h2>今日の授業ボード</h2><button class="btn primary iconBtn confirmAllBtn" id="finalSaveBtn" title="授業記録の確定" aria-label="授業記録の確定"><span class="btnIconWrap"><svg class="btnSvgIcon" aria-hidden="true" focusable="false" height="1024.0px" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 1024 1024" width="1024.0px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs/>
+<g id="レイヤー-2">
+<path d="M2 132C2 60.203 60.203 2 132 2L892 2C963.797 2 1022 60.203 1022 132L1022 892C1022 963.797 963.797 1022 892 1022L132 1022C60.203 1022 2 963.797 2 892L2 132Z" fill="#fcfaf5" fill-rule="nonzero" opacity="1" stroke="none"/>
+<g opacity="1">
+<path d="M643.723 136.07C548.194 138.095 471.986 202.552 468 205.972C461.875 200.767 387.161 138.724 293.092 136.728C194.994 134.649 122.584 172.842 122.584 172.842L122.62 172.958C114.856 175.758 109.18 184.146 109.174 194.193C109.174 194.245 109.167 194.299 109.174 194.348L109.174 233.561C95.1087 234.421 83.9072 247.046 83.9131 262.623L83.9131 782.629C83.9133 798.762 95.8922 811.846 110.664 811.846C113.755 811.846 116.658 811.114 119.427 810.063L119.462 810.373C119.462 810.373 168.351 788.366 280.498 792.2C350.89 794.607 393.298 811.187 415.244 823.238C415.448 823.35 415.718 823.475 415.918 823.587C416.634 826.726 417.788 829.683 419.324 832.344C420.859 835.005 422.773 837.371 424.965 839.396C425.309 839.69 425.608 840.048 425.958 840.326C426.316 840.627 426.726 840.856 427.094 841.14C429.057 842.508 431.223 843.512 433.48 844.317C434.924 844.836 436.374 845.346 437.914 845.596C439.229 845.809 440.59 845.906 441.959 845.906L494.076 845.906C495.627 845.906 497.138 845.748 498.618 845.48C498.689 845.466 498.759 845.455 498.831 845.441C500.242 845.172 501.618 844.772 502.946 844.278C502.956 844.275 502.972 844.284 502.981 844.278C502.995 844.27 503.002 844.245 503.017 844.24C503.028 844.236 503.042 844.243 503.052 844.24C503.65 844.005 504.209 843.696 504.791 843.426C504.874 843.387 504.955 843.344 505.039 843.31C505.073 843.293 505.11 843.284 505.146 843.271C505.238 843.226 505.338 843.2 505.429 843.155C505.632 843.054 505.83 842.951 506.033 842.845C506.314 842.696 506.611 842.576 506.884 842.418C506.907 842.405 506.934 842.393 506.955 842.38C506.969 842.371 506.975 842.349 506.99 842.341C507.625 841.964 508.23 841.523 508.835 841.101C509.181 840.86 509.52 840.609 509.864 840.365C509.92 840.322 509.986 840.292 510.042 840.249C510.146 840.167 510.261 840.099 510.361 840.016C510.382 839.999 510.409 839.994 510.432 839.977C510.479 839.939 510.525 839.9 510.574 839.861C510.594 839.844 510.624 839.839 510.645 839.822C510.684 839.789 510.712 839.74 510.751 839.706C511.211 839.307 511.658 838.885 512.099 838.466C512.53 838.057 512.937 837.624 513.341 837.187C515 835.408 516.456 833.448 517.669 831.259C518.154 830.384 518.579 829.476 518.982 828.546C519.108 828.256 519.287 827.988 519.408 827.694C520.017 826.166 520.522 824.573 520.898 822.928C521.241 822.737 521.654 822.573 521.998 822.385C530.484 817.758 539.17 813.994 554.744 809.017C556.619 808.418 560.128 806.137 561.13 804.561C562.136 802.985 562.161 799.862 561.237 797.044C555.762 780.275 551.873 762.71 549.813 744.501C549.331 740.241 548.596 737.85 546.939 736.247C545.278 734.643 541.782 734.354 538.531 735.743C511.659 747.212 493.826 759.378 485.42 766.006C485.258 766.133 485.082 766.273 484.923 766.394L484.923 766.006L484.923 247.395C495.078 238.925 562.199 185.258 645.214 181.406C653.609 181.016 661.86 181.025 669.906 181.328C726.215 183.464 772.81 200.949 794.435 210.545L794.435 455.552C794.435 455.552 794.363 461.214 797.131 464.503C799.899 467.792 801.512 467.926 805.504 468.688C816.875 470.85 830.092 474.48 839.669 477.29C847.506 479.591 849.032 479.71 850.916 478.453C852.796 477.195 852.903 473.917 852.903 473.919L852.903 261.964C852.905 246.388 841.711 233.765 827.642 232.903L827.642 193.689C827.645 193.638 827.642 193.587 827.642 193.534C827.64 183.487 821.96 175.097 814.196 172.3L814.232 172.183C814.232 172.184 741.822 133.99 643.723 136.07ZM266.91 181.987C274.954 181.682 283.205 181.677 291.602 182.064C374.617 185.919 441.746 239.582 451.893 248.053L451.893 766.006L451.893 766.665L451.893 767.052C451.738 766.93 451.557 766.792 451.396 766.665C451.163 766.481 450.756 766.198 450.509 766.006C432.771 752.197 379.046 716.982 287.451 710.208C280.35 709.683 273.435 709.374 266.732 709.239C210.248 708.102 168.563 719.958 142.381 730.59L142.381 211.203C164.006 201.608 210.601 184.123 266.91 181.987Z" fill="#a8d08d" fill-rule="nonzero" opacity="1" stroke="none"/>
+<g opacity="1">
+<path d="M573.378 692.452C573.378 581.995 662.921 492.452 773.378 492.452C883.835 492.452 973.378 581.995 973.378 692.452C973.378 802.909 883.835 892.452 773.378 892.452C662.921 892.452 573.378 802.909 573.378 692.452Z" fill="#a8d08d" fill-rule="nonzero" opacity="1" stroke="none"/>
+<path d="M868.356 605.78C861.763 606.036 855.264 608.805 850.428 614.03L749.898 722.655C748.118 724.578 745.099 724.642 743.24 722.797L704.142 683.995C699.088 678.98 692.491 676.504 685.892 676.53C679.294 676.557 672.692 679.083 667.678 684.138C657.649 694.247 657.712 710.572 667.821 720.602L729.178 781.495C735.706 787.971 744.835 790.138 753.178 788.209C753.785 788.069 754.365 787.858 754.964 787.673C755.855 787.409 756.743 787.143 757.606 786.78C758.569 786.362 759.511 785.857 760.428 785.316C760.918 785.034 761.419 784.775 761.892 784.459C763.219 783.551 764.469 782.536 765.642 781.352C765.934 781.065 766.29 780.869 766.571 780.566L888.285 649.066C897.957 638.615 897.307 622.31 886.856 612.638C881.631 607.801 874.95 605.525 868.356 605.78Z" fill="#faf8f4" fill-rule="nonzero" opacity="1" stroke="none"/>
+</g>
+</g>
+</g>
+</svg></span><span>授業記録の確定</span></button></div>
+        <div class="board" id="board"></div>
+        <div class="small" style="margin-top:8px">クラスカードを1〜6時間目へドラッグ。置いた後もドラッグで入れ替え、「外す」で削除できます。</div>
+      </div>
+      <div class="panel">
+        <h2>クラス一覧</h2>
+        <div class="classGrid" id="classGrid"></div>
+        <div class="small" style="margin-top:8px">見えない4×6枠に、クラスカードを自由に配置できます。空きマスも残せます。</div>
+      </div>
+      <div class="footer"><span id="status">未保存</span><span class="small">v0.3.36：複数選択保持・配置中の評価誤操作防止</span></div>
+    </div>
+  </div>
+
+  <div id="recordView" class="view">
+    <div class="recordLayout">
+      <div class="stagePanel">
+        <div class="toolbar">
+          <span class="title" id="recordTitle">クラス名</span>
+          <label class="selectControl"><span class="selectLabel">授業内容</span><select id="lessonSelect" class="recordSelect" title="授業内容"></select></label>
+          <label class="selectControl"><span class="selectLabel">見取り内容</span><select id="observationSelect" class="recordSelect" title="見取り内容"></select></label>
+          <input id="cameraInput" type="file" accept="image/*" capture="environment" style="display:none">
+          <label class="testCheck"><input type="checkbox" id="testToggleBtn"><span>テスト実施</span></label>
+          <button class="btn primary confirmBtn iconBtn confirmRecordBtn" id="recordConfirmBtn" title="授業記録の確定" aria-label="授業記録の確定"><span class="btnIconWrap"><svg class="btnSvgIcon" aria-hidden="true" focusable="false" height="1024.0px" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 1024 1024" width="1024.0px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs/>
+<g id="レイヤー-1">
+<g opacity="1">
+<path d="M2 132C2 60.203 60.203 2 132 2L892 2C963.797 2 1022 60.203 1022 132L1022 892C1022 963.797 963.797 1022 892 1022L132 1022C60.203 1022 2 963.797 2 892L2 132Z" fill="#fcfaf5" fill-rule="nonzero" opacity="1" stroke="none"/>
+<g opacity="1">
+<path d="M235.605 158.05C227.439 158.066 219.366 159.706 211.824 162.831C204.24 165.973 197.341 170.559 191.542 176.362C185.739 182.166 181.154 189.061 178.011 196.644C174.89 204.178 173.255 212.239 173.23 220.394L173.23 795.737C173.23 803.945 174.87 812.06 178.011 819.644C181.152 827.227 185.743 834.121 191.542 839.925C197.346 845.729 204.238 850.315 211.824 853.456C219.368 856.581 227.439 858.22 235.605 858.237L473.061 859.063C482.996 859.063 489.979 851.567 489.979 841.631C489.979 831.696 481.779 824.748 471.844 824.748L235.605 822.269C232.164 822.252 228.784 821.553 225.605 820.237C222.386 818.904 219.443 816.951 216.98 814.487C214.517 812.024 212.565 809.112 211.23 805.894C209.897 802.675 209.232 799.22 209.23 795.737L209.199 795.737L209.199 220.55L209.23 220.55C209.231 217.066 209.897 213.613 211.23 210.394C212.563 207.175 214.517 204.263 216.98 201.8C219.443 199.337 222.386 197.383 225.605 196.05C228.784 194.733 232.166 194.035 235.605 194.019L363.98 194.019L549.105 194.019L677.48 194.019C680.921 194.035 684.3 194.733 687.48 196.05C690.698 197.383 693.64 199.337 696.105 201.8C698.568 204.263 700.522 207.176 701.855 210.394C703.188 213.612 703.853 217.066 703.855 220.55L703.886 220.55L704.519 458.518C704.519 462.718 708.415 466.913 712.614 466.913L730.561 467.542C734.76 467.542 738.563 462.581 738.563 458.382L739.792 220.55L739.855 220.55C739.855 212.342 738.214 204.227 735.074 196.644C731.933 189.061 727.344 182.166 721.542 176.362C715.739 170.559 708.846 165.972 701.261 162.831C693.717 159.706 685.645 158.066 677.48 158.05L549.105 158.05L363.98 158.05L235.605 158.05Z" fill="#a8d08d" fill-rule="nonzero" opacity="1" stroke="none"/>
+<g opacity="1">
+<path d="M480.223 703.091C480.223 578.827 580.959 478.091 705.223 478.091C829.487 478.091 930.223 578.827 930.223 703.091C930.223 827.356 829.487 928.091 705.223 928.091C580.959 928.091 480.223 827.356 480.223 703.091Z" fill="#a8d08d" fill-rule="nonzero" opacity="1" stroke="none"/>
+<path d="M812.074 605.586C804.656 605.873 797.345 608.988 791.904 614.867L678.401 737.51C676.622 739.433 673.603 739.497 671.743 737.651L627.333 693.577C621.646 687.936 614.225 685.15 606.802 685.18C599.378 685.209 591.951 688.051 586.31 693.738C575.028 705.11 575.099 723.477 586.471 734.76L655.498 803.264C662.842 810.551 673.112 812.988 682.498 810.818C683.181 810.66 683.834 810.423 684.507 810.215C685.509 809.918 686.509 809.618 687.48 809.211C688.563 808.741 689.623 808.172 690.654 807.564C691.206 807.247 691.769 806.955 692.302 806.599C693.794 805.578 695.2 804.436 696.52 803.104C696.848 802.781 697.249 802.56 697.565 802.22L834.493 654.282C845.374 642.525 844.643 624.182 832.886 613.3C827.008 607.86 819.492 605.299 812.074 605.586Z" fill="#faf8f4" fill-rule="nonzero" opacity="1" stroke="none"/>
+</g>
+<g opacity="1">
+<path d="M303.772 306.792C303.772 297.512 311.295 289.989 320.575 289.989L592.654 289.989C601.934 289.989 609.457 297.512 609.457 306.792L609.457 306.792C609.457 316.072 601.934 323.595 592.654 323.595L320.575 323.595C311.295 323.595 303.772 316.072 303.772 306.792L303.772 306.792Z" fill="#a8d08d" fill-rule="nonzero" opacity="1" stroke="none"/>
+<path d="M303.772 445.175C303.772 435.895 311.295 428.372 320.575 428.372L512.153 428.372C521.433 428.372 528.956 435.895 528.956 445.175L528.956 445.175C528.956 454.455 521.433 461.978 512.153 461.978L320.575 461.978C311.295 461.978 303.772 454.455 303.772 445.175L303.772 445.175Z" fill="#a8d08d" fill-rule="nonzero" opacity="1" stroke="none"/>
+</g>
+<g opacity="0">
+<path d="M133.814 338.701C133.814 322.921 146.606 310.129 162.386 310.129L219.849 310.129C235.629 310.129 248.421 322.921 248.421 338.701L248.421 338.701C248.421 354.481 235.629 367.273 219.849 367.273L162.386 367.273C146.606 367.273 133.814 354.481 133.814 338.701L133.814 338.701Z" fill="#a8d08d" fill-rule="nonzero" opacity="1" stroke="none"/>
+<path d="M133.814 503.133C133.814 487.353 146.606 474.561 162.386 474.561L219.849 474.561C235.629 474.561 248.421 487.353 248.421 503.133L248.421 503.133C248.421 518.913 235.629 531.705 219.849 531.705L162.386 531.705C146.606 531.705 133.814 518.913 133.814 503.133L133.814 503.133Z" fill="#a8d08d" fill-rule="nonzero" opacity="1" stroke="none"/>
+<path d="M133.814 668.756C133.814 652.976 146.606 640.184 162.386 640.184L219.849 640.184C235.629 640.184 248.421 652.976 248.421 668.756L248.421 668.756C248.421 684.536 235.629 697.328 219.849 697.328L162.386 697.328C146.606 697.328 133.814 684.536 133.814 668.756L133.814 668.756Z" fill="#a8d08d" fill-rule="nonzero" opacity="1" stroke="none"/>
+</g>
+</g>
+</g>
+</g>
+</svg></span><span>授業記録の確定</span></button>
+        </div>
+        <div class="stage" id="stage">
+          <img id="seatImage" alt="">
+          <div class="placementGrid" id="placementGrid"></div>
+          <div class="selectionRect" id="selectionRect"></div>
+          <div class="noImage" id="noImage"><div class="emptyGuide"><div>① 右の「座席表を作る」を開きます</div><div>② 「撮影」から教卓の座席表をそのまま撮影してください。</div></div></div>
+          <div class="balancePanel" id="balancePanel"><div class="balancePanelTitle">観察バランス：これまで記録がない児童</div><div class="balanceList" id="balanceList"></div></div>
+        </div>
+        <div class="previousAbsence" id="previousAbsence">最近の欠席者：なし</div>
+      </div>
+      <div class="sidePanel">
+        <div class="foldBox" id="seatMakerBox"><button class="foldHeader" id="seatMakerToggle">座席表を作る</button><div class="foldBody">
+          <div class="sideTopActions"><button class="btn primary" id="cameraBtn">撮影</button><button class="btn warn" id="resetBtn">リセット</button></div>
+          <button class="btn switchBtn" id="lockBtn">配置ロック OFF</button>
+          <div class="placementControls">
+            <label for="gridRowsInput">縦</label><input id="gridRowsInput" type="number" min="1" max="12" value="6">
+            <label for="gridColsInput">横</label><input id="gridColsInput" type="number" min="1" max="12" value="7">
+          </div>
+          <div class="alignTools" id="alignTools">
+            <button class="btn" type="button" data-align="left">左寄せ</button>
+            <button class="btn" type="button" data-align="right">右寄せ</button>
+            <button class="btn" type="button" data-align="top">上寄せ</button>
+            <button class="btn" type="button" data-align="bottom">下寄せ</button>
+          </div>
+          <div class="placementHint">番号を選び、座席表のマスをタップすると中央へ配置します。マウスで囲むと複数選択できます。</div>
+          <div class="sideTitle">番号（最大40）</div>
+          <div class="rosterGrid" id="roster"></div>
+        </div></div>
+        <div class="foldBox" id="displayOptionsBox"><button class="foldHeader" id="displayOptionsToggle">表示設定</button><div class="foldBody">
+          <div class="displaySwitchRow"><span class="displaySwitchLabel">背景画像</span><div class="segmentSwitch" id="bgToggleBtn"><button type="button" data-bg="on">ON</button><button type="button" data-bg="off">OFF</button></div></div>
+          <div class="displaySwitchRow"><span class="displaySwitchLabel">名前</span><div class="segmentSwitch" id="nameToggleBtn"><button type="button" data-name="kanji">漢字</button><button type="button" data-name="kana">ひらがな</button></div></div>
+        </div></div>
+        <div class="memoFixed">
+          <div class="memoTitleRow"><span>前回のメモ</span><span class="memoDate" id="previousMemoDate"></span></div>
+          <div class="memoRead" id="previousMemo">前回のメモはありません</div>
+        </div>
+        <div class="memoFixed">
+          <div class="memoTitleRow"><span>今回のメモ</span></div>
+          <textarea id="todayMemo" placeholder="今回の授業メモ"></textarea>
+        </div>
+        <button class="btn" id="balanceBtn">観察バランス</button>
+        <div class="foldBox open" id="todayRecordsBox"><button class="foldHeader" id="todayRecordsToggle">今日の記録</button><div class="foldBody"><div class="records" id="records"></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="reportView" class="view"><div class="panel" style="flex:1;display:flex;flex-direction:column;gap:10px"><h2>レポートモード</h2><div class="reportGrid" id="reportGrid"></div></div></div>
+
+  <div id="settingsView" class="view">
+    <div class="settings">
+      <div class="panel settingsNav">
+        <h2>設定</h2>
+        <button class="btn active" id="classSettingsTab">クラス設定</button>
+        <button class="btn" id="tagSettingsTab">見取り内容編集</button>
+        <button class="btn" id="lessonListSettingsTab">授業内容リスト編集</button>
+        <div class="exportZone"><button class="btn" id="exportObservationBtn">見取り内容CSV書き出し</button><button class="btn" id="exportLessonListBtn">授業内容CSV書き出し</button></div>
+        <div class="dangerZone"><div><h2>危険操作</h2><div class="small">保存済みのクラス・見取り内容・授業内容リスト・記録をすべて削除します。</div></div><button class="btn danger" id="resetAllBtn">全データ初期化</button></div>
+      </div>
+      <div class="panel settingsContent">
+        <div id="classSettingsPane"><h2>クラス設定</h2><div class="settingClassGrid" id="classSettingsGrid"></div></div>
+        <div id="tagSettingsPane" style="display:none">
+          <div class="lessonSettingsLayout">
+            <div class="lessonEditor">
+              <h2>見取り内容編集</h2>
+              <div class="lessonTitleRow"><label>タイトル</label><input id="lessonNameInput" placeholder="例：外国語 基本"></div>
+              <div class="lessonEditGrid">
+                <div class="lessonColumn"><h3>👍 よかったこと</h3><textarea id="lessonGoodText" placeholder="1行に1つずつ入力・貼り付け"></textarea></div>
+                <div class="lessonColumn"><h3>✏️ 気になったこと</h3><textarea id="lessonBadText" placeholder="1行に1つずつ入力・貼り付け"></textarea></div>
+              </div>
+              <div class="lessonEditorActions">
+                <button class="btn danger" id="deleteLessonBtn">削除</button>
+                <div><button class="btn" id="copyLessonBtn">コピー作成</button> <button class="btn primary" id="saveLessonBtn">保存</button></div>
+              </div>
+            </div>
+            <div class="lessonListPane">
+              <div class="lessonSearch"><button class="btn primary" id="newLessonBtn">＋新規作成</button><input id="lessonSearchInput" placeholder="タイトル検索"></div>
+              <div class="lessonTitleList" id="tagSetGrid"></div>
+            </div>
+          </div>
+        </div>
+        <div id="lessonListSettingsPane" style="display:none">
+          <div class="lessonSettingsLayout">
+            <div class="lessonEditor">
+              <h2>授業内容リスト編集</h2>
+              <div class="lessonTitleRow"><label>タイトル</label><input id="lessonListNameInput" placeholder="例：５年外国語"></div>
+              <div class="lessonColumn" style="flex:1"><h3>授業内容リスト</h3><textarea id="lessonListText" class="listEditorText" placeholder="５年外国語 Unit1&#10;５年外国語 Unit2&#10;５年外国語 Unit3"></textarea></div>
+              <div class="lessonEditorActions">
+                <button class="btn danger" id="deleteLessonListBtn">削除</button>
+                <div><button class="btn" id="copyLessonListBtn">コピー作成</button> <button class="btn primary" id="saveLessonListBtn">保存</button></div>
+              </div>
+            </div>
+            <div class="lessonListPane">
+              <div class="lessonSearch"><button class="btn primary" id="newLessonListBtn">＋新規作成</button><input id="lessonListSearchInput" placeholder="タイトル検索"></div>
+              <div class="lessonTitleList" id="lessonListGrid"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modalBack cameraModal" id="cameraModal">
+  <div class="modal">
+    <h2>座席表を撮る</h2>
+    <div class="small">撮影した画像をそのまま座席表の背景に使います。</div>
+    <div class="cameraStatus" id="cameraStatus">カメラ準備中...</div>
+    <div class="cameraBox">
+      <video id="cameraVideo" autoplay playsinline muted></video>
+      <img id="cameraPreview" alt="" style="display:none">
+    </div>
+    <canvas id="cameraCanvas" style="display:none"></canvas>
+    <div class="cameraActions">
+      <button class="btn" id="cameraCloseBtn">閉じる</button>
+      <button class="btn" id="cameraRetakeBtn" style="display:none">撮り直す</button>
+      <button class="btn primary" id="cameraShotBtn">撮影</button>
+      <button class="btn primary" id="cameraUseBtn" style="display:none">この画像を使う</button>
+    </div>
+  </div>
+</div>
+
+<div class="modalBack" id="recordModal"><div class="modal"><h2 id="recordModalTitle">記録</h2><div class="small">よかったこと・気になったことを左右で選べます。複数選択できます。</div><div class="tagGrid"><div class="tagColumn goodCol"><div class="tagColumnTitle">👍 よかったこと</div><div id="recordGoodTagGrid"></div></div><div class="tagColumn badCol"><div class="tagColumnTitle">✏️ 気になったこと</div><div id="recordBadTagGrid"></div></div></div><textarea id="memo" placeholder="必要なら一言メモ"></textarea><div style="display:flex;justify-content:space-between;margin-top:12px"><button class="btn" id="cancelRecordBtn">閉じる</button><button class="btn primary" id="recordBtn">記録する</button></div></div></div>
+
+<div class="modalBack" id="classModal"><div class="modal"><h2 id="classModalTitle">クラス編集</h2><div class="formRow"><label>クラス名</label><input id="classNameInput"></div><div class="formRow"><label>人数</label><input id="classCountInput" type="number" min="1" max="40"></div><div class="formRow"><label>色</label><select id="classColorInput"><option value="grade3">緑</option><option value="grade4">オレンジ</option><option value="grade5">青</option><option value="grade6">ピンク</option><option value="gray">グレー</option></select></div><div class="formRow"><label>見取り内容</label><select id="classTagSetInput"></select></div><div class="formRow"><label>授業内容リスト</label><select id="classLessonListInput"></select></div><h3>名簿登録</h3><div class="small">Excel / Googleスプレッドシートから「出席番号・名前漢字・名前ひらがな」の列をコピーして貼り付けできます。</div><textarea id="rosterText" style="min-height:180px" placeholder="1	山田太郎	やまだたろう&#10;2	佐藤花子	さとうはなこ"></textarea><div style="display:flex;align-items:center;gap:8px;margin-top:8px"><div class="small" id="rosterPreview" style="flex:1">貼り付けると読み込み予定人数を表示します。</div><button class="btn primary" id="quickRosterSaveBtn">名簿を登録して反映</button></div><div style="display:flex;justify-content:space-between;margin-top:12px"><button class="btn danger" id="deleteClassBtn">削除</button><div><button class="btn" id="cancelClassBtn">閉じる</button> <button class="btn primary" id="saveClassBtn">クラス設定を保存</button></div></div></div></div>
+
+<div class="modalBack" id="tagEditModal"><div class="modal"><h2 id="tagEditTitle">タグ編集</h2><div class="tagList" id="editableTagList"></div><button class="btn" id="addTagBtn" style="margin-top:12px">＋タグ追加</button><div style="display:flex;justify-content:space-between;margin-top:12px"><button class="btn" id="cancelTagEditBtn">閉じる</button><button class="btn primary" id="saveTagEditBtn">保存</button></div></div></div>
+
+
+
+<script>
+const KEY='MITORI_V033_SETTINGS_LAYOUT_SYNC';
+const today=new Date().toISOString().slice(0,10);
+const initialClasses=[
+  ['i32','岩西3-2','grade3','tag3'],['i51','岩西5-1','grade5','tag5'],['i52','岩西5-2','grade5','tag5'],['i61','岩西6-1','grade6','tag6'],['i62','岩西6-2','grade6','tag6'],
+  ['t31','高森3-1','grade3','tag3'],['t32','高森3-2','grade3','tag3'],['t41','高森4-1','grade4','tag4'],['t42','高森4-2','grade4','tag4'],['t51','高森5-1','grade5','tag5'],['t52','高森5-2','grade5','tag5']
+];
+let state=JSON.parse(localStorage.getItem(KEY)||'null')||{
+  date:today,mode:'record',currentClass:null,nameDisplay:'kanji',
+  classes:initialClasses.map(x=>({id:x[0],name:x[1],color:x[2],hours:0,count:35,tagSetId:x[3]})),
+  tagSets:[
+    {id:'tag3',name:'3年 外国語活動',good:['積極的に参加','英語を使った','相手を見て聞いた','友達を助けた','ジェスチャーで伝えた'],bad:['活動に参加しにくい','指示が入りにくい','私語','遊び','ペア活動から離れていた']},
+    {id:'tag4',name:'4年 外国語活動',good:['進んで伝えようとした','相手の反応を見て話した','友達と協力した'],bad:['活動から離れていた','指示が入りにくい','準備が不十分']},
+    {id:'tag5',name:'5年 外国語',good:['英語でやり取りした','相手に質問した','伝え方を工夫した'],bad:['英語を使おうとしなかった','ペア活動に参加しにくい','私語']},
+    {id:'tag6',name:'6年 外国語',good:['英語で自分の考えを伝えた','相手に応じて反応した','既習表現を活用した'],bad:['活動への参加が不十分','指示が入りにくい','別のことをしていた']}
+  ],
+  board:{},classData:{},classLayout:[],records:[],lessonLists:[{id:'lessonDefault',name:'基本',items:['５年外国語 Unit1','５年外国語 Unit2','５年書写','３年音楽']}]
+};
+state.lessonLists=state.lessonLists||[{id:'lessonDefault',name:'基本',items:['５年外国語 Unit1','５年外国語 Unit2','５年書写','３年音楽']}];
+const defaultLessonListId=(state.lessonLists&&state.lessonLists[0]&&state.lessonLists[0].id)||'lessonDefault';
+state.classes.forEach(c=>{if(!c.lessonListId)c.lessonListId=defaultLessonListId;});
+state.classes.forEach(c=>{state.classData[c.id]=state.classData[c.id]||{image:'',locked:false,positions:{},roster:{}};state.classData[c.id].absences=state.classData[c.id].absences||{};state.classData[c.id].dayMeta=state.classData[c.id].dayMeta||{};state.classData[c.id].lastLessonContent=state.classData[c.id].lastLessonContent||'';state.classData[c.id].lastObservationId=state.classData[c.id].lastObservationId||c.tagSetId;});
+if(!state.classLayout.length)state.classLayout=[...state.classes.map(c=>c.id),...Array(24-state.classes.length).fill(null)];
+while(state.classLayout.length<24)state.classLayout.push(null);
+
+const $=id=>document.getElementById(id);
+let selectedRecord=null, draggingTile=null, dragOffset={x:0,y:0}, editingClassId=null, editingTagSetId=null, editingTagType=null, selectedPlacementNo=null;
+let selectedStudentNos=new Set(), selectionDrag=null;
+
+function save(){localStorage.setItem(KEY,JSON.stringify(state));$('status').textContent='保存済み '+new Date().toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit'})}
+function cls(id){return state.classes.find(c=>c.id===id)}
+function tagSet(id){return state.tagSets.find(t=>t.id===id)||state.tagSets[0]}
+function allLessonItems(){return (state.lessonLists||[]).flatMap(g=>g.items||[]).filter(Boolean)}
+function classLessonList(classId=state.currentClass){const c=cls(classId);return (state.lessonLists||[]).find(g=>g.id===c?.lessonListId)||state.lessonLists?.[0]}
+function classLessonItems(classId=state.currentClass){const g=classLessonList(classId);const items=(g?.items||[]).filter(Boolean);return items.length?items:allLessonItems()}
+function data(id=state.currentClass){return state.classData[id]}
+function show(id){['homeView','recordView','reportView','settingsView'].forEach(v=>$(v).classList.remove('active'));$(id).classList.add('active');$('homeBtn').classList.toggle('active',id==='homeView');$('settingsBtn').classList.toggle('active',id==='settingsView')}
+function setMode(m){state.mode=m;save();$('recordMode').classList.toggle('active',m==='record');$('reportMode').classList.toggle('active',m==='report');m==='report'?(show('reportView'),renderReport()):show('homeView')}
+function studentName(classId,num){const r=(state.classData[classId]?.roster||{})[String(Number(num))];if(!r)return'';return state.nameDisplay==='kana'?(r.kana||r.kanji||''):(r.kanji||r.kana||'')}
+function parseRosterPaste(text){const rows=[];text.split(/\r?\n/).map(x=>x.trim()).filter(Boolean).forEach(line=>{let cols=line.includes('\t')?line.split('\t'):(line.includes(',')?line.split(','):line.split(/\s+/));cols=cols.map(x=>x.trim()).filter(Boolean);const n=cols[0]?.replace(/[^0-9]/g,'');if(!n)return;rows.push({num:String(Number(n)),kanji:cols[1]||'',kana:cols[2]||''})});return rows}
+function render(){ $('dateInput').value=state.date; if($('defaultNameDisplay'))$('defaultNameDisplay').value=state.nameDisplay; renderBoard(); renderClasses(); renderRecordPage(); renderReport(); renderSettings(); }
+
+function dateKeyLocal(date){
+  const y=date.getFullYear(),m=String(date.getMonth()+1).padStart(2,'0'),d=String(date.getDate()).padStart(2,'0');
+  return `${y}-${m}-${d}`;
+}
+function ensureBoardForDate(dateStr){
+  state.board=state.board||{};
+  if(Object.prototype.hasOwnProperty.call(state.board,dateStr))return;
+  // 自動引継ぎは「今日」の授業ボードを初めて開く時だけ行う。
+  if(dateStr!==today){state.board[dateStr]={};return;}
+  const base=new Date(dateStr+'T12:00:00');
+  let copied=null;
+  // 直近の同じ曜日を、1週間単位で過去へさかのぼって探す。
+  for(let weeks=1;weeks<=104;weeks++){
+    const candidate=new Date(base);
+    candidate.setDate(base.getDate()-7*weeks);
+    const key=dateKeyLocal(candidate);
+    const board=state.board[key];
+    if(board && Object.keys(board).some(period=>board[period])){
+      copied={...board};
+      break;
+    }
+  }
+  state.board[dateStr]=copied||{};
+  save();
+}
+function renderBoard(){const box=$('board');box.innerHTML='';ensureBoardForDate(state.date);for(let i=1;i<=6;i++){const cid=state.board[state.date][i],c=cid?cls(cid):null;const div=document.createElement('div');div.className='slot'+(c?' filled':'');div.draggable=!!c;div.innerHTML=c?`<div class="period">${i}時間目</div><div>${c.name}</div><button class="slotClear">外す</button>`:`<div class="period">${i}時間目</div><div>空き</div>`;div.ondragstart=e=>{if(c){e.dataTransfer.setData('classId',c.id);e.dataTransfer.setData('fromPeriod',i)}};div.ondragover=e=>e.preventDefault();div.ondrop=e=>{e.preventDefault();const id=e.dataTransfer.getData('classId');if(!id)return;const from=e.dataTransfer.getData('fromPeriod'),old=state.board[state.date][i];if(from&&String(from)!==String(i)){old?state.board[state.date][from]=old:delete state.board[state.date][from]}state.board[state.date][i]=id;save();renderBoard()};div.onclick=e=>{if(e.target.classList.contains('slotClear')){e.stopPropagation();delete state.board[state.date][i];save();renderBoard();return}if(c)openClass(c.id)};box.appendChild(div)}}
+function renderClasses(){const grid=$('classGrid');grid.innerHTML='';for(let idx=0;idx<24;idx++){const slot=document.createElement('div');slot.className='classSlot'+(state.classLayout[idx]?'':' empty');slot.ondragover=e=>{e.preventDefault();slot.classList.add('dragOver')};slot.ondragleave=()=>slot.classList.remove('dragOver');slot.ondrop=e=>{e.preventDefault();slot.classList.remove('dragOver');const id=e.dataTransfer.getData('classId'),fromGrid=e.dataTransfer.getData('fromClassGrid');if(!id||fromGrid!=='1')return;const from=state.classLayout.findIndex(x=>x===id),old=state.classLayout[idx];state.classLayout[idx]=id;if(from>=0)state.classLayout[from]=old||null;save();renderClasses()};const c=cls(state.classLayout[idx]);if(c){const rec=state.records.filter(r=>r.date===state.date&&r.classId===c.id).length;const card=document.createElement('div');card.className='classCard '+(c.color||'gray');card.draggable=true;card.innerHTML=`<div class="classTitle">${c.name}</div><div class="classMeta">今日の記録 ${rec}件</div><div class="classMeta">実施 ${c.hours||0}時間</div>`;card.ondragstart=e=>{e.dataTransfer.setData('classId',c.id);e.dataTransfer.setData('fromClassGrid','1')};card.onclick=()=>state.mode==='report'?openReport():openClass(c.id);slot.appendChild(card)}grid.appendChild(slot)}}
+
+function openClass(id){state.currentClass=id;save();show('recordView');renderRecordPage()}
+function openReport(){show('reportView');renderReport()}
+function renderRecordPage(){
+  if(!state.currentClass)return;
+  const c=cls(state.currentClass),d=data();
+  if(!d.gridRows)d.gridRows=6;if(!d.gridCols)d.gridCols=7;
+  const count=getVisibleStudentCount(state.currentClass);
+  $('recordTitle').textContent=c.name;
+  renderRecordSelectors();
+  document.querySelector('.sideTitle').textContent='番号（'+count+'人）';
+  if(d.bgVisible===undefined)d.bgVisible=true;
+  $('seatImage').src=d.image||'';
+  $('seatImage').style.display=(d.image&&d.bgVisible)?'block':'none';
+  $('noImage').style.display=d.image?'none':'flex';
+  const bgBtn=$('bgToggleBtn');
+  if(bgBtn){
+    bgBtn.querySelectorAll('button').forEach(b=>b.classList.toggle('active',(d.bgVisible&&b.dataset.bg==='on')||(!d.bgVisible&&b.dataset.bg==='off')));
+  }
+  const lockBtn=$('lockBtn');
+  lockBtn.textContent=d.locked?'配置ロック ON':'配置ロック OFF';
+  lockBtn.classList.toggle('active',!!d.locked);lockBtn.classList.toggle('off',!d.locked);
+  $('stage').classList.toggle('placeMode',!d.locked);
+  $('gridRowsInput').value=d.gridRows;$('gridColsInput').value=d.gridCols;
+  renderPlacementGrid();
+  const nameBtn=$('nameToggleBtn');
+  if(nameBtn){nameBtn.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b.dataset.name===state.nameDisplay));}
+  renderTestToggle();
+  renderRoster();
+  renderStudents();
+  renderPreviousAbsence();
+  renderLessonMemos();
+  renderBalancePanel();
+  renderRecords();
+}
+function getVisibleStudentCount(classId){
+  const c=cls(classId);
+  const roster=state.classData[classId]?.roster||{};
+  const nums=Object.keys(roster).map(n=>Number(n)).filter(n=>Number.isFinite(n)&&n>0);
+  if(nums.length){
+    return Math.min(40, Math.max(...nums));
+  }
+  return Math.min(40, Math.max(1, Number(c?.count||40)));
+}
+function getDayMeta(classId=state.currentClass,date=state.date){const d=state.classData[classId];d.dayMeta=d.dayMeta||{};d.dayMeta[date]=d.dayMeta[date]||{test:false,memo:''};return d.dayMeta[date]}
+function renderTestToggle(){const btn=$('testToggleBtn');if(!btn||!state.currentClass)return;const meta=getDayMeta();btn.checked=!!meta.test}
+function escapeOptionText(v){return String(v||'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;')}
+function renderRecordSelectors(){
+  const ls=$('lessonSelect'), os=$('observationSelect'); if(!ls||!os||!state.currentClass)return;
+  const c=cls(state.currentClass), d=data(), meta=getDayMeta();
+
+  // 授業内容は「現在のクラスに設定された授業内容リスト」だけを表示する。
+  // 以前の選択が別リストの項目だった場合は混ぜず、設定リストの先頭へ戻す。
+  let items=classLessonItems(state.currentClass).filter(Boolean);
+  if(!items.length)items=['授業内容未設定'];
+  let currentLesson=meta.lessonContent||d.lastLessonContent||items[0]||'';
+  if(!items.includes(currentLesson))currentLesson=items[0]||'';
+  ls.innerHTML=items.map(x=>`<option value="${escapeOptionText(x)}">${escapeOptionText(x)}</option>`).join('');
+  ls.value=currentLesson;
+  meta.lessonContent=currentLesson;
+  d.lastLessonContent=currentLesson;
+
+  // 見取り内容は、前回選択 → クラス設定 → 空欄 の順で初期選択する。
+  const tagExists=id=>state.tagSets.some(t=>t.id===id);
+  let currentObs=meta.observationId||d.lastObservationId||c.tagSetId||'';
+  if(!tagExists(currentObs))currentObs=tagExists(c.tagSetId)?c.tagSetId:(state.tagSets[0]?.id||'');
+  os.innerHTML=state.tagSets.map(t=>`<option value="${t.id}">${escapeOptionText(t.name)}</option>`).join('');
+  os.value=currentObs;
+  meta.observationId=currentObs;
+  d.lastObservationId=currentObs;
+}
+function renderLessonMemos(){const todayEl=$('todayMemo'),prevEl=$('previousMemo'),dateEl=$('previousMemoDate');if(!todayEl||!prevEl||!state.currentClass)return;const meta=getDayMeta();if(document.activeElement!==todayEl)todayEl.value=meta.memo||'';const d=data();const dayMeta=d.dayMeta||{};const dates=Object.keys(dayMeta).filter(x=>x<state.date&&(dayMeta[x]?.memo||'').trim()).sort().reverse();if(dates.length){prevEl.textContent=dayMeta[dates[0]].memo||''; const dt=new Date(dates[0]+'T00:00:00'),w=['日','月','火','水','木','金','土']; if(dateEl)dateEl.textContent=`${dt.getMonth()+1}/${dt.getDate()}(${w[dt.getDay()]})`;}else{prevEl.textContent='前回のメモはありません'; if(dateEl)dateEl.textContent='';}}
+function isPlacementMode(){return !!($('seatMakerBox')?.classList.contains('open'))}
+function selectPlacement(num,add=false){
+  if(!state.currentClass||data().locked)return;
+  const key=String(num);
+  if(!add)selectedStudentNos.clear();
+  if(add&&selectedStudentNos.has(key))selectedStudentNos.delete(key);else selectedStudentNos.add(key);
+  selectedPlacementNo=selectedStudentNos.size===1?[...selectedStudentNos][0]:null;
+  renderRoster();renderStudents();
+}
+function gridGeometry(){
+  const d=data(),ar=$('stage').getBoundingClientRect();
+  return {ar,rows:Math.max(1,Number(d.gridRows||6)),cols:Math.max(1,Number(d.gridCols||7)),cw:ar.width/Math.max(1,Number(d.gridCols||7)),ch:ar.height/Math.max(1,Number(d.gridRows||6))};
+}
+function snappedPosition(row,col){
+  const g=gridGeometry();
+  return {x:Math.max(0,Math.min(g.ar.width-116,col*g.cw+g.cw/2-58)),y:Math.max(0,Math.min(g.ar.height-76,row*g.ch+g.ch/2-38))};
+}
+function cellFromClient(clientX,clientY){
+  const g=gridGeometry();
+  return {row:Math.max(0,Math.min(g.rows-1,Math.floor((clientY-g.ar.top)/g.ch))),col:Math.max(0,Math.min(g.cols-1,Math.floor((clientX-g.ar.left)/g.cw)))};
+}
+function renderPlacementGrid(){
+  const grid=$('placementGrid');if(!grid||!state.currentClass)return;
+  const d=data(),active=isPlacementMode();
+  grid.classList.toggle('active',active);$('stage').classList.toggle('gridActive',active&&!d.locked);
+  grid.style.gridTemplateRows=`repeat(${d.gridRows},1fr)`;grid.style.gridTemplateColumns=`repeat(${d.gridCols},1fr)`;
+  grid.innerHTML='';for(let i=0;i<d.gridRows*d.gridCols;i++){const c=document.createElement('div');c.className='placementGridCell';grid.appendChild(c)}
+}
+function placeSelectionAt(clientX,clientY){
+  if(!state.currentClass||data().locked||selectedStudentNos.size!==1)return;
+  const d=data(),cell=cellFromClient(clientX,clientY),target=snappedPosition(cell.row,cell.col),num=[...selectedStudentNos][0];
+  let occupied=null;
+  Object.entries(d.positions||{}).forEach(([n,p])=>{
+    if(n===num)return;
+    const g=gridGeometry();
+    const cc=cellFromClient(g.ar.left+p.x+58,g.ar.top+p.y+38);
+    if(cc.row===cell.row&&cc.col===cell.col)occupied=n;
+  });
+  const old=d.positions[num]?{...d.positions[num]}:null;
+  d.positions[num]=target;
+  if(occupied){
+    if(old)d.positions[occupied]=old;
+    else delete d.positions[occupied];
+  }
+  save();renderRecordPage();
+}
+function alignSelected(kind){
+  if(!state.currentClass||data().locked||!selectedStudentNos.size)return;
+  const d=data(),nums=[...selectedStudentNos].filter(n=>d.positions[n]);
+  if(!nums.length)return;
+
+  const g=gridGeometry();
+  const cardW=116,cardH=76,margin=4;
+
+  nums.forEach(n=>{
+    const p=d.positions[n];
+    // カード中心から、現在所属しているガイドマスを判定する。
+    const centerX=p.x+cardW/2;
+    const centerY=p.y+cardH/2;
+    const col=Math.max(0,Math.min(g.cols-1,Math.floor(centerX/g.cw)));
+    const row=Math.max(0,Math.min(g.rows-1,Math.floor(centerY/g.ch)));
+
+    const cellLeft=col*g.cw;
+    const cellTop=row*g.ch;
+    const cellRight=(col+1)*g.cw;
+    const cellBottom=(row+1)*g.ch;
+
+    // 各席をそれぞれの所属マス内で寄せる。行・列・選択形状は維持する。
+    if(kind==='left'){
+      p.x=Math.max(cellLeft,Math.min(cellRight-cardW,cellLeft+margin));
+    }else if(kind==='right'){
+      p.x=Math.max(cellLeft,Math.min(cellRight-cardW,cellRight-cardW-margin));
+    }else if(kind==='top'){
+      p.y=Math.max(cellTop,Math.min(cellBottom-cardH,cellTop+margin));
+    }else if(kind==='bottom'){
+      p.y=Math.max(cellTop,Math.min(cellBottom-cardH,cellBottom-cardH-margin));
+    }
+
+    // 座席表全体からもはみ出さないよう最終調整する。
+    p.x=Math.max(0,Math.min(g.ar.width-cardW,p.x));
+    p.y=Math.max(0,Math.min(g.ar.height-cardH,p.y));
+  });
+
+  save();renderRecordPage();
+}
+function renderRoster(){
+  const box=$('roster');
+  box.innerHTML='';
+  if(!state.currentClass)return;
+  const d=data();
+  const count=getVisibleStudentCount(state.currentClass);
+  for(let i=1;i<=count;i++){
+    const chip=document.createElement('div');
+    chip.className='numChip'+(d.positions[i]?' used':'')+(selectedStudentNos.has(String(i))?' selected multiSelected':'');
+    chip.textContent=i;
+    chip.draggable=!d.locked;
+    chip.ondragstart=e=>{
+      if(d.locked){e.preventDefault();return}
+      e.dataTransfer.setData('studentNo',i);
+    };
+    chip.onclick=()=>selectPlacement(i);
+    box.appendChild(chip);
+  }
+}
+function isAbsent(classId,num,date=state.date){const d=state.classData[classId];return !!(d?.absences?.[date]?.[String(num)])}
+function toggleAbsent(num){if(!state.currentClass)return;const d=data();d.absences=d.absences||{};d.absences[state.date]=d.absences[state.date]||{};const key=String(num);if(d.absences[state.date][key])delete d.absences[state.date][key];else d.absences[state.date][key]=true;if(!Object.keys(d.absences[state.date]).length)delete d.absences[state.date];save();renderRecordPage()}
+function renderPreviousAbsence(){
+  const el=$('previousAbsence');
+  if(!el||!state.currentClass)return;
+  const d=data();
+  const abs=d.absences||{};
+  const base=new Date(state.date+'T00:00:00');
+  const byDate={};
+  Object.keys(abs).forEach(date=>{
+    const dt=new Date(date+'T00:00:00');
+    const diff=(base-dt)/(1000*60*60*24);
+    if(diff>=0&&diff<=7&&Object.keys(abs[date]||{}).length){
+      byDate[date]=Object.keys(abs[date]||{}).map(num=>Number(num)).sort((a,b)=>a-b);
+    }
+  });
+  const dates=Object.keys(byDate).sort((a,b)=>b.localeCompare(a));
+  if(!dates.length){el.textContent='最近の欠席者：なし';return}
+  const week=['日','月','火','水','木','金','土'];
+  const lines=dates.map(date=>{
+    const dt=new Date(date+'T00:00:00');
+    const label=`(${dt.getMonth()+1}/${dt.getDate()}/${week[dt.getDay()]})`;
+    const names=byDate[date].map(num=>{
+      const name=studentName(state.currentClass,num);
+      return `${num}${name?' '+name:''}`;
+    }).join(', ');
+    return `${label} ${names}`;
+  });
+  el.textContent='最近の欠席者：'+lines.join('　');
+}
+function createStudentTile(num,pos){
+  const d=data(),classId=state.currentClass;
+  const absent=isAbsent(classId,num);
+  const tile=document.createElement('div');
+  tile.className='studentTile'+(d.locked?' locked':'')+(absent?' absent':'')+(selectedStudentNos.has(String(num))?' selected multiSelected':'');
+  tile.style.left=pos.x+'px';tile.style.top=pos.y+'px';tile.dataset.num=num;
+  const name=studentName(classId,num);
+  tile.innerHTML=`<div class="studentTop"><div class="studentNo">${absent?'欠':num}</div><div class="studentName">${name}</div></div><div class="studentBtns"><button class="good">👍</button><button class="bad">✏️</button></div>`;
+  tile.querySelector('.studentNo').onclick=e=>{e.stopPropagation(); if(d.locked)toggleAbsent(num); else selectPlacement(num)};
+  tile.querySelector('.studentName').onclick=e=>{e.stopPropagation(); if(!d.locked)selectPlacement(num)};
+  const handleRecordButton=e=>{
+    e.stopPropagation();
+    if(isPlacementMode()&&!d.locked){
+      if(!selectedStudentNos.has(String(num)))selectPlacement(num);
+      return;
+    }
+    openRecordModal(num,e.currentTarget.classList.contains('good')?'good':'bad');
+  };
+  tile.querySelector('.good').onclick=handleRecordButton;
+  tile.querySelector('.bad').onclick=handleRecordButton;
+  tile.onpointerdown=e=>{if(d.locked||e.target.tagName==='BUTTON'||e.target.classList.contains('studentNo')||e.target.classList.contains('studentName'))return;draggingTile=tile;tile.setPointerCapture(e.pointerId);const r=tile.getBoundingClientRect();dragOffset={x:e.clientX-r.left,y:e.clientY-r.top}};
+  tile.onpointermove=e=>{if(draggingTile!==tile||d.locked)return;const ar=$('stage').getBoundingClientRect();tile.style.left=Math.max(0,Math.min(ar.width-tile.offsetWidth,e.clientX-ar.left-dragOffset.x))+'px';tile.style.top=Math.max(0,Math.min(ar.height-tile.offsetHeight,e.clientY-ar.top-dragOffset.y))+'px'};
+  tile.onpointerup=e=>{if(draggingTile===tile){d.positions[num]={x:parseFloat(tile.style.left),y:parseFloat(tile.style.top)};draggingTile=null;save();renderRoster()}};
+  return tile;
+}
+function renderStudents(){[...$('stage').querySelectorAll('.studentTile')].forEach(e=>e.remove());if(!state.currentClass)return;const d=data();Object.entries(d.positions||{}).forEach(([num,pos])=>$('stage').appendChild(createStudentTile(num,pos)))}
+$('stage').ondragover=e=>{if(state.currentClass&&!data().locked)e.preventDefault()};$('stage').ondrop=e=>{e.preventDefault();if(!state.currentClass||data().locked)return;const num=e.dataTransfer.getData('studentNo');if(!num)return;const ar=$('stage').getBoundingClientRect();data().positions[num]={x:Math.max(0,Math.min(ar.width-116,e.clientX-ar.left-58)),y:Math.max(0,Math.min(ar.height-76,e.clientY-ar.top-38))};save();renderRecordPage()};
+$('stage').onclick=e=>{if(!state.currentClass||data().locked||!isPlacementMode()||selectedStudentNos.size!==1)return;if(e.target.closest('.studentTile')||e.target.closest('.balancePanel'))return;placeSelectionAt(e.clientX,e.clientY)};
+$('stage').addEventListener('pointerdown',e=>{
+  if(!state.currentClass||data().locked||!isPlacementMode()||e.target.closest('.studentTile')||e.target.closest('button')||e.pointerType!=='mouse')return;
+  const ar=$('stage').getBoundingClientRect();selectionDrag={sx:e.clientX-ar.left,sy:e.clientY-ar.top,cx:e.clientX-ar.left,cy:e.clientY-ar.top,moved:false};
+});
+$('stage').addEventListener('pointermove',e=>{
+  if(!selectionDrag)return;const ar=$('stage').getBoundingClientRect();selectionDrag.cx=e.clientX-ar.left;selectionDrag.cy=e.clientY-ar.top;
+  if(Math.hypot(selectionDrag.cx-selectionDrag.sx,selectionDrag.cy-selectionDrag.sy)>5)selectionDrag.moved=true;
+  if(selectionDrag.moved){const r=$('selectionRect'),x=Math.min(selectionDrag.sx,selectionDrag.cx),y=Math.min(selectionDrag.sy,selectionDrag.cy);r.style.display='block';r.style.left=x+'px';r.style.top=y+'px';r.style.width=Math.abs(selectionDrag.cx-selectionDrag.sx)+'px';r.style.height=Math.abs(selectionDrag.cy-selectionDrag.sy)+'px';}
+});
+$('stage').addEventListener('pointerup',e=>{
+  if(!selectionDrag)return;const sd=selectionDrag;selectionDrag=null;$('selectionRect').style.display='none';if(!sd.moved)return;
+  const x1=Math.min(sd.sx,sd.cx),x2=Math.max(sd.sx,sd.cx),y1=Math.min(sd.sy,sd.cy),y2=Math.max(sd.sy,sd.cy);selectedStudentNos.clear();
+  [...$('stage').querySelectorAll('.studentTile')].forEach(t=>{const x=parseFloat(t.style.left),y=parseFloat(t.style.top);if(x+116>=x1&&x<=x2&&y+76>=y1&&y<=y2)selectedStudentNos.add(String(t.dataset.num))});
+  selectedPlacementNo=selectedStudentNos.size===1?[...selectedStudentNos][0]:null;renderRoster();renderStudents();
+});
+
+
+function renderBalancePanel(){
+  const panel=$('balancePanel'),list=$('balanceList');
+  if(!panel||!list||!state.currentClass)return;
+  const c=cls(state.currentClass);
+  const rec=new Set(state.records.filter(r=>r.classId===state.currentClass).map(r=>String(r.num)));
+  const none=[];
+  for(let i=1;i<=getVisibleStudentCount(state.currentClass);i++)if(!rec.has(String(i)))none.push(displayStudentLabel(i));
+  list.textContent=none.length?none.join('　'):'全員に記録があります';
+}
+function toggleBalancePanel(){const p=$('balancePanel');if(!p)return;p.classList.toggle('open');renderBalancePanel()}
+
+function openRecordModal(num,type){const set=tagSet(getDayMeta().observationId||cls(state.currentClass).tagSetId);selectedRecord={num,tags:{good:[],bad:[]}};$('recordModalTitle').textContent=`${num}番：記録`;function renderTagButtons(kind,items,gridId){const grid=$(gridId);grid.innerHTML='';items.forEach(t=>{const b=document.createElement('button');b.textContent=t;b.onclick=()=>{const arr=selectedRecord.tags[kind];if(arr.includes(t)){selectedRecord.tags[kind]=arr.filter(x=>x!==t);b.classList.remove('selected')}else{arr.push(t);b.classList.add('selected')}};grid.appendChild(b)});}renderTagButtons('good',set.good||[],'recordGoodTagGrid');renderTagButtons('bad',set.bad||[],'recordBadTagGrid');$('memo').value='';$('recordModal').style.display='flex'}
+function renderRecords(){const box=$('records');box.innerHTML='';if(!state.currentClass)return;const list=state.records.filter(r=>r.date===state.date&&r.classId===state.currentClass).slice().reverse();if(!list.length){box.innerHTML='<span class="small">今日の記録はまだありません</span>';return}list.forEach(r=>{const div=document.createElement('div');div.className='record';div.textContent=`${r.time}｜${r.num}番｜${r.type==='good'?'👍':'✏️'}｜${r.tag}${r.test?'｜テスト実施':''}${r.memo?'｜'+r.memo:''}`;box.appendChild(div)})}
+function renderReport(){const box=$('reportGrid');box.innerHTML='';state.classes.forEach(c=>{const all=state.records.filter(r=>r.classId===c.id),good=all.filter(r=>r.type==='good').length,bad=all.filter(r=>r.type==='bad').length,recorded=new Set(all.map(r=>String(r.num))),none=[];for(let i=1;i<=Math.min(40,Number(c.count||40));i++)if(!recorded.has(String(i)))none.push(i+'番');const div=document.createElement('div');div.className='reportCard';div.innerHTML=`<h2>${c.name}</h2><p>実施時間数：<b>${c.hours||0}</b>時間</p><p>👍 ${good}件　✏️ ${bad}件</p><div class="reportCard obs"><b>観察バランス</b><br><span class="small">記録がまだない番号</span><br>${none.length?none.join('、'):'全員に記録あり'}</div>`;box.appendChild(div)})}
+
+function renderSettings(){renderClassSettings();renderTagSettings();renderLessonListSettings()}
+function renderClassSettings(){
+  const grid=$('classSettingsGrid');
+  grid.innerHTML='';
+  for(let idx=0;idx<24;idx++){
+    const slot=document.createElement('div');
+    const cid=state.classLayout[idx];
+    const c=cid?cls(cid):null;
+    slot.className='settingClassSlot'+(c?'':' empty');
+    if(c){
+      const div=document.createElement('div');
+      div.className='settingClassCard '+(c.color||'gray');
+      div.innerHTML=`<div class="classTitle">${c.name}</div><div class="classMeta">${c.count||40}人</div><div class="classMeta">見取り：${tagSet(c.tagSetId).name}</div><div class="classMeta">授業：${classLessonList(c.id)?.name||'未設定'}</div>`;
+      div.onclick=()=>openClassEdit(c.id);
+      slot.appendChild(div);
+    }
+    grid.appendChild(slot);
+  }
+  const add=document.createElement('div');
+  add.className='settingTile add';
+  add.textContent='＋クラス追加';
+  add.onclick=()=>openClassEdit(null);
+  grid.appendChild(add);
+}
+function renderTagSettings(){
+  if(!state.tagSets.length){state.tagSets.push({id:'tag'+Date.now(),name:'新しい見取り内容',good:['よかったこと'],bad:['気になったこと']})}
+  if(!editingTagSetId || !state.tagSets.some(t=>t.id===editingTagSetId))editingTagSetId=state.tagSets[0].id;
+  renderLessonTitleList();
+  loadLessonEditor(editingTagSetId);
+}
+
+function reorderById(arr,fromId,toId){
+  if(!fromId||!toId||fromId===toId)return;
+  const from=arr.findIndex(x=>x.id===fromId),to=arr.findIndex(x=>x.id===toId);
+  if(from<0||to<0)return;
+  const [item]=arr.splice(from,1);
+  arr.splice(to,0,item);
+}
+function renderLessonTitleList(){
+  const grid=$('tagSetGrid');
+  if(!grid)return;
+  const q=($('lessonSearchInput')?.value||'').trim().toLowerCase();
+  grid.innerHTML='';
+  state.tagSets.filter(t=>!q || t.name.toLowerCase().includes(q)).forEach(t=>{
+    const btn=document.createElement('button');
+    btn.className='lessonTitleBtn'+(t.id===editingTagSetId?' active':'');
+    btn.draggable=true;
+    btn.dataset.id=t.id;
+    btn.innerHTML=`<span class="dragHandle">≡</span>${t.name}`;
+    btn.onclick=()=>{saveLessonEdit(false);editingTagSetId=t.id;loadLessonEditor(t.id);renderLessonTitleList()};
+    btn.ondragstart=e=>{e.dataTransfer.setData('tagSetId',t.id);btn.classList.add('dragging')};
+    btn.ondragend=()=>btn.classList.remove('dragging');
+    btn.ondragover=e=>e.preventDefault();
+    btn.ondrop=e=>{e.preventDefault();const from=e.dataTransfer.getData('tagSetId');reorderById(state.tagSets,from,t.id);save();renderLessonTitleList();renderRecordSelectors();};
+    grid.appendChild(btn);
+  });
+}
+function splitLessonLines(v){return String(v||'').split(/\r?\n/).map(x=>x.trim()).filter(Boolean)}
+function loadLessonEditor(id){
+  const t=tagSet(id);
+  if(!$('lessonNameInput'))return;
+  $('lessonNameInput').value=t?.name||'';
+  $('lessonGoodText').value=(t?.good||[]).join('\n');
+  $('lessonBadText').value=(t?.bad||[]).join('\n');
+  $('deleteLessonBtn').style.visibility=state.tagSets.length>1?'visible':'hidden';
+}
+function newLessonEdit(){
+  const id='tag'+Date.now();
+  state.tagSets.push({id,name:'新しい見取り内容',good:['よかったこと'],bad:['気になったこと']});
+  editingTagSetId=id;
+  save();
+  renderTagSettings();
+}
+function saveLessonEdit(doRender=true){
+  if(!editingTagSetId || !$('lessonNameInput'))return;
+  const t=tagSet(editingTagSetId);
+  if(!t)return;
+  t.name=$('lessonNameInput').value.trim()||'新しい見取り内容';
+  t.good=splitLessonLines($('lessonGoodText').value);
+  t.bad=splitLessonLines($('lessonBadText').value);
+  if(!t.good.length)t.good=['よかったこと'];
+  if(!t.bad.length)t.bad=['気になったこと'];
+  save();
+  if(doRender)renderTagSettings();
+}
+function copyTagSet(id=editingTagSetId){
+  saveLessonEdit(false);
+  const t=tagSet(id);
+  const nid='tag'+Date.now();
+  state.tagSets.push({id:nid,name:(t?.name||'見取り内容')+'（コピー）',good:[...(t?.good||[])],bad:[...(t?.bad||[])]});
+  editingTagSetId=nid;
+  save();
+  renderTagSettings();
+}
+function deleteLessonEdit(){
+  if(!editingTagSetId)return;
+  if(state.tagSets.length<=1){alert('見取り内容は最低1つ必要です。');return}
+  if(!confirm('この見取り内容を削除しますか？'))return;
+  const fallback=state.tagSets.find(t=>t.id!==editingTagSetId)?.id;
+  state.classes.forEach(c=>{if(c.tagSetId===editingTagSetId)c.tagSetId=fallback});
+  state.tagSets=state.tagSets.filter(t=>t.id!==editingTagSetId);
+  editingTagSetId=fallback;
+  save();
+  renderTagSettings();
+}
+
+
+let editingLessonListId=null;
+function renderLessonListSettings(){
+  if(!state.lessonLists)state.lessonLists=[];
+  if(!state.lessonLists.length)state.lessonLists.push({id:'lessonList'+Date.now(),name:'基本',items:['５年外国語 Unit1']});
+  if(!editingLessonListId||!state.lessonLists.some(x=>x.id===editingLessonListId))editingLessonListId=state.lessonLists[0].id;
+  renderLessonListEditor(editingLessonListId);renderLessonListTitleList();
+}
+function lessonList(id){return (state.lessonLists||[]).find(x=>x.id===id)||state.lessonLists[0]}
+function renderLessonListTitleList(){
+  const grid=$('lessonListGrid');if(!grid)return;grid.innerHTML='';
+  const q=($('lessonListSearchInput')?.value||'').trim().toLowerCase();
+  (state.lessonLists||[]).filter(x=>!q||x.name.toLowerCase().includes(q)||(x.items||[]).join('\n').toLowerCase().includes(q)).forEach(x=>{
+    const b=document.createElement('button');
+    b.className='lessonTitleBtn'+(x.id===editingLessonListId?' active':'');
+    b.draggable=true;b.dataset.id=x.id;
+    b.innerHTML=`<span class="dragHandle">≡</span>${x.name}`;
+    b.onclick=()=>{saveLessonListEdit(false);editingLessonListId=x.id;renderLessonListSettings()};
+    b.ondragstart=e=>{e.dataTransfer.setData('lessonListId',x.id);b.classList.add('dragging')};
+    b.ondragend=()=>b.classList.remove('dragging');
+    b.ondragover=e=>e.preventDefault();
+    b.ondrop=e=>{e.preventDefault();const from=e.dataTransfer.getData('lessonListId');reorderById(state.lessonLists,from,x.id);save();renderLessonListTitleList();renderRecordSelectors();};
+    grid.appendChild(b)
+  });
+}
+function renderLessonListEditor(id){const x=lessonList(id);if(!$('lessonListNameInput'))return;$('lessonListNameInput').value=x?.name||'';$('lessonListText').value=(x?.items||[]).join('\n');$('deleteLessonListBtn').style.visibility=state.lessonLists.length>1?'visible':'hidden';}
+function splitLines(v){return String(v||'').split(/\r?\n/).map(x=>x.trim()).filter(Boolean)}
+function saveLessonListEdit(notify=false){if(!editingLessonListId||!$('lessonListNameInput'))return;const x=lessonList(editingLessonListId);x.name=$('lessonListNameInput').value.trim()||'新しい授業内容リスト';x.items=splitLines($('lessonListText').value);if(!x.items.length)x.items=['授業内容未設定'];save();renderLessonListTitleList();if(notify)alert('授業内容リストを保存しました。')}
+function newLessonListEdit(){saveLessonListEdit(false);const id='lessonList'+Date.now();state.lessonLists.push({id,name:'新しい授業内容リスト',items:['新しい授業内容']});editingLessonListId=id;save();renderLessonListSettings()}
+function copyLessonListEdit(){const x=lessonList(editingLessonListId);const id='lessonList'+Date.now();state.lessonLists.push({id,name:(x?.name||'授業内容リスト')+'（コピー）',items:[...(x?.items||[])]});editingLessonListId=id;save();renderLessonListSettings()}
+function deleteLessonListEdit(){if(state.lessonLists.length<=1){alert('授業内容リストは最低1つ必要です。');return}if(!confirm('この授業内容リストを削除しますか？'))return;const fallback=state.lessonLists.find(x=>x.id!==editingLessonListId)?.id;state.classes.forEach(c=>{if(c.lessonListId===editingLessonListId)c.lessonListId=fallback});state.lessonLists=state.lessonLists.filter(x=>x.id!==editingLessonListId);editingLessonListId=state.lessonLists[0].id;save();renderLessonListSettings();renderClassSettings()}
+function finalizeLessonRecord(){if(!state.currentClass){alert('クラスを選択してください。');return}const c=cls(state.currentClass), meta=getDayMeta();meta.confirmed=true;meta.lessonContent=($('lessonSelect')?.value)||meta.lessonContent||'';meta.observationId=($('observationSelect')?.value)||meta.observationId||c.tagSetId;data().lastLessonContent=meta.lessonContent;data().lastObservationId=meta.observationId;c.tagSetId=meta.observationId;if(!meta.hourCounted){c.hours=(c.hours||0)+1;meta.hourCounted=true;}state.board[state.date]=state.board[state.date]||{};if(!Object.values(state.board[state.date]).includes(state.currentClass)){for(let i=1;i<=6;i++){if(!state.board[state.date][i]){state.board[state.date][i]=state.currentClass;break;}}}save();render();show('homeView');alert('授業記録を確定しました。')}
+
+function openClassEdit(id){editingClassId=id;const c=id?cls(id):{name:'',count:35,color:'grade3',tagSetId:state.tagSets[0].id,lessonListId:defaultLessonListId};$('classModalTitle').textContent=id?'クラス編集':'クラス追加';$('classNameInput').value=c.name;$('classCountInput').value=c.count||35;$('classColorInput').value=c.color||'grade3';$('classTagSetInput').innerHTML=state.tagSets.map(t=>`<option value="${t.id}">${t.name}</option>`).join('');$('classTagSetInput').value=c.tagSetId||state.tagSets[0].id;const lli=$('classLessonListInput');if(lli){lli.innerHTML=(state.lessonLists||[]).map(g=>`<option value="${g.id}">${g.name}</option>`).join('');lli.value=c.lessonListId||defaultLessonListId;}const roster=data(id)?.roster||{};$('rosterText').value=Object.entries(roster).map(([n,r])=>`${n}\t${r.kanji||''}\t${r.kana||''}`).join('\n');updateRosterPreview();$('deleteClassBtn').style.display=id?'inline-block':'none';$('classModal').style.display='flex'}
+function saveClassEdit(){let id=editingClassId;if(!id){id='c'+Date.now();state.classes.push({id,name:'',color:'grade3',hours:0,count:35,tagSetId:state.tagSets[0].id,lessonListId:defaultLessonListId});state.classData[id]={image:'',locked:false,positions:{},roster:{},absences:{},dayMeta:{}};const empty=state.classLayout.findIndex(x=>!x);if(empty>=0)state.classLayout[empty]=id;else state.classLayout.push(id)}const c=cls(id);const oldTagSetId=c.tagSetId;const oldLessonListId=c.lessonListId;c.name=$('classNameInput').value.trim()||'新しいクラス';c.count=Math.min(40,Math.max(1,Number($('classCountInput').value||35)));c.color=$('classColorInput').value;c.tagSetId=$('classTagSetInput').value;c.lessonListId=($('classLessonListInput')?.value)||defaultLessonListId;const cd=state.classData[id]||(state.classData[id]={image:'',locked:false,positions:{},roster:{},absences:{},dayMeta:{}});if(oldTagSetId!==c.tagSetId){cd.lastObservationId=c.tagSetId;Object.values(cd.dayMeta||{}).forEach(m=>{if(m && !m.confirmed)m.observationId=c.tagSetId;});}if(oldLessonListId!==c.lessonListId){const first=(classLessonItems(id)||[])[0]||'';cd.lastLessonContent=first;Object.values(cd.dayMeta||{}).forEach(m=>{if(m && !m.confirmed)m.lessonContent=first;});}const roster={};parseRosterPaste($('rosterText').value).forEach(r=>roster[r.num]={kanji:r.kanji,kana:r.kana});cd.roster=roster;const max=Math.max(0,...Object.keys(roster).map(Number));if(max&&max<=40)c.count=max;if(state.currentClass===id||!state.currentClass)state.currentClass=id;save();$('classModal').style.display='none';render();alert(Object.keys(roster).length?`名簿を${Object.keys(roster).length}人分登録しました。`:'クラス設定を保存しました。')}
+function deleteClass(){if(!editingClassId||!confirm('このクラスを削除しますか？'))return;state.classes=state.classes.filter(c=>c.id!==editingClassId);state.classLayout=state.classLayout.map(x=>x===editingClassId?null:x);delete state.classData[editingClassId];state.records=state.records.filter(r=>r.classId!==editingClassId);save();$('classModal').style.display='none';render()}
+function updateRosterPreview(){const rows=parseRosterPaste($('rosterText').value);$('rosterPreview').textContent=rows.length?`${rows.length}人を読み込み予定：`+rows.slice(0,3).map(r=>`${r.num}:${r.kanji||'名前なし'}${r.kana?' / '+r.kana:''}`).join('、')+(rows.length>3?' …':''):'貼り付けると読み込み予定人数を表示します。'}
+
+function openTagEdit(id,type){editingTagSetId=id;editingTagType=type;const t=tagSet(id);$('tagEditTitle').textContent=`${t.name}：${type==='good'?'👍 よかったこと':'✏️ 気になったこと'}`;$('editableTagList').innerHTML='';(type==='good'?t.good:t.bad).forEach(addEditableTag);$('tagEditModal').style.display='flex'}
+function addEditableTag(v=''){const div=document.createElement('div');div.className='tagItem';div.innerHTML=`<input value="${String(v).replaceAll('"','&quot;')}"><button class="btn danger">削除</button>`;div.querySelector('button').onclick=()=>div.remove();$('editableTagList').appendChild(div)}
+function saveTagEdit(){const vals=[...$('editableTagList').querySelectorAll('input')].map(i=>i.value.trim()).filter(Boolean);const t=tagSet(editingTagSetId);editingTagType==='good'?t.good=vals:t.bad=vals;save();$('tagEditModal').style.display='none';render()}
+function showSettingsPane(k){
+  ['class','tag','lessonList'].forEach(x=>{
+    const pane=$(x+'SettingsPane');
+    const tab=$(x+'SettingsTab');
+    if(pane)pane.style.display=x===k?'block':'none';
+    if(tab)tab.classList.toggle('active',x===k);
+  });
+  if(k==='tag')renderTagSettings();
+  if(k==='lessonList')renderLessonListSettings();
+}
+
+$('dateInput').onchange=e=>{state.date=e.target.value;save();render()};
+$('recordMode').onclick=()=>setMode('record');$('reportMode').onclick=()=>setMode('report');$('homeBtn').onclick=()=>show('homeView');$('settingsBtn').onclick=()=>{show('settingsView');renderSettings()};
+$('finalSaveBtn').onclick=()=>{if(state.currentClass){finalizeLessonRecord();return} if(!confirm('今日の記録を確定しますか？\n\n・授業ボードに置かれたクラスの実施時間数を更新します。\n・今日の記録は保存されます。'))return;Object.values(state.board[state.date]||{}).forEach(id=>{const c=cls(id);if(c)c.hours=(c.hours||0)+1});save();render();alert('今日の記録を確定しました。')};
+
+let cameraStream=null;
+let capturedSeatImage='';
+
+async function openCameraModal(){
+  if(!state.currentClass){alert('先にクラスを選んでください');return}
+  capturedSeatImage='';
+  $('cameraPreview').style.display='none';
+  $('cameraVideo').style.display='block';
+  $('cameraRetakeBtn').style.display='none';
+  $('cameraUseBtn').style.display='none';
+  $('cameraShotBtn').style.display='inline-block';
+  $('cameraStatus').textContent='カメラ準備中...';
+  $('cameraModal').style.display='flex';
+
+  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+    $('cameraStatus').textContent='この環境ではブラウザからカメラを起動できません。';
+    return;
+  }
+  try{
+    stopCamera();
+    cameraStream=await navigator.mediaDevices.getUserMedia({
+      video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}},
+      audio:false
+    });
+    $('cameraVideo').srcObject=cameraStream;
+    $('cameraStatus').textContent='カメラが起動しました。座席表を画面に入れて「撮影」を押してください。';
+  }catch(err){
+    console.error(err);
+    $('cameraStatus').textContent='カメラを起動できませんでした。権限を確認してください。';
+  }
+}
+
+function stopCamera(){
+  if(cameraStream){
+    cameraStream.getTracks().forEach(t=>t.stop());
+    cameraStream=null;
+  }
+  if($('cameraVideo'))$('cameraVideo').srcObject=null;
+}
+
+function captureSeatPhoto(){
+  const video=$('cameraVideo');
+  if(!video.videoWidth){
+    alert('カメラ映像がまだ準備できていません。数秒待ってください。');
+    return;
+  }
+  const canvas=$('cameraCanvas');
+  canvas.width=video.videoWidth;
+  canvas.height=video.videoHeight;
+  const ctx=canvas.getContext('2d');
+  ctx.drawImage(video,0,0,canvas.width,canvas.height);
+  capturedSeatImage=canvas.toDataURL('image/jpeg',0.88);
+  $('cameraPreview').src=capturedSeatImage;
+  $('cameraPreview').style.display='block';
+  $('cameraVideo').style.display='none';
+  $('cameraRetakeBtn').style.display='inline-block';
+  $('cameraUseBtn').style.display='inline-block';
+  $('cameraShotBtn').style.display='none';
+  $('cameraStatus').textContent='撮影しました。確認してください。';
+}
+
+function useCapturedSeatPhoto(){
+  if(!capturedSeatImage)return;
+  data().image=capturedSeatImage;
+  save();
+  renderRecordPage();
+  stopCamera();
+  $('cameraModal').style.display='none';
+}
+
+function retakeSeatPhoto(){
+  capturedSeatImage='';
+  $('cameraPreview').style.display='none';
+  $('cameraVideo').style.display='block';
+  $('cameraRetakeBtn').style.display='none';
+  $('cameraUseBtn').style.display='none';
+  $('cameraShotBtn').style.display='inline-block';
+  $('cameraStatus').textContent=cameraStream?'カメラ映像に戻りました。':'カメラを再起動します...';
+  if(!cameraStream)openCameraModal();
+}
+
+
+function csvEscape(v){return '"'+String(v??'').replaceAll('"','""')+'"'}
+function downloadTextFile(filename,text,mime='text/csv;charset=utf-8;'){
+  const blob=new Blob([text],{type:mime});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);a.download=filename;document.body.appendChild(a);a.click();
+  setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},0);
+}
+function exportObservationCsv(){
+  saveLessonEdit(false);
+  const rows=['タイトル,よかったこと,気になったこと'];
+  (state.tagSets||[]).forEach(t=>{
+    const max=Math.max((t.good||[]).length,(t.bad||[]).length,1);
+    for(let i=0;i<max;i++)rows.push([t.name,(t.good||[])[i]||'',(t.bad||[])[i]||''].map(csvEscape).join(','));
+  });
+  downloadTextFile('MITORI_見取り内容.csv','\ufeff'+rows.join('\n'));
+}
+function exportLessonListCsv(){
+  saveLessonListEdit(false);
+  const rows=['タイトル,授業内容'];
+  (state.lessonLists||[]).forEach(g=>{(g.items&&g.items.length?g.items:['']).forEach(item=>rows.push([g.name,item].map(csvEscape).join(',')))});
+  downloadTextFile('MITORI_授業内容リスト.csv','\ufeff'+rows.join('\n'));
+}
+
+$('cameraBtn').onclick=()=>openCameraModal();
+$('cameraShotBtn').onclick=captureSeatPhoto;
+$('cameraUseBtn').onclick=useCapturedSeatPhoto;
+$('cameraRetakeBtn').onclick=retakeSeatPhoto;
+$('cameraCloseBtn').onclick=()=>{stopCamera();$('cameraModal').style.display='none'};
+
+$('lockBtn').onclick=()=>{if(!state.currentClass)return;data().locked=!data().locked;selectedPlacementNo=null;selectedStudentNos.clear();save();renderRecordPage()};
+$('nameToggleBtn').onclick=e=>{const v=e.target?.dataset?.name;if(v){state.nameDisplay=v}else{state.nameDisplay=state.nameDisplay==='kanji'?'kana':'kanji'};save();renderRecordPage()};
+$('bgToggleBtn').onclick=e=>{if(!state.currentClass)return;if(data().bgVisible===undefined)data().bgVisible=true;const v=e.target?.dataset?.bg;if(v)data().bgVisible=(v==='on');else data().bgVisible=!data().bgVisible;save();renderRecordPage()};
+$('testToggleBtn').onchange=e=>{if(!state.currentClass)return;const meta=getDayMeta();meta.test=!!e.target.checked;save();renderTestToggle()};
+$('todayMemo').addEventListener('input',e=>{if(!state.currentClass)return;getDayMeta().memo=e.target.value;save()});
+$('lessonSelect').addEventListener('change',e=>{if(!state.currentClass)return;const m=getDayMeta();m.lessonContent=e.target.value;data().lastLessonContent=e.target.value;save();});
+$('observationSelect').addEventListener('change',e=>{if(!state.currentClass)return;const m=getDayMeta();m.observationId=e.target.value;data().lastObservationId=e.target.value;cls(state.currentClass).tagSetId=e.target.value;save();});
+$('seatMakerToggle').onclick=()=>{$('seatMakerBox').classList.toggle('open');selectedStudentNos.clear();selectedPlacementNo=null;renderPlacementGrid();renderRoster();renderStudents()};$('displayOptionsToggle').onclick=()=>$('displayOptionsBox').classList.toggle('open');
+$('todayRecordsToggle').onclick=()=>$('todayRecordsBox').classList.toggle('open');
+$('recordConfirmBtn').onclick=finalizeLessonRecord;
+$('gridRowsInput').onchange=e=>{if(!state.currentClass)return;data().gridRows=Math.max(1,Math.min(12,Number(e.target.value||6)));save();renderPlacementGrid()};
+$('gridColsInput').onchange=e=>{if(!state.currentClass)return;data().gridCols=Math.max(1,Math.min(12,Number(e.target.value||7)));save();renderPlacementGrid()};
+$('alignTools').onclick=e=>{const b=e.target.closest('[data-align]');if(b)alignSelected(b.dataset.align)};
+
+$('resetBtn').onclick=()=>{if(state.currentClass&&confirm('このクラスの番号配置を消しますか？記録は消えません。')){data().positions={};selectedPlacementNo=null;selectedStudentNos.clear();save();renderRecordPage()}};
+$('balanceBtn').onclick=toggleBalancePanel;
+$('recordBtn').onclick=()=>{const good=selectedRecord?.tags?.good||[],bad=selectedRecord?.tags?.bad||[];if(!good.length&&!bad.length){alert('記録内容を1つ以上選んでください');return}const memo=$('memo').value.trim();const time=new Date().toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit'});const meta=getDayMeta();const test=!!meta.test;const lessonContent=meta.lessonContent||'';const observationId=meta.observationId||cls(state.currentClass).tagSetId;if(good.length)state.records.push({date:state.date,classId:state.currentClass,num:selectedRecord.num,type:'good',tag:good.join('・'),tags:good,memo,time,test,lessonContent,observationId});if(bad.length)state.records.push({date:state.date,classId:state.currentClass,num:selectedRecord.num,type:'bad',tag:bad.join('・'),tags:bad,memo,time,test,lessonContent,observationId});$('recordModal').style.display='none';save();render()};
+$('cancelRecordBtn').onclick=()=>$('recordModal').style.display='none';
+$('classSettingsTab').onclick=()=>showSettingsPane('class');$('tagSettingsTab').onclick=()=>showSettingsPane('tag');$('lessonListSettingsTab').onclick=()=>showSettingsPane('lessonList');
+$('cancelClassBtn').onclick=()=>$('classModal').style.display='none';$('saveClassBtn').onclick=saveClassEdit;$('quickRosterSaveBtn').onclick=saveClassEdit;$('deleteClassBtn').onclick=deleteClass;$('rosterText').addEventListener('input',updateRosterPreview);
+$('cancelTagEditBtn').onclick=()=>$('tagEditModal').style.display='none';$('saveTagEditBtn').onclick=saveTagEdit;$('addTagBtn').onclick=()=>addEditableTag('');
+$('resetAllBtn').onclick=()=>{if(confirm('MITORIの保存データを初期化しますか？')){localStorage.removeItem(KEY);location.reload()}};
+$('saveLessonBtn').onclick=()=>saveLessonEdit(true);$('deleteLessonBtn').onclick=deleteLessonEdit;$('copyLessonBtn').onclick=()=>copyTagSet(editingTagSetId);$('newLessonBtn').onclick=newLessonEdit;$('lessonSearchInput').addEventListener('input',renderLessonTitleList);
+$('saveLessonListBtn').onclick=()=>saveLessonListEdit(true);$('deleteLessonListBtn').onclick=deleteLessonListEdit;$('copyLessonListBtn').onclick=copyLessonListEdit;$('newLessonListBtn').onclick=newLessonListEdit;$('lessonListSearchInput').addEventListener('input',renderLessonListTitleList);$('exportObservationBtn').onclick=exportObservationCsv;$('exportLessonListBtn').onclick=exportLessonListCsv;
+render();
+</script>
+</body>
+</html>
