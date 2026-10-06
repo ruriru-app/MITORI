@@ -58,3 +58,48 @@ test('board confirmation finalizes every unique board lesson even when a prior l
   assert.equal(saveCount, 1);
   assert.equal(renderCount, 1);
 });
+
+test('cancelling selected board confirmations rolls back hours once and preserves lesson records', () => {
+  const date = '2026-10-06';
+  const state = {
+    date,
+    board: { [date]: { 1: 'wrong-school', 2: 'correct-school', 3: 'wrong-school' } },
+    records: [{ date, classId: 'wrong-school', num: 4, tag: '発言' }],
+  };
+  const classes = {
+    'wrong-school': { id: 'wrong-school', hours: 3 },
+    'correct-school': { id: 'correct-school', hours: 5 },
+    outside: { id: 'outside', hours: 7 },
+  };
+  const classData = {
+    'wrong-school': { dayMeta: { [date]: { confirmed: true, hourCounted: true, memo: '残すメモ' } } },
+    'correct-school': { dayMeta: { [date]: { confirmed: true, hourCounted: true } } },
+    outside: { dayMeta: { [date]: { confirmed: true, hourCounted: true } } },
+  };
+  let saveCount = 0;
+  let renderCount = 0;
+  const context = {
+    state,
+    cls: id => classes[id] || null,
+    tileData: id => classData[id] || null,
+    save: () => { saveCount += 1; },
+    render: () => { renderCount += 1; },
+  };
+  const cancelBoardLessonConfirmations = vm.runInNewContext(
+    `(${extractFunction('cancelBoardLessonConfirmations')})`,
+    context,
+  );
+
+  const cancelled = cancelBoardLessonConfirmations(['wrong-school', 'wrong-school', 'outside']);
+
+  assert.equal(cancelled, 1);
+  assert.deepEqual(classData['wrong-school'].dayMeta[date], { memo: '残すメモ' });
+  assert.deepEqual(classData['correct-school'].dayMeta[date], { confirmed: true, hourCounted: true });
+  assert.deepEqual(classData.outside.dayMeta[date], { confirmed: true, hourCounted: true });
+  assert.equal(classes['wrong-school'].hours, 2, 'duplicate placement rolls back one counted lesson');
+  assert.equal(classes['correct-school'].hours, 5);
+  assert.equal(classes.outside.hours, 7, 'a lesson outside the board cannot be cancelled here');
+  assert.deepEqual(state.records, [{ date, classId: 'wrong-school', num: 4, tag: '発言' }]);
+  assert.equal(saveCount, 1);
+  assert.equal(renderCount, 1);
+});
