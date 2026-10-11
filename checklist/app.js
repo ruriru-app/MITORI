@@ -36,6 +36,7 @@
     const getMitoriState = options.getMitoriState || (() => ({}));
     const notify = options.notify || (message => root.alert(message));
     const ask = options.confirm || (message => root.confirm(message));
+    const openMainSettings = options.openMainSettings || (() => {});
     const storage = await Storage.openChecklistStorage({ indexedDB: options.indexedDB || root.indexedDB });
     const saveStatusModel = Interactions.createSaveStatusModel({ locale: 'ja-JP' });
     const headerTouchActivation = Interactions.createDoubleActivation({ maxDelayMs: 500, maxDistancePx: 16 });
@@ -61,7 +62,7 @@
     let paletteDraft = null;
     let editingGroupId = null;
     let pendingRestoreInspection = null;
-    let filters = { school: '', grade: '', sort: 'updated' };
+    let filters = { school: '', grade: '' };
 
     const byId = target => document.getElementById(target);
     const listScreen = byId('checklistListScreen');
@@ -182,15 +183,18 @@
       )).join('');
     }
 
+    function filterPills(target, entries, activeValue, attribute) {
+      target.innerHTML = entries.map(([value, label]) => `<button type="button" class="checklistFilterPill${value === activeValue ? ' active' : ''}" ${attribute}="${escapeText(value)}">${escapeText(label)}</button>`).join('');
+    }
+
     function renderFilters() {
-      const schoolSelect = byId('checklistSchoolFilter');
-      const gradeSelect = byId('checklistGradeFilter');
       const schools = unique(workspace.classes.map(item => item.school)).sort((a, b) => a.localeCompare(b, 'ja'));
-      schoolSelect.innerHTML = '<option value="">すべての学校</option>' + schools.map(name => `<option value="${escapeText(name)}">${escapeText(name)}</option>`).join('');
-      gradeSelect.innerHTML = '<option value="">すべての学年</option>' + catalog.grades.map(grade => `<option value="${escapeText(grade.id)}">${escapeText(grade.name)}</option>`).join('');
-      schoolSelect.value = schools.includes(filters.school) ? filters.school : '';
-      gradeSelect.value = catalog.grades.some(grade => grade.id === filters.grade) ? filters.grade : '';
-      byId('checklistSort').value = filters.sort;
+      if (filters.school && !schools.includes(filters.school)) filters.school = '';
+      if (filters.grade && filters.grade !== 'unassigned' && !catalog.grades.some(grade => grade.id === filters.grade)) filters.grade = '';
+      const gradeEntries = [['', 'すべて'], ...catalog.grades.map(grade => [grade.id, grade.name])];
+      if (workspace.classes.some(item => !item.gradeId)) gradeEntries.push(['unassigned', '学年未設定']);
+      filterPills(byId('checklistSchoolFilter'), [['', 'すべて'], ...schools.map(name => [name, name])], filters.school, 'data-checklist-school-filter');
+      filterPills(byId('checklistGradeFilter'), gradeEntries, filters.grade, 'data-checklist-grade-filter');
     }
 
     function cardMenu(sheet) {
@@ -210,11 +214,9 @@
       sheets = sheets.filter(sheet => {
         const classes = sheetClasses(sheet);
         return (!filters.school || classes.some(item => item.school === filters.school))
-          && (!filters.grade || classes.some(item => item.gradeId === filters.grade));
+          && (!filters.grade || classes.some(item => filters.grade === 'unassigned' ? !item.gradeId : item.gradeId === filters.grade));
       });
-      sheets.sort((left, right) => filters.sort === 'name'
-        ? left.name.localeCompare(right.name, 'ja')
-        : String(right.updatedAt || '').localeCompare(String(left.updatedAt || '')));
+      sheets.sort((left, right) => String(right.updatedAt || '').localeCompare(String(left.updatedAt || '')));
       if (!sheets.length) {
         grid.innerHTML = `<div class="checklistEmpty">${workspace.sheetDefinitions.some(sheet => !sheet.archivedAt) ? '条件に合うチェック表はありません。' : '作成済みチェック表はありません。「＋ チェック表を作成」から始められます。'}</div>`;
         return;
@@ -539,8 +541,10 @@
       byId('checklistPaletteTitle').textContent = column.title;
       byId('checklistPaletteValue').textContent = value ? `入力中：${value}` : '';
       const buttons = layout.buttons.map(button => `<button type="button" class="palette-${button.entry.color}" data-palette-entry-id="${button.entry.id}" data-palette-label="${escapeText(button.entry.label)}" data-span="${button.slotSpan}">${escapeText(button.entry.label)}</button>`).join('');
-      byId('checklistPaletteButtons').style.setProperty('--palette-columns', String(Math.max(1, layout.columns)));
-      byId('checklistPaletteButtons').innerHTML = buttons;
+      const paletteButtons = byId('checklistPaletteButtons');
+      paletteButtons.className = `checklistPaletteButtons palette-size-${paletteSize(column.paletteSnapshot.size)}`;
+      paletteButtons.style.setProperty('--palette-columns', String(Math.max(1, layout.columns)));
+      paletteButtons.innerHTML = buttons;
       byId('checklistInputPalette').hidden = false;
     }
 
@@ -679,18 +683,22 @@
       notify('集計結果をコピーしました。');
     }
 
+    function paletteSize(value) {
+      return ['small', 'standard', 'large'].includes(value) ? value : 'standard';
+    }
+
     function renderPalettePreview() {
       const preview = byId('checklistPalettePreview');
       if (!paletteDraft?.entries?.length) { preview.innerHTML = '<span class="small">ボタンを追加してください。</span>'; return; }
       const layout = Palette.paletteLayout(paletteDraft);
-      preview.style.setProperty('--preview-columns', String(Math.max(1, layout.columns)));
-      preview.innerHTML = layout.buttons.map(button => `<span class="checklistPreviewButton palette-${button.entry.color}" data-span="${button.slotSpan}">${escapeText(button.entry.label)}</span>`).join('');
+      const buttons = layout.buttons.map(button => `<button type="button" class="checklistPreviewButton palette-${button.entry.color}" data-span="${button.slotSpan}" tabindex="-1">${escapeText(button.entry.label)}</button>`).join('');
+      preview.innerHTML = `<div class="checklistPalettePreviewShell"><div class="checklistPaletteHead"><b>入力パレット</b><button type="button" tabindex="-1" aria-label="閉じる">−</button></div><div class="checklistPaletteValue"></div><div class="checklistPaletteButtons palette-size-${paletteSize(paletteDraft.size)}" style="--palette-columns:${Math.max(1, layout.columns)}">${buttons}</div><button class="btn checklistPreviewClear" type="button" tabindex="-1">入力を取り消す</button></div>`;
     }
 
     function paletteEntryRow(entry, index) {
       const colorOptions = Palette.ALLOWED_COLORS.map(color => `<option value="${color}"${entry.color === color ? ' selected' : ''}>${color}</option>`).join('');
       const actions = [['mark','通常入力'],['date','日付'],['redo','再提出'],['batchReturn','再提出分を返却'],['fillCircle','残りを○'],['fillCross','残りを×'],['fillA','残りをA'],['fillC','残りをC']];
-      return `<div class="checklistPaletteEntryRow" data-entry-id="${entry.id}"><input data-entry-field="label" value="${escapeText(entry.label)}" aria-label="表示文字"><select data-entry-field="color">${colorOptions}</select><input data-entry-field="score" type="number" step="0.5" value="${entry.score ?? ''}" aria-label="点数"><select data-entry-field="action">${actions.map(([value,label]) => `<option value="${value}"${entry.action === value ? ' selected' : ''}>${label}</option>`).join('')}</select><select data-entry-field="slotSpan"><option value="1"${entry.slotSpan === 1 ? ' selected' : ''}>1枠</option><option value="2"${entry.slotSpan === 2 ? ' selected' : ''}>2枠</option></select><label title="表示"><input data-entry-field="visible" type="checkbox"${entry.visible !== false ? ' checked' : ''}>表示</label><div class="checklistPaletteEntryMove"><button type="button" data-entry-move="-1"${index === 0 ? ' disabled' : ''}>↑</button><button type="button" data-entry-move="1"${index === paletteDraft.entries.length - 1 ? ' disabled' : ''}>↓</button></div><button class="checklistPaletteEntryDelete" type="button" data-entry-delete>削除</button></div>`;
+      return `<div class="checklistPaletteEntryRow" data-entry-id="${entry.id}"><input data-entry-field="label" value="${escapeText(entry.label)}" aria-label="表示文字"><select data-entry-field="color">${colorOptions}</select><input data-entry-field="score" type="number" step="0.5" value="${entry.score ?? ''}" aria-label="点数"><select data-entry-field="action">${actions.map(([value,label]) => `<option value="${value}"${entry.action === value ? ' selected' : ''}>${label}</option>`).join('')}</select><select data-entry-field="slotSpan"><option value="1"${entry.slotSpan === 1 ? ' selected' : ''}>1枠</option><option value="2"${entry.slotSpan === 2 ? ' selected' : ''}>2枠</option></select><label title="表示"><input data-entry-field="visible" type="checkbox"${entry.visible !== false ? ' checked' : ''}>表示</label><div class="checklistPaletteEntryMove"><button type="button" data-entry-move="-1"${index === 0 ? ' disabled' : ''}>↑</button><button type="button" data-entry-move="1"${index === paletteDraft.entries.length - 1 ? ' disabled' : ''}>↓</button><button class="checklistPaletteEntryDelete" type="button" data-entry-delete>削除</button></div></div>`;
     }
 
     function renderPaletteEditor({ preserveScroll = false } = {}) {
@@ -698,7 +706,11 @@
       const oldListScroll = preserveScroll ? list.scrollTop : 0;
       const entryList = byId('checklistPaletteEntryList');
       const oldEntryScroll = preserveScroll ? entryList.scrollTop : 0;
-      list.innerHTML = workspace.preferences.palettes.map(palette => `<button type="button" class="checklistPaletteLibraryItem${palette.id === selectedPaletteId ? ' active' : ''}" data-palette-id="${palette.id}"><span>${escapeText(palette.name)}</span><small>${palette.preset ? 'プリセット' : '保存済み'}</small></button>`).join('');
+      list.innerHTML = workspace.preferences.palettes.map(palette => {
+        const name = palette.preset && !palette.name.endsWith('プリセット') ? `${palette.name}プリセット` : palette.name;
+        const sizeLabel = ({ small:'小', standard:'標準', large:'大' })[paletteSize(palette.size)];
+        return `<article class="checklistPaletteLibraryItem${palette.id === selectedPaletteId ? ' active' : ''}" data-palette-id="${palette.id}"><button type="button" class="checklistPaletteLibrarySelect" data-palette-select="${palette.id}"><strong>${escapeText(name)}</strong><small>${palette.scoringEnabled ? '点数連動' : '記号のみ'}・${sizeLabel}${palette.preset ? '' : '・保存済み'}</small></button><details class="checklistPaletteItemMenu"><summary aria-label="${escapeText(name)}のメニュー">…</summary><div><button type="button" data-palette-duplicate="${palette.id}">複製</button></div></details></article>`;
+      }).join('');
       if (!paletteDraft) {
         const selected = workspace.preferences.palettes.find(item => item.id === selectedPaletteId) || workspace.preferences.palettes[0];
         selectedPaletteId = selected?.id || null;
@@ -982,11 +994,11 @@
     await persist();
 
     byId('newChecklistBtn').addEventListener('click', () => showEditor());
+    byId('checklistListSettingsBtn').addEventListener('click', () => openSettings('palette'));
     byId('checklistEditorBackBtn').addEventListener('click', openList);
     byId('saveChecklistBtn').addEventListener('click', saveEditor);
-    byId('checklistSchoolFilter').addEventListener('change', event => { filters.school = event.target.value; renderList(); });
-    byId('checklistGradeFilter').addEventListener('change', event => { filters.grade = event.target.value; renderList(); });
-    byId('checklistSort').addEventListener('change', event => { filters.sort = event.target.value; renderList(); });
+    byId('checklistSchoolFilter').addEventListener('click', event => { const button = event.target.closest('[data-checklist-school-filter]'); if (button) { filters.school = button.dataset.checklistSchoolFilter; renderList(); } });
+    byId('checklistGradeFilter').addEventListener('click', event => { const button = event.target.closest('[data-checklist-grade-filter]'); if (button) { filters.grade = button.dataset.checklistGradeFilter; renderList(); } });
     byId('checklistClassChoices').addEventListener('click', event => {
       const button = event.target.closest('[data-select-group]');
       if (!button) return;
@@ -1097,11 +1109,18 @@
     byId('checklistArchiveSettingsNav').addEventListener('click', () => showSettingsSection('archive'));
     byId('checklistBackupSettingsNav').addEventListener('click', () => showSettingsSection('backup'));
     byId('checklistSettingsBackBtn').addEventListener('click', openList);
+    byId('checklistMainSettingsBtn').addEventListener('click', openMainSettings);
     byId('addChecklistPaletteBtn').addEventListener('click', newPaletteDraft);
-    byId('checklistPaletteList').addEventListener('click', event => {
-      const item = event.target.closest('[data-palette-id]');
+    byId('checklistPaletteList').addEventListener('click', async event => {
+      const duplicate = event.target.closest('[data-palette-duplicate]');
+      if (duplicate) {
+        selectedPaletteId = duplicate.dataset.paletteDuplicate;
+        await duplicateSelectedPalette();
+        return;
+      }
+      const item = event.target.closest('[data-palette-select]');
       if (!item) return;
-      selectedPaletteId = item.dataset.paletteId;
+      selectedPaletteId = item.dataset.paletteSelect;
       paletteDraft = PaletteEditor.createDraft(workspace.preferences.palettes.find(palette => palette.id === selectedPaletteId));
       renderPaletteEditor({ preserveScroll: true });
     });
