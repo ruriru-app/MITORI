@@ -1280,7 +1280,7 @@ h2,.title,.sideTitle{color:#6f625b}.small{color:#8b817b}
       <section class="checklistScreen active" id="checklistListScreen">
         <div class="panel checklistPanel">
           <div class="checklistHeader"><div><h2 id="checklistListTitle">作成済みチェック表一覧</h2><div class="small">学校・学年・クラスをまたいで使うチェック表を管理できます。</div></div><div class="checklistHeaderActions"><button class="btn" id="checklistListSettingsBtn">チェック表の設定</button><button class="btn primary" id="newChecklistBtn">＋ チェック表を作成</button></div></div>
-          <div class="checklistToolbar"><div class="checklistFilterRow"><span>学校</span><div class="performanceFilter" id="checklistSchoolFilter" aria-label="学校で絞り込み"></div></div><div class="checklistFilterRow"><span>学年</span><div class="performanceFilter" id="checklistGradeFilter" aria-label="学年で絞り込み"></div></div></div>
+          <div class="checklistToolbar"><div class="checklistFilterRow"><span>学校</span><div class="performanceFilter" id="checklistSchoolFilter" aria-label="学校で絞り込み"></div></div><div class="checklistFilterRow"><span>学年</span><div class="performanceFilter" id="checklistGradeFilter" aria-label="学年で絞り込み"></div></div><select id="checklistSort" hidden aria-hidden="true" tabindex="-1"><option value="updated">更新が新しい順</option><option value="name">名前順</option></select></div>
           <div class="checklistSheetGrid" id="checklistSheetGrid"></div>
         </div>
       </section>
