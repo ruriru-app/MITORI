@@ -61,3 +61,48 @@
 .checklistPaletteEntryMove .checklistPaletteEntryDelete{min-width:52px}
 @media(max-width:900px){.checklistHeaderActions{justify-content:flex-start}.checklistFilterRow{grid-template-columns:1fr;gap:4px}.checklistPalettePreviewRow{grid-template-columns:1fr}.checklistPalettePreviewRow h3{margin-bottom:8px}.checklistPaletteEditTop{grid-template-columns:minmax(260px,1fr) 110px}.checklistPaletteEditTop .checklistInlineCheck{grid-column:1/-1}.checklistPaletteEntryRow{grid-template-columns:110px 78px 68px minmax(105px,1fr) 62px 54px auto}}
 @media(max-width:700px){.checklistPaletteEditTop{grid-template-columns:1fr}.checklistPaletteEditTop>label:first-child{min-width:0}.checklistPaletteEntryRow{min-width:620px}.checklistPalettePreview{justify-content:flex-start}}
+
+/* The checklist recorder intentionally follows TSUKERU's compact, two-card layout. */
+#checklistRecordScreen.active{display:flex;min-height:0;flex-direction:column;gap:12px}
+.checklistRecordControlsCard{flex:0 0 auto;overflow:visible;padding:0!important}
+.checklistRecordTableCard{position:relative;display:flex;flex:1;min-height:0;overflow:hidden;padding:0!important}
+.checklistRecordToolbar{grid-template-columns:auto minmax(250px,.85fr) minmax(300px,1.15fr) auto auto;align-items:center;border-bottom:0;border-radius:inherit;padding:10px 14px}
+.checklistRecordToolbar label{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:8px;font-size:12px;white-space:nowrap}
+.checklistRecordToolbar label>span{color:#7b665e;font-weight:700}
+.checklistRecordToolbar select{width:100%;min-height:42px}
+.checklistTableWrap{height:100%;min-height:0;overflow:auto;border-radius:inherit}
+.checklistRecordTable{width:max-content;min-width:0;table-layout:fixed}
+.checklistRecordTable thead th{position:sticky;top:0;z-index:6}
+.checklistNameHeader{top:0;left:0;z-index:9;width:160px;min-width:160px;max-width:160px}
+.checklistStudentName{left:0;z-index:5;width:160px;min-width:160px;max-width:160px;overflow:hidden;text-overflow:ellipsis}
+.checklistColumnHeader{position:sticky;top:0;z-index:7;width:86px;min-width:86px;max-width:86px;height:164px;padding:8px 4px 9px}
+.checklistColumnTitle{height:54px;margin:15px 0 2px;padding:0 2px;overflow-wrap:anywhere}
+.checklistColumnMenu div{width:190px}
+.checklistColumnMenu button{min-height:38px;padding:7px 9px;white-space:nowrap}
+.checklistAddColumnHead{position:sticky!important;top:0;z-index:7}
+.checklistTotalHeader{position:sticky!important;top:0;z-index:7}
+.checklistHiddenColumn{width:34px;min-width:34px;background:#fbf7f1}
+.checklistRecordCell.active{box-shadow:inset 0 0 0 1px #a8d8d2}
+.checklistPaletteHead{cursor:grab;touch-action:none;user-select:none}
+.checklistPaletteHead:active{cursor:grabbing}
+.checklistPaletteButtons button.selected{outline:3px solid #4faea3;outline-offset:2px}
+.checklistDateBox{display:flex;align-items:center;gap:8px;margin-top:9px}
+.checklistDateBox[hidden],.checklistNumberBox[hidden],#checklistPaletteTools[hidden]{display:none}
+.checklistDateBox input{min-width:155px;min-height:42px}
+.checklistNumberBox{margin-top:9px}
+.checklistNumberBox>input{width:100%;min-height:44px;margin-bottom:8px;text-align:right;font-size:20px}
+.checklistNumberKeys{display:grid;grid-template-columns:repeat(3,minmax(46px,1fr));gap:6px}
+.checklistNumberKeys button{min-height:44px;border:1px solid #eadfd4;border-radius:10px;background:#fff;font-weight:800}
+.checklistNumberKeys button[data-number-key="Enter"],.checklistNumberKeys button[data-number-key="消去"]{grid-column:span 3}
+.checklistInputMethods{display:grid;grid-column:1/-1;gap:8px;border:1px solid #eadfd4;border-radius:12px;padding:12px}
+.checklistInputMethods label{display:flex!important;align-items:center;gap:8px}
+.checklistInputMethods input{width:20px;height:20px;min-height:0}
+@media(max-width:900px){
+  .checklistRecordToolbar{grid-template-columns:auto minmax(220px,1fr) minmax(250px,1fr) auto}
+  .checklistSaveStatus{grid-column:1/-1;justify-self:end}
+}
+@media(max-width:700px){
+  .checklistRecordToolbar{grid-template-columns:1fr}
+  .checklistRecordToolbar label{grid-template-columns:82px minmax(0,1fr)}
+  .checklistSaveStatus{grid-column:auto;justify-self:stretch}
+}

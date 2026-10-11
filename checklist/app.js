@@ -55,7 +55,13 @@
     let editingSheetId = null;
     let activeSheetId = null;
     let activeTarget = null;
-    let selectedCell = null;
+    let activeColumnId = null;
+    let activeInputMethod = '';
+    let selectedPaletteEntryId = null;
+    let clearReturnEntryId = null;
+    let numberTarget = null;
+    let inputMethodColumnId = null;
+    let paletteDrag = null;
     let columnDraft = null;
     let settingsSection = 'palette';
     let selectedPaletteId = null;
@@ -274,7 +280,11 @@
       editingSheetId = null;
       activeSheetId = null;
       activeTarget = null;
-      selectedCell = null;
+      activeColumnId = null;
+      activeInputMethod = '';
+      selectedPaletteEntryId = null;
+      clearReturnEntryId = null;
+      numberTarget = null;
       byId('checklistInputPalette').hidden = true;
       hideChecklistScreens();
       listScreen.classList.add('active');
@@ -399,6 +409,10 @@
       workspace.ui.currentGroupId = parts.kind === 'group' ? parts.targetId : null;
       workspace.ui.recordMode = parts.kind === 'group' ? 'combined' : 'class';
       workspace.ui.view = 'record';
+      activeColumnId = null;
+      activeInputMethod = '';
+      selectedPaletteEntryId = null;
+      numberTarget = null;
       screen = 'record';
       hideChecklistScreens();
       recordScreen.classList.add('active');
@@ -488,9 +502,35 @@
       return `${Number(month)}/${Number(day)}`;
     }
 
+    function activeColumn() {
+      return currentSheet()?.columns.find(column => column.id === activeColumnId) || null;
+    }
+
     function isColumnLocked(columnId) {
-      const ids = targetClassIds();
-      return ids.length > 0 && ids.every(classId => Boolean(classBucket(classId)?.lockedColumns?.[columnId]));
+      return activeColumnId !== columnId;
+    }
+
+    function isDateValue(value) {
+      return /^\d{4}-\d{2}-\d{2}$/.test(String(value || ''));
+    }
+
+    function shortRecordValue(value) {
+      if (!isDateValue(value)) return value;
+      const [, month, day] = value.split('-');
+      return `${Number(month)}/${Number(day)}`;
+    }
+
+    function selectedPaletteEntry(column = activeColumn()) {
+      if (!column) return null;
+      if (selectedPaletteEntryId === '__clear__') return { id:'__clear__', label:'消去', color:'stone', action:'clear', slotSpan:1, visible:true };
+      return column.paletteSnapshot?.entries?.find(entry => entry.id === selectedPaletteEntryId) || null;
+    }
+
+    function selectInitialPaletteEntry(column) {
+      const initial = Palette.firstCellInputEntry(column?.paletteSnapshot);
+      selectedPaletteEntryId = activeInputMethod === 'cycle' ? null : (initial?.id || null);
+      clearReturnEntryId = null;
+      if (initial?.action === 'date' && !byId('checklistDateInput').value) byId('checklistDateInput').value = localDateKey();
     }
 
     function renderRecord() {
@@ -503,49 +543,66 @@
       sheetSelect.innerHTML = availableSheetsForTarget().map(item => `<option value="${item.id}">${escapeText(item.name)}</option>`).join('');
       sheetSelect.value = activeSheetId;
       const rows = recordRows(sheet);
+      const visibleColumns = sheet.columns.filter(column => !column.hidden);
+      const tableColumnSpan = visibleColumns.length * 2 + (sheet.columns.length - visibleColumns.length) + 2;
       const headerCells = sheet.columns.map(column => {
+        if (column.hidden) return `<th class="checklistHiddenColumn"><button type="button" data-column-action="show" data-column-id="${column.id}" aria-label="${escapeText(column.title)}を再表示">💬</button></th>`;
         const stats = columnStats(sheet, column, rows);
         const locked = isColumnLocked(column.id);
-        return `<th class="checklistColumnHeader" data-column-id="${column.id}" data-locked="${locked}"><details class="checklistColumnMenu"><summary aria-label="列メニュー">•••</summary><div><button type="button" data-column-action="edit" data-column-id="${column.id}">編集</button><button type="button" data-column-action="delete" data-column-id="${column.id}">削除</button></div></details><div class="checklistColumnTitle">${escapeText(column.title)}</div><div class="checklistColumnPoints">${column.base}点</div><div class="checklistColumnDue">${columnDueText(sheet, column)}</div><div class="checklistColumnStats">未${stats.missing}/再${stats.redo}</div><div class="checklistColumnState"><span title="ダブルタップで切替">${locked ? '🔒' : '🔓'}</span><input type="checkbox" data-total-column-id="${column.id}" aria-label="${escapeText(column.title)}を合計に含める"${column.includeInTotal ? ' checked' : ''}></div></th><th class="checklistAddColumnHead"><button type="button" data-add-column-after="${column.id}" aria-label="${escapeText(column.title)}の右に列を追加">＋</button></th>`;
+        return `<th class="checklistColumnHeader" data-column-id="${column.id}" data-locked="${locked}"><details class="checklistColumnMenu"><summary aria-label="${escapeText(column.title)}の列メニュー">•••</summary><div><button type="button" data-column-action="input" data-column-id="${column.id}">入力方法・パレット</button><button type="button" data-column-action="settings" data-column-id="${column.id}">列の設定</button><button type="button" data-column-action="hide" data-column-id="${column.id}">非表示</button><button type="button" data-column-action="inherit" data-column-id="${column.id}">設定を引き継いで追加</button><button type="button" class="danger" data-column-action="delete" data-column-id="${column.id}">列を削除…</button></div></details><div class="checklistColumnTitle">${escapeText(column.title)}</div><div class="checklistColumnPoints">${column.base > 0 ? `${column.base}点` : ''}</div><div class="checklistColumnDue">${columnDueText(sheet, column)}</div><div class="checklistColumnStats">未${stats.missing}/再${stats.redo}</div><div class="checklistColumnState"><span title="ダブルタップで切替" aria-label="${locked ? 'ロック中' : 'ロック解除中'}">${locked ? '🔒' : '🔓'}</span><input type="checkbox" data-total-column-id="${column.id}" aria-label="${escapeText(column.title)}を合計に含める"${column.includeInTotal ? ' checked' : ''}></div></th><th class="checklistAddColumnHead"><button type="button" data-add-column-after="${column.id}" aria-label="${escapeText(column.title)}の右に列を追加">＋</button></th>`;
       }).join('');
       const bodyRows = rows.map(row => {
-        if (row.kind === 'section') return targetParts().kind === 'group' ? `<tr class="checklistClassSection"><td colspan="${sheet.columns.length * 2 + 2}">${escapeText(row.className)}</td></tr>` : '';
+        if (row.kind === 'section') return targetParts().kind === 'group' ? `<tr class="checklistClassSection"><td colspan="${tableColumnSpan}">${escapeText(row.className)}</td></tr>` : '';
         const cells = sheet.columns.map(column => {
+          if (column.hidden) return '<td class="checklistHiddenColumn"></td>';
           const bucket = classBucket(row.classId, sheet.id);
           const key = recordKey(column.id, row.studentId);
           const value = bucket?.values?.[key] || '';
           const color = Palette.colorTokenForMark(value);
-          return `<td class="checklistRecordCell${color ? ` mark-${color}` : ''}" data-record-class-id="${row.classId}" data-record-student-id="${row.studentId}" data-record-column-id="${column.id}">${escapeText(value)}</td><td class="checklistAddColumnCell"></td>`;
+          return `<td class="checklistRecordCell${color ? ` mark-${color}` : ''}${activeColumnId === column.id ? ' active' : ''}" data-record-class-id="${row.classId}" data-record-student-id="${row.studentId}" data-record-column-id="${column.id}">${escapeText(shortRecordValue(value))}</td><td class="checklistAddColumnCell"></td>`;
         }).join('');
         const total = rowTotal(sheet, row);
         return `<tr><th class="checklistStudentName">${escapeText(row.no)}　${escapeText(row.name)}</th>${cells}<td class="checklistTotalCell">${total === null ? '－' : total}</td></tr>`;
       }).join('');
-      byId('checklistTableWrap').innerHTML = `<table class="checklistRecordTable"><thead><tr><th class="checklistNameHeader">番号・氏名</th>${headerCells}<th class="checklistTotalHeader">✓を付けた列の集計<br><button type="button" id="copyChecklistTotalsBtn">コピー</button></th></tr></thead><tbody>${bodyRows}</tbody></table>`;
+      byId('checklistTableWrap').innerHTML = `<table class="checklistRecordTable"><thead><tr><th class="checklistNameHeader">番号・氏名</th>${headerCells}<th class="checklistTotalHeader">✓を付けた列の集計<br><small>${visibleColumns.filter(column => column.includeInTotal).length}列対象</small><br><button type="button" id="copyChecklistTotalsBtn">コピー</button></th></tr></thead><tbody>${bodyRows}</tbody></table>`;
+      renderInputPalette();
     }
 
     function closePalette() {
-      selectedCell = null;
+      activeColumnId = null;
+      activeInputMethod = '';
+      selectedPaletteEntryId = null;
+      clearReturnEntryId = null;
+      numberTarget = null;
       byId('checklistInputPalette').hidden = true;
     }
 
     function renderInputPalette() {
-      if (!selectedCell) { closePalette(); return; }
       const sheet = currentSheet();
-      const column = sheet.columns.find(item => item.id === selectedCell.columnId);
-      if (!column) { closePalette(); return; }
-      const bucket = classBucket(selectedCell.classId);
-      if (bucket.lockedColumns[column.id]) { closePalette(); return; }
-      const key = recordKey(column.id, selectedCell.studentId);
-      const value = bucket.values[key] || '';
-      const layout = Palette.paletteLayout(column.paletteSnapshot);
+      const column = activeColumn();
+      if (!sheet || !column) { byId('checklistInputPalette').hidden = true; return; }
+      const clearEntry = { id:'__clear__', label:'消去', color:'stone', score:null, action:'clear', slotSpan:1, visible:true };
+      const layout = Palette.paletteLayout({ ...column.paletteSnapshot, entries:[...(column.paletteSnapshot?.entries || []), clearEntry] });
+      const selected = selectedPaletteEntry(column);
       byId('checklistPaletteTitle').textContent = column.title;
-      byId('checklistPaletteValue').textContent = value ? `入力中：${value}` : '';
-      const buttons = layout.buttons.map(button => `<button type="button" class="palette-${button.entry.color}" data-palette-entry-id="${button.entry.id}" data-palette-label="${escapeText(button.entry.label)}" data-span="${button.slotSpan}">${escapeText(button.entry.label)}</button>`).join('');
+      byId('checklistPaletteValue').textContent = activeInputMethod === 'cycle' ? '連続タップ' : selected ? `選択中：${selected.label}` : '入力するボタンを選択';
+      const buttons = layout.buttons.map(button => {
+        const entry = button.entry;
+        const disabled = activeInputMethod === 'cycle' && !['batchReturn','fillCircle','fillCross','fillA','fillC','clear'].includes(entry.action || 'mark');
+        return `<button type="button" class="palette-${entry.color}${selectedPaletteEntryId === entry.id ? ' selected' : ''}" data-palette-entry-id="${entry.id}" data-palette-label="${escapeText(entry.label)}" data-palette-action="${escapeText(entry.action || 'mark')}" data-span="${button.slotSpan}" aria-pressed="${selectedPaletteEntryId === entry.id}"${disabled ? ' disabled' : ''}>${escapeText(entry.label)}</button>`;
+      }).join('');
       const paletteButtons = byId('checklistPaletteButtons');
       paletteButtons.className = `checklistPaletteButtons palette-size-${paletteSize(column.paletteSnapshot.size)}`;
       paletteButtons.style.setProperty('--palette-columns', String(Math.max(1, layout.columns)));
       paletteButtons.innerHTML = buttons;
+      const dateSelected = selected?.action === 'date';
+      byId('checklistDateBox').hidden = !dateSelected;
+      if (dateSelected && !byId('checklistDateInput').value) byId('checklistDateInput').value = localDateKey();
+      byId('checklistNumberBox').hidden = activeInputMethod !== 'number';
+      paletteButtons.hidden = activeInputMethod === 'number';
+      byId('checklistClearCellBtn').hidden = true;
       byId('checklistInputPalette').hidden = false;
+      requestAnimationFrame(clampPalette);
     }
 
     async function saveWorkspaceChange() {
@@ -556,81 +613,190 @@
       await persist();
     }
 
-    async function clearSelectedCell() {
-      if (!selectedCell) return;
-      workspace = Workspace.clearRecordCell(workspace, selectedCell.classId, activeSheetId, selectedCell.columnId, selectedCell.studentId);
-      closePalette();
-      await saveWorkspaceChange();
-    }
-
     function rowsForColumnAction() {
       return recordRows().filter(row => row.kind === 'student');
     }
 
-    async function applyPaletteEntry(entryId) {
-      if (!selectedCell) return;
+    async function clearRecordCell(classId, studentId, columnId) {
+      workspace = Workspace.clearRecordCell(workspace, classId, activeSheetId, columnId, studentId);
+      if (selectedPaletteEntryId === '__clear__') {
+        selectedPaletteEntryId = clearReturnEntryId;
+        clearReturnEntryId = null;
+      }
+      await saveWorkspaceChange();
+    }
+
+    async function applyEntryToCell(entry, row) {
       const sheet = currentSheet();
-      const column = sheet.columns.find(item => item.id === selectedCell.columnId);
-      const entry = column.paletteSnapshot.entries.find(item => item.id === entryId);
-      if (!entry) return;
-      const keepNumericPaletteOpen = sheet.type === 'number' && column.inputMethod === 'number' && /^\d$/.test(entry.label);
+      const column = activeColumn();
+      if (!sheet || !column || !entry) return;
+      if (entry.action === 'clear') { await clearRecordCell(row.classId, row.studentId, column.id); return; }
       const today = localDateKey();
-      const applyValue = (row, value, meta = null, onlyBlank = false) => {
-        const bucket = classBucket(row.classId);
-        const key = recordKey(column.id, row.studentId);
-        if (onlyBlank && bucket.values[key]) return;
+      const applyValue = (target, value, meta = null) => {
+        const bucket = classBucket(target.classId);
+        const key = recordKey(column.id, target.studentId);
         bucket.values[key] = value;
         if (meta) bucket.meta[key] = { ...(bucket.meta[key] || {}), ...meta };
         else delete bucket.meta[key];
       };
-      const currentRow = { classId: selectedCell.classId, studentId: selectedCell.studentId };
+      if (entry.action === 'date') {
+        const date = byId('checklistDateInput').value || today;
+        applyValue(row, date, { submitted:date });
+      } else if (entry.action === 'redo') {
+        const bucket = classBucket(row.classId);
+        const key = recordKey(column.id, row.studentId);
+        const previous = bucket.values[key];
+        applyValue(row, '再', { redo:true, initialSubmitted:isDateValue(previous) ? previous : (columnForClass(sheet, column, row.classId).due || today), submitted:null, returned:null });
+      } else if (sheet.type === 'submission' && entry.label === '○') {
+        const bucket = classBucket(row.classId);
+        const key = recordKey(column.id, row.studentId);
+        if (bucket.meta[key]?.redo || bucket.values[key] === '再') applyValue(row, '再', { ...(bucket.meta[key] || {}), redo:true, submitted:today });
+        else applyValue(row, '○');
+      } else applyValue(row, entry.label);
+      await saveWorkspaceChange();
+    }
+
+    async function runPaletteEntry(entryId) {
+      const column = activeColumn();
+      const entry = entryId === '__clear__'
+        ? { id:'__clear__', label:'消去', color:'stone', action:'clear' }
+        : column?.paletteSnapshot?.entries?.find(item => item.id === entryId);
+      if (!column || !entry) return;
+      const today = localDateKey();
       if (entry.action === 'batchReturn') {
         for (const row of rowsForColumnAction()) {
           const bucket = classBucket(row.classId);
           const key = recordKey(column.id, row.studentId);
-          if (bucket.values[key] === '再' || bucket.meta[key]?.redo) bucket.meta[key] = { ...(bucket.meta[key] || {}), redo: true, returned: today };
+          if (bucket.values[key] === '再' || bucket.meta[key]?.redo) bucket.meta[key] = { ...(bucket.meta[key] || {}), redo:true, returned:today };
         }
-      } else if (['fillCircle', 'fillCross', 'fillA', 'fillC'].includes(entry.action)) {
-        const value = ({ fillCircle: '○', fillCross: '×', fillA: 'A', fillC: 'C' })[entry.action];
-        rowsForColumnAction().forEach(row => applyValue(row, value, null, true));
-      } else if (entry.action === 'date') {
-        applyValue(currentRow, today, { submitted: today });
-      } else if (entry.action === 'redo') {
-        const bucket = classBucket(selectedCell.classId);
-        const key = recordKey(column.id, selectedCell.studentId);
-        const previous = bucket.values[key];
-        applyValue(currentRow, '再', { redo: true, initialSubmitted: /^\d{4}-\d{2}-\d{2}$/.test(previous) ? previous : (columnForClass(sheet, column, selectedCell.classId).due || today), submitted: null, returned: null });
-      } else if (sheet.type === 'number' && column.inputMethod === 'number' && /^\d$/.test(entry.label)) {
-        const bucket = classBucket(selectedCell.classId);
-        const key = recordKey(column.id, selectedCell.studentId);
-        const next = `${bucket.values[key] || ''}${entry.label}`.replace(/^0+(?=\d)/, '').slice(0, 6);
-        applyValue(currentRow, next || '0');
-      } else applyValue(currentRow, entry.label);
-      if (!keepNumericPaletteOpen) closePalette();
-      await saveWorkspaceChange();
-      if (keepNumericPaletteOpen) renderInputPalette();
+        await saveWorkspaceChange();
+        return;
+      }
+      if (['fillCircle','fillCross','fillA','fillC'].includes(entry.action)) {
+        const value = ({ fillCircle:'○', fillCross:'×', fillA:'A', fillC:'C' })[entry.action];
+        rowsForColumnAction().forEach(row => {
+          const bucket = classBucket(row.classId);
+          const key = recordKey(column.id, row.studentId);
+          if (!bucket.values[key]) { bucket.values[key] = value; delete bucket.meta[key]; }
+        });
+        await saveWorkspaceChange();
+        return;
+      }
+      if (entry.action === 'clear') {
+        if (selectedPaletteEntryId !== '__clear__') clearReturnEntryId = selectedPaletteEntryId;
+        selectedPaletteEntryId = '__clear__';
+      } else {
+        clearReturnEntryId = null;
+        selectedPaletteEntryId = entry.id;
+        if (entry.action === 'date' && !byId('checklistDateInput').value) byId('checklistDateInput').value = localDateKey();
+      }
+      renderInputPalette();
     }
 
-    async function toggleColumnLock(columnId) {
-      const next = !isColumnLocked(columnId);
-      targetClassIds().forEach(classId => { classBucket(classId).lockedColumns[columnId] = next; });
-      closePalette();
+    async function activateRecordCell(cell) {
+      const column = activeColumn();
+      if (!column || cell.dataset.recordColumnId !== column.id) return;
+      const row = { classId:cell.dataset.recordClassId, studentId:cell.dataset.recordStudentId };
+      if (activeInputMethod === 'number') {
+        numberTarget = { ...row, columnId:column.id };
+        const bucket = classBucket(row.classId);
+        byId('checklistNumberInput').value = bucket.values[recordKey(column.id, row.studentId)] || '';
+        return;
+      }
+      if (activeInputMethod === 'cycle') {
+        const values = ['', ...(column.paletteSnapshot?.entries || []).filter(entry => entry.visible !== false && (entry.action || 'mark') === 'mark').map(entry => entry.label)];
+        const bucket = classBucket(row.classId);
+        const key = recordKey(column.id, row.studentId);
+        const current = bucket.values[key] || '';
+        const next = values[(Math.max(0, values.indexOf(current)) + 1) % values.length];
+        if (!next) await clearRecordCell(row.classId, row.studentId, column.id);
+        else { bucket.values[key] = next; delete bucket.meta[key]; await saveWorkspaceChange(); }
+        return;
+      }
+      const entry = selectedPaletteEntry(column);
+      if (entry && ['mark','date','redo','clear'].includes(entry.action || 'mark')) await applyEntryToCell(entry, row);
+    }
+
+    function toggleColumnLock(columnId, { forceDialog = false } = {}) {
+      const sheet = currentSheet();
+      const column = sheet?.columns.find(item => item.id === columnId);
+      if (!column) return;
+      if (forceDialog || !column.inputMethod) { openInputMethodDialog(columnId); return; }
+      if (activeColumnId === columnId) { closePalette(); renderRecord(); return; }
+      activeColumnId = columnId;
+      activeInputMethod = column.inputMethod;
+      numberTarget = null;
+      selectInitialPaletteEntry(column);
+      renderRecord();
+    }
+
+    function openInputMethodDialog(columnId) {
+      const sheet = currentSheet();
+      const column = sheet?.columns.find(item => item.id === columnId);
+      if (!column) return;
+      inputMethodColumnId = columnId;
+      byId('checklistInputMethodTitle').textContent = `${column.title}｜入力方法とパレット`;
+      const currentPaletteId = column.paletteSnapshot?.paletteId || workspace.preferences.defaultPaletteIds[sheet.type === 'evaluation' ? 'activity' : sheet.type === 'number' ? 'numeric' : 'submission'];
+      byId('checklistInputPaletteSelect').innerHTML = paletteOptions(currentPaletteId);
+      byId('checklistInputMethods').innerHTML = sheet.type === 'number'
+        ? `<legend>入力方法</legend><label><input type="radio" name="checklistColumnInputMethod" value="number"${column.inputMethod !== 'direct' ? ' checked' : ''}>テンキー</label><label><input type="radio" name="checklistColumnInputMethod" value="direct"${column.inputMethod === 'direct' ? ' checked' : ''}>パレットボタン</label><p class="small">10や25なども、パレットボタンなら1回で入力できます。</p>`
+        : `<legend>入力方法</legend><label><input type="radio" name="checklistColumnInputMethod" value="cycle"${column.inputMethod === 'cycle' ? ' checked' : ''}>連続タップ</label><label><input type="radio" name="checklistColumnInputMethod" value="direct"${column.inputMethod !== 'cycle' ? ' checked' : ''}>パレット指定</label>`;
+      byId('checklistInputMethodError').textContent = '';
+      byId('checklistInputMethodModal').hidden = false;
+    }
+
+    function closeInputMethodDialog() {
+      inputMethodColumnId = null;
+      byId('checklistInputMethodModal').hidden = true;
+    }
+
+    async function saveInputMethod() {
+      const sheet = currentSheet();
+      const column = sheet?.columns.find(item => item.id === inputMethodColumnId);
+      const palette = workspace.preferences.palettes.find(item => item.id === byId('checklistInputPaletteSelect').value);
+      const method = document.querySelector('input[name="checklistColumnInputMethod"]:checked')?.value;
+      if (!column || !palette || !method) { byId('checklistInputMethodError').textContent = '入力方法とパレットを確認してください。'; return; }
+      const columns = sheet.columns.map(item => item.id === column.id ? { ...clone(item), paletteSnapshot:Palette.snapshotPalette(palette), inputMethod:method } : clone(item));
+      const maximum = Palette.maxPaletteScore(Palette.snapshotPalette(palette));
+      if (maximum !== null) columns.find(item => item.id === column.id).base = maximum;
+      workspace = Workspace.updateSheetDefinition(workspace, sheet.id, { name:sheet.name, type:sheet.type, columns, dueDatesByClass:sheet.dueDatesByClass });
+      activeColumnId = column.id;
+      activeInputMethod = method;
+      selectInitialPaletteEntry(columns.find(item => item.id === column.id));
+      closeInputMethodDialog();
       await saveWorkspaceChange();
     }
 
-    function openColumnEditor(columnId = null, afterId = null) {
+    function updateColumnIntervalState() {
+      const basis = byId('checklistColumnBasisInput').value;
+      byId('checklistColumnIntervalLabel').textContent = basis === 'lesson' ? '授業実施回数の何回ごとに減点しますか？' : basis === 'days' ? '何日ごとに減点しますか？' : '減点なし（間隔の設定は不要）';
+      byId('checklistColumnIntervalInput').disabled = basis === 'none';
+    }
+
+    function openColumnEditor(columnId = null, afterId = null, inheritFromId = null) {
       const sheet = currentSheet();
       const column = columnId ? sheet.columns.find(item => item.id === columnId) : null;
-      columnDraft = { columnId, afterId };
-      byId('checklistColumnDialogTitle').textContent = column ? '列を編集' : '列を追加';
+      const source = column || (inheritFromId ? sheet.columns.find(item => item.id === inheritFromId) : null);
+      columnDraft = { columnId, afterId, inheritFromId };
+      byId('checklistColumnDialogTitle').textContent = column ? `列の設定｜${column.title}` : '列を追加';
       byId('checklistColumnTitleInput').value = column?.title || '';
-      byId('checklistColumnPointsInput').value = column?.base ?? 5;
+      byId('checklistColumnPointsInput').value = source?.base ?? 5;
       const firstClassId = targetClassIds()[0];
       byId('checklistColumnDueInput').value = column ? (sheet.dueDatesByClass?.[firstClassId]?.[column.id] || '') : '';
-      byId('checklistColumnPaletteInput').innerHTML = paletteOptions(column?.paletteSnapshot?.paletteId || workspace.preferences.defaultPaletteIds[sheet.type === 'evaluation' ? 'activity' : sheet.type === 'number' ? 'numeric' : 'submission']);
-      byId('checklistColumnTotalInput').checked = column ? column.includeInTotal : true;
+      byId('checklistColumnPaletteInput').innerHTML = paletteOptions(source?.paletteSnapshot?.paletteId || workspace.preferences.defaultPaletteIds[sheet.type === 'evaluation' ? 'activity' : sheet.type === 'number' ? 'numeric' : 'submission']);
+      byId('checklistColumnBasisInput').value = source?.basis || (sheet.type === 'submission' ? 'days' : 'none');
+      byId('checklistColumnIntervalInput').value = source?.interval ?? 3;
+      byId('checklistColumnPenaltyInput').value = source?.penalty ?? 1;
+      byId('checklistColumnRedoPenaltyInput').value = source?.redoPenalty ?? 1;
+      byId('checklistColumnZeroDaysInput').value = source?.zeroDays ?? 30;
+      byId('checklistColumnZeroFloorInput').checked = source?.zeroFloor !== false;
+      byId('checklistColumnTotalInput').checked = source ? source.includeInTotal !== false : true;
+      byId('checklistColumnPaletteRow').hidden = Boolean(column);
+      document.querySelectorAll('[data-checklist-submission-setting]').forEach(element => { element.hidden = sheet.type !== 'submission'; });
+      byId('checklistColumnSettingsHint').hidden = sheet.type !== 'submission' || !column;
       byId('checklistColumnError').textContent = '';
       byId('checklistColumnModal').hidden = false;
+      updateColumnIntervalState();
     }
 
     function closeColumnEditor() {
@@ -646,16 +812,26 @@
       if (!Number.isFinite(points) || points < 0) { byId('checklistColumnError').textContent = '配点を0以上で入力してください。'; return; }
       const palette = workspace.preferences.palettes.find(item => item.id === byId('checklistColumnPaletteInput').value);
       const due = byId('checklistColumnDueInput').value;
+      const settings = sheet.type === 'submission' ? {
+        basis:byId('checklistColumnBasisInput').value,
+        interval:Math.max(1, Number(byId('checklistColumnIntervalInput').value) || 1),
+        penalty:Math.max(0, Number(byId('checklistColumnPenaltyInput').value) || 0),
+        redoPenalty:Math.max(0, Number(byId('checklistColumnRedoPenaltyInput').value) || 0),
+        zeroDays:Math.max(1, Number(byId('checklistColumnZeroDaysInput').value) || 30),
+        zeroFloor:byId('checklistColumnZeroFloorInput').checked
+      } : {};
       const columns = sheet.columns.map(item => clone(item));
       if (columnDraft.columnId) {
         const index = columns.findIndex(item => item.id === columnDraft.columnId);
-        columns[index] = { ...columns[index], title, base: points, includeInTotal: byId('checklistColumnTotalInput').checked, paletteSnapshot: Palette.snapshotPalette(palette) };
+        columns[index] = { ...columns[index], title, base:points, includeInTotal:byId('checklistColumnTotalInput').checked, ...settings };
         targetClassIds().forEach(classId => {
           sheet.dueDatesByClass[classId] = sheet.dueDatesByClass[classId] || {};
           sheet.dueDatesByClass[classId][columnDraft.columnId] = due;
         });
       } else {
-        const column = { ...defaultColumn(sheet.type, palette.id), title, base: points, due, includeInTotal: byId('checklistColumnTotalInput').checked };
+        const inherited = columnDraft.inheritFromId ? clone(sheet.columns.find(item => item.id === columnDraft.inheritFromId)) : null;
+        const column = { ...(inherited || defaultColumn(sheet.type, palette.id)), id:undefined, title, base:points, due, hidden:false, includeInTotal:byId('checklistColumnTotalInput').checked, ...settings };
+        if (!inherited) column.paletteSnapshot = Palette.snapshotPalette(palette);
         const index = Math.max(0, columns.findIndex(item => item.id === columnDraft.afterId) + 1);
         columns.splice(index, 0, column);
       }
@@ -681,6 +857,56 @@
       const totals = recordRows(sheet).filter(row => row.kind === 'student').map(row => rowTotal(sheet, row));
       await Interactions.writeClipboardText(Interactions.formatTotalsForClipboard(totals));
       notify('集計結果をコピーしました。');
+    }
+
+    function clampPalette() {
+      const palette = byId('checklistInputPalette');
+      if (!palette || palette.hidden) return;
+      const rect = palette.getBoundingClientRect();
+      const left = Math.max(0, Math.min(root.innerWidth - palette.offsetWidth, rect.left));
+      const top = Math.max(70, Math.min(root.innerHeight - palette.offsetHeight, rect.top));
+      if (rect.right > root.innerWidth || rect.bottom > root.innerHeight || rect.left < 0 || rect.top < 70) {
+        palette.style.left = `${left}px`;
+        palette.style.top = `${top}px`;
+        palette.style.right = 'auto';
+        palette.style.bottom = 'auto';
+      }
+    }
+
+    async function handleNumberKey(key) {
+      const input = byId('checklistNumberInput');
+      if (key === '消去') {
+        if (numberTarget) await clearRecordCell(numberTarget.classId, numberTarget.studentId, numberTarget.columnId);
+        input.value = '';
+        return;
+      }
+      if (key === '⌫') { input.value = input.value.slice(0, -1); return; }
+      if (key !== 'Enter') {
+        if (key !== '.' || !input.value.includes('.')) input.value += key;
+        return;
+      }
+      if (!numberTarget) return;
+      const columnId = numberTarget.columnId;
+      if (input.value !== '') {
+        const bucket = classBucket(numberTarget.classId);
+        bucket.values[recordKey(columnId, numberTarget.studentId)] = input.value;
+        delete bucket.meta[recordKey(columnId, numberTarget.studentId)];
+      }
+      const rows = rowsForColumnAction();
+      const index = rows.findIndex(row => row.classId === numberTarget.classId && row.studentId === numberTarget.studentId);
+      const next = rows[Math.min(index + 1, rows.length - 1)];
+      if (next) numberTarget = { classId:next.classId, studentId:next.studentId, columnId };
+      await saveWorkspaceChange();
+      const bucket = numberTarget ? classBucket(numberTarget.classId) : null;
+      input.value = bucket && numberTarget ? (bucket.values[recordKey(columnId, numberTarget.studentId)] || '') : '';
+    }
+
+    async function setColumnHidden(columnId, hidden) {
+      const sheet = currentSheet();
+      const columns = sheet.columns.map(column => column.id === columnId ? { ...clone(column), hidden } : clone(column));
+      workspace = Workspace.updateSheetDefinition(workspace, sheet.id, { name:sheet.name, type:sheet.type, columns, dueDatesByClass:sheet.dueDatesByClass });
+      if (hidden && activeColumnId === columnId) closePalette();
+      await saveWorkspaceChange();
     }
 
     function paletteSize(value) {
@@ -947,7 +1173,10 @@
       editingSheetId = null;
       activeSheetId = null;
       activeTarget = null;
-      selectedCell = null;
+      activeColumnId = null;
+      activeInputMethod = '';
+      selectedPaletteEntryId = null;
+      numberTarget = null;
       selectedPaletteId = null;
       paletteDraft = null;
       editingGroupId = null;
@@ -993,6 +1222,10 @@
     synchronizeCatalog();
     await persist();
 
+    byId('checklistDateInput').value = localDateKey();
+    byId('checklistNumberKeys').innerHTML = ['7','8','9','4','5','6','1','2','3','0','.','⌫','Enter','消去']
+      .map(key => `<button type="button" data-number-key="${key}">${key}</button>`).join('');
+
     byId('newChecklistBtn').addEventListener('click', () => showEditor());
     byId('checklistListSettingsBtn').addEventListener('click', () => openSettings('palette'));
     byId('checklistEditorBackBtn').addEventListener('click', openList);
@@ -1033,6 +1266,7 @@
       workspace.ui.currentClassId = targetParts().kind === 'class' ? targetParts().targetId : targetClassIds()[0];
       workspace.ui.currentGroupId = targetParts().kind === 'group' ? targetParts().targetId : null;
       workspace.ui.recordMode = targetParts().kind === 'group' ? 'combined' : 'class';
+      closePalette();
       renderRecord();
     });
     byId('checklistSheetSelect').addEventListener('change', event => {
@@ -1044,18 +1278,20 @@
     byId('checklistTableWrap').addEventListener('click', async event => {
       const cell = event.target.closest('.checklistRecordCell');
       if (cell) {
-        const bucket = classBucket(cell.dataset.recordClassId);
-        if (bucket?.lockedColumns?.[cell.dataset.recordColumnId]) return;
-        selectedCell = { classId: cell.dataset.recordClassId, studentId: cell.dataset.recordStudentId, columnId: cell.dataset.recordColumnId };
-        renderInputPalette();
+        await activateRecordCell(cell);
         return;
       }
       const add = event.target.closest('[data-add-column-after]');
       if (add) { openColumnEditor(null, add.dataset.addColumnAfter); return; }
       const action = event.target.closest('[data-column-action]');
       if (action) {
-        if (action.dataset.columnAction === 'edit') openColumnEditor(action.dataset.columnId);
-        else if (action.dataset.columnAction === 'delete') await deleteColumn(action.dataset.columnId);
+        const columnId = action.dataset.columnId;
+        if (action.dataset.columnAction === 'input') toggleColumnLock(columnId, { forceDialog:true });
+        else if (action.dataset.columnAction === 'settings') openColumnEditor(columnId);
+        else if (action.dataset.columnAction === 'hide') await setColumnHidden(columnId, true);
+        else if (action.dataset.columnAction === 'show') await setColumnHidden(columnId, false);
+        else if (action.dataset.columnAction === 'inherit') openColumnEditor(null, columnId, columnId);
+        else if (action.dataset.columnAction === 'delete') await deleteColumn(columnId);
         return;
       }
       if (event.target.closest('#copyChecklistTotalsBtn')) await copyTotals();
@@ -1092,15 +1328,54 @@
       workspace = Workspace.updateSheetDefinition(workspace, sheet.id, { name: sheet.name, type: sheet.type, columns, dueDatesByClass: sheet.dueDatesByClass });
       await saveWorkspaceChange();
     });
-    byId('checklistPaletteButtons').addEventListener('click', event => {
+    byId('checklistPaletteButtons').addEventListener('click', async event => {
       const button = event.target.closest('[data-palette-entry-id]');
-      if (button) applyPaletteEntry(button.dataset.paletteEntryId);
+      if (button) await runPaletteEntry(button.dataset.paletteEntryId);
     });
-    byId('checklistClearCellBtn').addEventListener('click', clearSelectedCell);
-    byId('checklistPaletteCloseBtn').addEventListener('click', closePalette);
+    byId('checklistClearCellBtn').addEventListener('click', () => runPaletteEntry('__clear__'));
+    byId('checklistPaletteCloseBtn').addEventListener('click', () => { closePalette(); renderRecord(); });
+    byId('checklistTodayBtn').addEventListener('click', () => { byId('checklistDateInput').value = localDateKey(); });
+    byId('checklistNumberKeys').addEventListener('click', event => {
+      const key = event.target.closest('[data-number-key]')?.dataset.numberKey;
+      if (key) handleNumberKey(key);
+    });
+    byId('checklistPaletteFoldBtn').addEventListener('click', () => {
+      const tools = byId('checklistPaletteTools');
+      tools.hidden = !tools.hidden;
+      byId('checklistPaletteFoldBtn').textContent = tools.hidden ? '＋' : '−';
+      byId('checklistPaletteFoldBtn').ariaLabel = tools.hidden ? '展開する' : '折りたたむ';
+      requestAnimationFrame(clampPalette);
+    });
+    byId('checklistPaletteDrag').addEventListener('pointerdown', event => {
+      if (event.target.closest('button')) return;
+      const palette = byId('checklistInputPalette');
+      const rect = palette.getBoundingClientRect();
+      paletteDrag = { pointerId:event.pointerId, offsetX:event.clientX - rect.left, offsetY:event.clientY - rect.top };
+      event.currentTarget.setPointerCapture?.(event.pointerId);
+    });
+    byId('checklistPaletteDrag').addEventListener('pointermove', event => {
+      if (!paletteDrag || paletteDrag.pointerId !== event.pointerId) return;
+      const palette = byId('checklistInputPalette');
+      palette.style.left = `${event.clientX - paletteDrag.offsetX}px`;
+      palette.style.top = `${event.clientY - paletteDrag.offsetY}px`;
+      palette.style.right = 'auto';
+      palette.style.bottom = 'auto';
+    });
+    const finishPaletteDrag = event => {
+      if (!paletteDrag || paletteDrag.pointerId !== event.pointerId) return;
+      paletteDrag = null;
+      clampPalette();
+    };
+    byId('checklistPaletteDrag').addEventListener('pointerup', finishPaletteDrag);
+    byId('checklistPaletteDrag').addEventListener('pointercancel', finishPaletteDrag);
+    root.addEventListener('resize', clampPalette);
+    byId('closeChecklistInputMethodBtn').addEventListener('click', closeInputMethodDialog);
+    byId('cancelChecklistInputMethodBtn').addEventListener('click', closeInputMethodDialog);
+    byId('saveChecklistInputMethodBtn').addEventListener('click', saveInputMethod);
     byId('closeChecklistColumnBtn').addEventListener('click', closeColumnEditor);
     byId('cancelChecklistColumnBtn').addEventListener('click', closeColumnEditor);
     byId('saveChecklistColumnBtn').addEventListener('click', saveColumnEditor);
+    byId('checklistColumnBasisInput').addEventListener('change', updateColumnIntervalState);
     byId('checklistOutputBtn').addEventListener('click', openExportDialog);
     byId('cancelChecklistExportBtn').addEventListener('click', closeExportDialog);
     byId('runChecklistExportBtn').addEventListener('click', runChecklistExport);
