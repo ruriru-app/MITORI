@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MITORI v0.3.83</title>
+<title>MITORI v0.3.84</title>
 <meta name="theme-color" content="#8ccbc2">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -126,6 +126,8 @@ h2{font-size:18px;margin:0 0 10px}
 .gradeDragHandle{display:flex;align-items:center;justify-content:center;min-height:36px;border-radius:9px;background:#f8fafc;color:#8b817b;font-weight:900;cursor:grab;user-select:none}
 .gradeEmpty{border:1px dashed var(--line);border-radius:14px;padding:24px;text-align:center;color:var(--muted);background:#fffdfa}
 .gradeDeleteWarning{white-space:pre-line;border:1px solid #fecaca;background:#fff7f7;color:#7f1d1d;border-radius:14px;padding:14px;line-height:1.7}
+.presetSettingsCard{max-width:760px;border:1px solid var(--line);border-radius:14px;background:#fffdfa;padding:12px;margin-bottom:14px}.presetSettingsTitle{font-weight:900;margin-bottom:9px}.presetCheckGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.presetCheckItem{display:flex;align-items:center;gap:8px;min-height:38px;border:1px solid #eadfd8;border-radius:10px;background:#fff;padding:7px 10px;font-weight:800;cursor:pointer}.presetCheckItem:has(input:checked){border-color:#91d7cf;background:#effbf9}.presetCheckItem input{width:17px;height:17px;accent-color:#63c3b7}.catalogCustomTitle{font-size:14px;margin:0 0 8px}.subjectSettingsColumns{display:grid;grid-template-columns:1fr 1fr;gap:12px}.subjectSettingsColumn{min-width:0;border:1px solid var(--line);border-radius:14px;background:#fffdfa;padding:12px}.subjectColumnHeader{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}.subjectColumnHeader h3{margin:0}.catalogTextBtn{border:0;background:transparent;color:#399b90;font-size:11px;font-weight:800;padding:4px;cursor:pointer}.catalogTextBtn:hover{text-decoration:underline}.subjectPresetGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.subjectAddRow{min-width:0;margin:12px 0 8px}.subjectCustomList{max-width:none}.subjectCustomList .gradeSettingRow,.legacySubjectSection .gradeSettingRow{grid-template-columns:26px minmax(80px,1fr) auto auto auto auto;gap:5px}.subjectCustomList .gradeSettingRow .btn,.legacySubjectSection .gradeSettingRow .btn{padding:5px 7px;font-size:11px}.legacySubjectSection{margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}.legacySubjectSection h3{margin:0 0 4px}.legacySubjectSection .gradeSettingsList{margin-top:9px}.classListTitleLine{display:flex;align-items:baseline;gap:10px;min-width:0}.classListTitleLine h2{margin:0}.emptyTileHint{font-size:11px;color:#9a8f86;font-weight:600}.homeBoardGuide{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}.homeBoardGuide strong{color:#6f625b}
+@media(max-width:900px){.subjectSettingsColumns{grid-template-columns:1fr}.presetCheckGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .sharedClassHeader{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap}
 .sharedClassHeader h2{margin-bottom:4px}
 .sharedClassGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;align-content:start}
@@ -140,6 +142,8 @@ h2{font-size:18px;margin:0 0 10px}
 .tagTile{border:1px solid var(--line);border-radius:14px;background:white;overflow:hidden}.tagName{padding:12px;font-weight:900;border-bottom:1px solid var(--line)}
 .tagActions{display:grid;grid-template-columns:1fr 1fr 64px}.tagActions button{border:0;border-right:1px solid var(--line);min-height:52px;font-size:20px;cursor:pointer;background:#f8fafc}
 .formRow{display:grid;grid-template-columns:140px 1fr;gap:10px;align-items:center;margin:8px 0}.formRow input,.formRow select{border:1px solid var(--line);border-radius:10px;padding:8px}
+.tileColorPicker{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.tileColorGroupLabel{grid-column:1/-1;margin-top:2px;color:#8b817b;font-size:11px;font-weight:900}.tileColorChoice{display:flex;align-items:center;gap:7px;min-width:0;border:1px solid #eadfd8;border-radius:10px;background:#fff;padding:7px 8px;cursor:pointer;font-weight:900;text-align:left}.tileColorChoice:hover{background:#fffdfa}.tileColorChoice.selected{border-color:#63c3b7;box-shadow:0 0 0 2px rgba(99,195,183,.16)}.tileColorSwatch{width:17px;height:17px;flex:0 0 17px;border:1px solid rgba(95,86,80,.22);border-radius:5px;background:var(--choice-color)}.tileColorName{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--choice-color)}
+@media(max-width:640px){.tileColorPicker{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .modalBack{display:none;position:fixed;inset:0;background:rgba(15,23,42,.35);z-index:99;align-items:center;justify-content:center}
 .modal{background:white;width:min(700px,92vw);max-height:92vh;overflow:auto;border-radius:18px;border:1px solid var(--line);box-shadow:0 20px 60px rgba(0,0,0,.25);padding:18px}
 .tagGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}.tagColumn{border:1px solid var(--line);border-radius:14px;background:#fff;padding:10px}.tagColumnTitle{font-weight:900;margin-bottom:8px}.tagColumn.goodCol .tagColumnTitle{color:var(--goodText)}.tagColumn.badCol .tagColumnTitle{color:var(--badText)}.tagColumn button{width:100%;min-height:48px;border:1px solid var(--line);border-radius:12px;background:#f8fafc;text-align:left;padding:10px;cursor:pointer;margin-bottom:8px}.tagColumn button.selected{outline:3px solid var(--accent);background:#eff6ff}
@@ -574,6 +578,11 @@ h2,.title,.sideTitle{color:#6f625b}.small{color:#8b817b}
 .classCard.grade5,.settingClassCard.grade5,.timetableClassTile.grade5,.timetablePlacedTile.grade5{--class-color:#8bb7e8}
 .classCard.grade6,.settingClassCard.grade6,.timetableClassTile.grade6,.timetablePlacedTile.grade6{--class-color:#f48ba8}
 .classCard.gray,.settingClassCard.gray,.timetableClassTile.gray,.timetablePlacedTile.gray{--class-color:#c8c3be}
+.classCard.lemon,.settingClassCard.lemon,.timetableClassTile.lemon,.timetablePlacedTile.lemon{--class-color:#E8CF72}
+.classCard.coral,.settingClassCard.coral,.timetableClassTile.coral,.timetablePlacedTile.coral{--class-color:#D97D6C}
+.classCard.teal,.settingClassCard.teal,.timetableClassTile.teal,.timetablePlacedTile.teal{--class-color:#4F9E91}
+.classCard.indigo,.settingClassCard.indigo,.timetableClassTile.indigo,.timetablePlacedTile.indigo{--class-color:#6F78B8}
+.classCard.mauve,.settingClassCard.mauve,.timetableClassTile.mauve,.timetablePlacedTile.mauve{--class-color:#B27696}
 .settingClassCard{padding:5px 8px 5px 15px;gap:0;justify-content:flex-start}
 .settingClassCard .classTitle{font-size:15px;line-height:1.15;margin:0 0 1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .settingClassCard .classMeta{font-size:11px;line-height:1.18;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -706,7 +715,7 @@ h2,.title,.sideTitle{color:#6f625b}.small{color:#8b817b}
 .slot.filled{padding:0;border-color:transparent;background:transparent;box-shadow:none;align-items:stretch;justify-content:stretch}
 .boardLessonTile{position:relative;width:100%;height:100%;overflow:hidden;border:1px solid #efe5dc;border-radius:12px;background:#fff;padding:6px 7px 5px 15px;color:#6f625b;display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:3px;text-align:left;box-shadow:0 2px 8px rgba(129,104,87,.07)}
 .boardLessonTile::before{content:"";position:absolute;left:0;top:0;bottom:0;width:8px;border-radius:11px 0 0 11px;background:var(--class-color,#c8c3be);pointer-events:none}
-.boardLessonTile.grade3{--class-color:#8ccbc2}.boardLessonTile.grade4{--class-color:#ffb463}.boardLessonTile.grade5{--class-color:#8bb7e8}.boardLessonTile.grade6{--class-color:#f48ba8}.boardLessonTile.gray{--class-color:#c8c3be}
+.boardLessonTile.grade3{--class-color:#8ccbc2}.boardLessonTile.grade4{--class-color:#ffb463}.boardLessonTile.grade5{--class-color:#8bb7e8}.boardLessonTile.grade6{--class-color:#f48ba8}.boardLessonTile.gray{--class-color:#c8c3be}.boardLessonTile.lemon{--class-color:#E8CF72}.boardLessonTile.coral{--class-color:#D97D6C}.boardLessonTile.teal{--class-color:#4F9E91}.boardLessonTile.indigo{--class-color:#6F78B8}.boardLessonTile.mauve{--class-color:#B27696}
 .classCard.apple,.settingClassCard.apple,.timetableClassTile.apple,.timetablePlacedTile.apple,.boardLessonTile.apple{--class-color:#A8D08D}
 .classCard.purple,.settingClassCard.purple,.timetableClassTile.purple,.timetablePlacedTile.purple,.boardLessonTile.purple{--class-color:#B59AD9}
 .classCard.brown,.settingClassCard.brown,.timetableClassTile.brown,.timetablePlacedTile.brown,.boardLessonTile.brown{--class-color:#9A8F86}
@@ -854,7 +863,7 @@ h2,.title,.sideTitle{color:#6f625b}.small{color:#8b817b}
 .weeklyPlanPageHeader{display:flex;align-items:center;border-bottom:3px solid #8ccbc2;padding-bottom:7px;margin-bottom:9px}.weeklyPlanPageTitle{font-size:15px;line-height:1.3;margin:0;color:#4d706b;font-weight:900}
 .weeklyPlanGrid{display:grid;flex:1;min-height:0;border-top:1px solid #cfc6be;border-left:1px solid #cfc6be}.weeklyPlanGrid>div{min-width:0;border-right:1px solid #cfc6be;border-bottom:1px solid #cfc6be;padding:4px;display:flex;align-items:stretch;justify-content:stretch;overflow:hidden}
 .weeklyPlanCorner,.weeklyPlanDayHeader{background:#eaf6f3;color:#4d706b;font-weight:900}.weeklyPlanDayHeader{align-items:center!important;justify-content:center!important;flex-direction:column;gap:1px;font-size:11px}.weeklyPlanDayHeader.holiday{color:#c45a5a;background:#fff1ef}.weeklyPlanDayHeader:not(.holiday) .weeklyPlanHolidayName{display:none}.weeklyPlanHolidayName{font-size:7px;line-height:1;color:#c45a5a;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}.weeklyPlanRowLabel{align-items:center!important;justify-content:center!important;text-align:center;background:#fffdfa;color:#6f625b;font-size:8px;font-weight:900;white-space:nowrap;padding-left:1px!important;padding-right:1px!important}.weeklyPlanCell{background:#fff;white-space:pre-wrap;font-size:8px;line-height:1.25}.weeklyPlanNoteInput,.weeklyEmptyLessonMemo{display:block;width:100%;height:100%;min-width:0;min-height:0;border:0;resize:none;padding:1px 2px;background:transparent;color:#5f5650;font:inherit;line-height:1.25;overflow:auto}.weeklyPlanNoteInput:focus,.weeklyEmptyLessonMemo:focus{outline:2px solid #63c3b7;outline-offset:0;background:#f8fffd}.weeklyPlanRowLabel.xsmall,.weeklyPlanCell.xsmall{overflow:hidden!important}.weeklyPlanCell.xsmall .weeklyPlanNoteInput,.weeklyPlanCell.xsmall .weeklyEmptyLessonMemo{overflow:hidden!important;white-space:nowrap!important;scrollbar-width:none}.weeklyPlanCell.xsmall textarea::-webkit-scrollbar{display:none}.weeklyPlanEmpty{margin:auto;padding:24px;text-align:center;color:#8b817b;border:1px dashed #d8d0c9;border-radius:12px;background:#fffdfa}
-.weeklyLessonCard{width:100%;min-height:0;display:flex;flex-direction:column;color:#5f5650;background:#fff}.weeklyLessonTop{position:relative;min-height:18px;border-bottom:1px solid #ded6cf;padding:3px 3px 2px 8px;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:3px;overflow:hidden}.weeklyLessonTop::before{content:"";position:absolute;left:0;top:3px;bottom:3px;width:4px;border-radius:3px 0 0 3px;background:var(--weekly-class-color,#c8c3be)}.weeklyLessonMain{min-width:0;font-size:8px;line-height:1.1;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.weeklyLessonSchool{max-width:42px;font-size:6px;line-height:1.05;color:#8b817b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.weeklyLessonCard.grade3{--weekly-class-color:#8ccbc2}.weeklyLessonCard.grade4{--weekly-class-color:#ffb463}.weeklyLessonCard.grade5{--weekly-class-color:#8bb7e8}.weeklyLessonCard.grade6{--weekly-class-color:#f48ba8}.weeklyLessonCard.apple{--weekly-class-color:#A8D08D}.weeklyLessonCard.purple{--weekly-class-color:#B59AD9}.weeklyLessonCard.brown{--weekly-class-color:#9A8F86}.weeklyLessonPlan{padding:2px 3px;display:flex;flex-direction:column;gap:2px}.weeklyLessonPlan select{width:100%;min-width:0;border:0;border-bottom:1px solid #eee7e1;border-radius:0;padding:1px 13px 1px 1px;background:#fff;color:#5f5650;font-size:7px;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:default}.weeklyLessonPlan select:last-child{border-bottom:0}.weeklyLessonPlan select:focus{outline:1px solid #63c3b7;background:#f8fffd}.weeklyLessonContentControl{position:relative;min-width:0;border-bottom:0}.weeklyLessonContentControl::after{content:"▼";position:absolute;right:2px;top:3px;color:#9a8f86;font-size:5px;pointer-events:none}.weeklyLessonContentText{min-height:13px;padding:1px 10px 1px 1px;color:#5f5650;font-size:7px;line-height:1.25;white-space:normal;overflow-wrap:anywhere}.weeklyLessonContentControl select{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:default}.weeklyLessonContentControl:focus-within{outline:1px solid #63c3b7;background:#f8fffd}.weeklyLessonMemo{display:block;width:calc(100% - 6px);min-height:17px;margin:2px 3px;padding:2px 3px;border:1px solid #eee7e1;border-radius:4px;background:#fffdfa;color:#5f5650;font-size:7px;line-height:1.15;resize:none}.weeklyLessonMemo:focus{outline:1px solid #63c3b7;background:#f8fffd}.weeklyLessonAbsent{margin-top:auto;padding:2px 3px 1px;border-top:1px dotted #ded6cf;color:#8b817b;font-size:7px;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.weeklyLessonCard{width:100%;min-height:0;display:flex;flex-direction:column;color:#5f5650;background:#fff}.weeklyLessonTop{position:relative;min-height:18px;border-bottom:1px solid #ded6cf;padding:3px 3px 2px 8px;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:3px;overflow:hidden}.weeklyLessonTop::before{content:"";position:absolute;left:0;top:3px;bottom:3px;width:4px;border-radius:3px 0 0 3px;background:var(--weekly-class-color,#c8c3be)}.weeklyLessonMain{min-width:0;font-size:8px;line-height:1.1;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.weeklyLessonSchool{max-width:42px;font-size:6px;line-height:1.05;color:#8b817b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.weeklyLessonCard.grade3{--weekly-class-color:#8ccbc2}.weeklyLessonCard.grade4{--weekly-class-color:#ffb463}.weeklyLessonCard.grade5{--weekly-class-color:#8bb7e8}.weeklyLessonCard.grade6{--weekly-class-color:#f48ba8}.weeklyLessonCard.apple{--weekly-class-color:#A8D08D}.weeklyLessonCard.purple{--weekly-class-color:#B59AD9}.weeklyLessonCard.brown{--weekly-class-color:#9A8F86}.weeklyLessonCard.lemon{--weekly-class-color:#E8CF72}.weeklyLessonCard.coral{--weekly-class-color:#D97D6C}.weeklyLessonCard.teal{--weekly-class-color:#4F9E91}.weeklyLessonCard.indigo{--weekly-class-color:#6F78B8}.weeklyLessonCard.mauve{--weekly-class-color:#B27696}.weeklyLessonPlan{padding:2px 3px;display:flex;flex-direction:column;gap:2px}.weeklyLessonPlan select{width:100%;min-width:0;border:0;border-bottom:1px solid #eee7e1;border-radius:0;padding:1px 13px 1px 1px;background:#fff;color:#5f5650;font-size:7px;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:default}.weeklyLessonPlan select:last-child{border-bottom:0}.weeklyLessonPlan select:focus{outline:1px solid #63c3b7;background:#f8fffd}.weeklyLessonContentControl{position:relative;min-width:0;border-bottom:0}.weeklyLessonContentControl::after{content:"▼";position:absolute;right:2px;top:3px;color:#9a8f86;font-size:5px;pointer-events:none}.weeklyLessonContentText{min-height:13px;padding:1px 10px 1px 1px;color:#5f5650;font-size:7px;line-height:1.25;white-space:normal;overflow-wrap:anywhere}.weeklyLessonContentControl select{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:default}.weeklyLessonContentControl:focus-within{outline:1px solid #63c3b7;background:#f8fffd}.weeklyLessonMemo{display:block;width:calc(100% - 6px);min-height:17px;margin:2px 3px;padding:2px 3px;border:1px solid #eee7e1;border-radius:4px;background:#fffdfa;color:#5f5650;font-size:7px;line-height:1.15;resize:none}.weeklyLessonMemo:focus{outline:1px solid #63c3b7;background:#f8fffd}.weeklyLessonAbsent{margin-top:auto;padding:2px 3px 1px;border-top:1px dotted #ded6cf;color:#8b817b;font-size:7px;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .weeklyPlanHeaderActions{display:flex;align-items:center;gap:8px;flex:0 0 auto}.weeklyPlanMoveHint{font-size:9px;color:#8b817b;white-space:nowrap}.weeklyLessonTop{cursor:grab;user-select:none}.weeklyLessonTop:active{cursor:grabbing}.weeklyLessonTop:focus-visible{outline:2px solid #63c3b7;outline-offset:-2px}.weeklyLessonCard.weeklyLessonSelected{position:relative;z-index:2;outline:2px solid #f48ba8;outline-offset:-2px;box-shadow:0 0 0 2px rgba(244,139,168,.16)}.weeklyLessonCard.weeklyLessonDragging{opacity:.48}.weeklyPlanCell.lessonDropZone{transition:background .12s,box-shadow .12s}.weeklyPlanCell.lessonDropZone.weeklyTapTarget{cursor:pointer;background:#fbfffe}.weeklyPlanCell.lessonDropZone.weeklyDragOver{background:#e5f6f2!important;box-shadow:inset 0 0 0 2px #63c3b7}.weeklyPlanCell.lessonDropZone.weeklyTapTarget:hover{box-shadow:inset 0 0 0 1px #8ccbc2}
 .weeklyPlanBottom{--weekly-memo-width:42%;position:relative;flex:0 0 auto;display:block;min-height:54px;margin-top:7px}.weeklyHoursSummary{min-width:0;padding-right:calc(var(--weekly-memo-width) + 7px)}.weeklyHoursSchools{display:flex;flex-wrap:wrap;gap:7px;align-items:flex-start}.weeklyFooterMemo{position:absolute;right:0;top:0;bottom:0;width:var(--weekly-memo-width);min-width:28px;border:1px solid #cfe7e2;border-radius:8px;overflow:hidden;display:flex;flex-direction:column}.weeklyFooterMemo.manualHeight{top:auto;height:var(--weekly-memo-height)}.weeklyFooterMemoHeading{display:flex;align-items:center;justify-content:space-between;gap:4px;background:#eaf6f3;padding:3px 6px 3px 9px;color:#4d706b;font-size:8px;font-weight:900;min-height:20px}.weeklyFooterMemoHint{font-size:6px;font-weight:700;color:#7b9691;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.weeklyMemoResize{position:absolute;z-index:4;display:block;border:0;background:transparent;padding:0;touch-action:none}.weeklyMemoResizeTop{left:11px;right:0;top:0;height:8px;cursor:ns-resize}.weeklyMemoResizeLeft{left:0;top:11px;bottom:0;width:8px;cursor:ew-resize}.weeklyMemoResizeCorner{left:0;top:0;width:13px;height:13px;cursor:nwse-resize}.weeklyMemoResizeCorner::after{content:"";position:absolute;left:3px;top:3px;width:6px;height:6px;border-left:2px solid #9a8f86;border-top:2px solid #9a8f86;border-radius:2px 0 0}.weeklyHoursSchool{flex:0 0 auto;max-width:100%;overflow:hidden;border:1px solid #cfe7e2;border-radius:8px;box-shadow:0 1px 4px rgba(89,121,115,.08);background:#fff}.weeklyHoursBand+.weeklyHoursBand{border-top:2px solid #cfe7e2}.weeklyHoursTable{width:auto;max-width:100%;border-collapse:separate;border-spacing:0;table-layout:fixed;font-size:8px;background:#fff}.weeklyHoursTable th,.weeklyHoursTable td{height:21px;border:0;border-right:1px solid #dceae7;border-bottom:1px solid #dceae7;padding:1px;text-align:center;line-height:1.1;overflow-wrap:anywhere}.weeklyHoursTable tr>*:last-child{border-right:0}.weeklyHoursTable tbody tr:last-child>*{border-bottom:0}.weeklyHoursTable thead th{height:25px;background:#fffdfa;color:#5f5650;font-weight:900}.weeklyHoursTable .weeklyHoursRowLabel{width:46px;min-width:46px;max-width:46px;background:#f8fffd;color:#5f7773;font-weight:900}.weeklyHoursClassColumn{width:44px;min-width:44px;max-width:44px}.weeklyHoursSchoolLabel,.weeklyHoursSchoolMain,.weeklyHoursSchoolType{display:block;line-height:1.05;overflow-wrap:anywhere}.weeklyHoursClassName,.weeklyHoursSubject{display:block;line-height:1.05}.weeklyHoursClassName{padding:3px 0 2px}.weeklyHoursSubject{border-top:1px solid #dceae7;padding-top:2px;font-size:7px;color:#6f625b}.weeklyHoursTable .weeklyHoursTotal{width:34px;min-width:34px;max-width:34px;background:#eef8f5;color:#4d706b;font-weight:900;white-space:pre-line}.weeklyHoursTable .weeklyHoursContinuation{color:transparent}.weeklyHoursTable td{font-variant-numeric:tabular-nums;background:#fff}.weeklyHoursEmpty{padding:6px;color:#8b817b;font-size:8px}.weeklyFooterMemoInput{display:block;flex:1;width:100%;min-height:34px;border:0;resize:none;padding:5px 6px 5px 9px;background:#fffdfa;color:#5f5650;font-size:8px;line-height:1.35}.weeklyFooterMemoInput:focus{outline:2px solid #63c3b7;outline-offset:-2px;background:#f8fffd}
 .weeklyAnnualView{display:none;flex:1;min-height:0;overflow:hidden;flex-direction:column}.weeklyAnnualView.active{display:flex}.weeklyAnnualToolbar{display:flex;align-items:center;gap:8px;padding:8px 10px;background:#fff;border-bottom:1px solid #eadfd8;flex-wrap:wrap}.weeklyAnnualToolbar .btn{padding:6px 9px;font-size:11px}.weeklyAnnualYear{font-size:14px;font-weight:900;color:#6f625b;min-width:70px;text-align:center}.weeklyAnnualField{display:flex;align-items:center;gap:6px;margin-left:auto;font-size:11px;font-weight:900;color:#6f625b}.weeklyAnnualField select{border:1px solid #eadfd8;border-radius:8px;padding:6px;background:#fff;color:#6f625b}.weeklyAnnualHint{font-size:10px;color:#8b817b;padding:0 4px}.weeklyAnnualScroller{flex:1;min-height:0;overflow:auto;padding:10px;background:#f1eeea}.weeklyAnnualGrid{display:grid;grid-template-columns:repeat(12,190px);gap:8px;align-items:start;min-width:max-content}.weeklyAnnualMonth{border:1px solid #eadfd8;border-radius:11px;background:#fff;overflow:hidden}.weeklyAnnualMonthTitle{position:sticky;top:0;z-index:2;background:#eaf6f3;color:#4d706b;text-align:center;padding:7px;font-size:12px;font-weight:900;border-bottom:1px solid #cfe7e2}.weeklyAnnualDay{display:grid;grid-template-columns:54px minmax(0,1fr);min-height:30px;border-bottom:1px solid #f0e8e1}.weeklyAnnualDay:last-child{border-bottom:0}.weeklyAnnualDate{display:flex;flex-direction:column;justify-content:center;padding:3px 5px;background:#fffdfa;color:#6f625b;font-size:9px;font-weight:800;border-right:1px solid #f0e8e1}.weeklyAnnualDate.holiday{color:#c45a5a;background:#fff1ef}.weeklyAnnualHoliday{font-size:6px;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.weeklyAnnualInput{width:100%;min-width:0;border:0;border-radius:0;padding:4px 5px;background:#fff;color:#5f5650;font-size:9px}.weeklyAnnualInput:focus{outline:2px solid #63c3b7;outline-offset:-2px;background:#f8fffd}
@@ -1045,7 +1054,7 @@ h2,.title,.sideTitle{color:#6f625b}.small{color:#8b817b}
   <div id="homeView" class="view active">
     <div class="home">
       <div class="panel">
-        <div class="boardHeader"><h2>今日の授業ボード</h2><div class="boardActions"><button class="btn" id="clearBoardBtn">ボードをクリア</button><button class="btn" id="cancelBoardHoursBtn">時数確定の取消</button><button class="btn primary iconBtn confirmAllBtn" id="finalSaveBtn" title="授業記録の確定" aria-label="授業記録の確定"><span class="btnIconWrap"><svg class="btnSvgIcon" aria-hidden="true" focusable="false" height="1024.0px" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 1024 1024" width="1024.0px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <div class="boardHeader"><h2>今日の授業ボード</h2><div class="boardActions"><button class="btn" id="clearBoardBtn">ボードをクリア</button><button class="btn" id="cancelBoardHoursBtn">時数確定の取消</button><button class="btn primary iconBtn confirmAllBtn" id="finalSaveBtn" title="授業確定ボタン" aria-label="授業確定ボタン"><span class="btnIconWrap"><svg class="btnSvgIcon" aria-hidden="true" focusable="false" height="1024.0px" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 1024 1024" width="1024.0px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <defs/>
 <g id="レイヤー-2">
 <path d="M2 132C2 60.203 60.203 2 132 2L892 2C963.797 2 1022 60.203 1022 132L1022 892C1022 963.797 963.797 1022 892 1022L132 1022C60.203 1022 2 963.797 2 892L2 132Z" fill="#fcfaf5" fill-rule="nonzero" opacity="1" stroke="none"/>
@@ -1057,18 +1066,18 @@ h2,.title,.sideTitle{color:#6f625b}.small{color:#8b817b}
 </g>
 </g>
 </g>
-</svg></span><span>授業記録の確定</span></button></div></div>
+</svg></span><span>授業確定ボタン</span></button></div></div>
         <div class="board" id="board"></div>
-        <div class="small" style="margin-top:8px">クラスカードを1〜6時間目へドラッグ。置いた後もドラッグで入れ替え、「外す」で削除できます。</div>
+        <div class="small homeBoardGuide" style="margin-top:8px"><span>授業タイルを1〜6時間目へドラッグ。置いた後もドラッグで入れ替え、「外す」で削除できます。</span><strong>1日の終わりには、授業数を週案に記録するため、ボード右上の「授業確定ボタン」を押してください。</strong></div>
       </div>
       <div class="panel classListPanel">
-        <div class="classListHeader"><h2>クラス一覧</h2><button class="btn" id="classArrangeBtn">配置変更</button></div>
+        <div class="classListHeader"><div class="classListTitleLine"><h2>授業タイル一覧</h2><span class="emptyTileHint" id="emptyTileHint">授業タイルがありません。画面右上の設定ボタンから学年設定→教科設定→クラス設定を行い、授業タイルを作成しましょう。</span></div><button class="btn" id="classArrangeBtn">配置変更</button></div>
         <div class="classGrid" id="classGrid"></div>
         <div class="small" style="margin-top:8px">「配置変更」にしてカードをドラッグ＆ドロップ。タップで選んで移動先をタップすることもでき、空き行を残せます。</div>
       </div>
       <div class="footer">
         <img class="footerArtwork" src="mitori-footer.svg" alt="">
-        <div class="footerInfo"><span id="status">未保存</span><span class="footerVersion">v0.3.83：授業時数の上書き確定</span></div>
+        <div class="footerInfo"><span id="status">未保存</span><span class="footerVersion">v0.3.84：初回設定と授業タイル色</span></div>
       </div>
     </div>
   </div>
@@ -1349,23 +1358,26 @@ h2,.title,.sideTitle{color:#6f625b}.small{color:#8b817b}
       <div class="panel settingsContent">
         <div id="gradeSettingsPane" style="display:none">
           <div class="gradeSettingsHeader">
-            <div><h2>学年設定</h2><div class="small">担当学年など、学年別に整理するための名称を自由に登録できます。</div></div>
-            <div class="gradeAddRow"><input id="newGradeNameInput" placeholder="例：5年生、中学1年"><button class="btn primary" id="newGradeBtn">＋追加</button></div>
+            <div><h2>学年設定</h2><div class="small">担当する学年を選択します。必要な名称は自由に追加できます。</div></div>
+            <div class="gradeAddRow"><input id="newGradeNameInput" placeholder="例：中学1年、特別支援学級"><button class="btn primary" id="newGradeBtn">＋選択項目を追加</button></div>
           </div>
+          <div class="presetSettingsCard"><div class="presetSettingsTitle">小学校</div><div class="presetCheckGrid" id="gradePresetGrid"></div></div>
+          <h3 class="catalogCustomTitle">追加した学年</h3>
           <div class="gradeSettingsList" id="gradeSettingsList"></div>
         </div>
         <div id="subjectSettingsPane" style="display:none">
-          <div class="gradeSettingsHeader">
-            <div><h2>教科設定</h2><div class="small">国語・算数・外国語など、授業タイルで使う教科名を自由に登録できます。</div></div>
-            <div class="gradeAddRow"><input id="newSubjectNameInput" placeholder="例：国語、算数、外国語"><button class="btn primary" id="newSubjectBtn">＋追加</button></div>
+          <div class="gradeSettingsHeader"><div><h2>教科設定</h2><div class="small">使用する教科を学校種別ごとに選択します。独自の教科名も追加できます。</div></div></div>
+          <div class="subjectSettingsColumns">
+            <section class="subjectSettingsColumn"><div class="subjectColumnHeader"><h3>小学校</h3><div><button class="catalogTextBtn" type="button" data-subject-stage="elementary" data-subject-action="all">すべて選択</button><button class="catalogTextBtn" type="button" data-subject-stage="elementary" data-subject-action="none">すべて解除</button></div></div><div class="presetCheckGrid subjectPresetGrid" id="elementarySubjectPresetGrid"></div><div class="gradeAddRow subjectAddRow"><input id="newElementarySubjectNameInput" placeholder="独自の教科名"><button class="btn primary" id="newElementarySubjectBtn">＋追加</button></div><div class="gradeSettingsList subjectCustomList" id="elementarySubjectCustomList"></div></section>
+            <section class="subjectSettingsColumn"><div class="subjectColumnHeader"><h3>中学校</h3><div><button class="catalogTextBtn" type="button" data-subject-stage="junior" data-subject-action="all">すべて選択</button><button class="catalogTextBtn" type="button" data-subject-stage="junior" data-subject-action="none">すべて解除</button></div></div><div class="presetCheckGrid subjectPresetGrid" id="juniorSubjectPresetGrid"></div><div class="gradeAddRow subjectAddRow"><input id="newJuniorSubjectNameInput" placeholder="独自の教科名"><button class="btn primary" id="newJuniorSubjectBtn">＋追加</button></div><div class="gradeSettingsList subjectCustomList" id="juniorSubjectCustomList"></div></section>
           </div>
-          <div class="gradeSettingsList" id="subjectSettingsList"></div>
+          <section class="legacySubjectSection" id="legacySubjectSection"><h3>既存・その他の教科</h3><div class="small">以前から登録されている教科は自動分類せず、そのまま保持しています。</div><div class="gradeSettingsList" id="subjectSettingsList"></div></section>
         </div>
         <div id="sharedClassSettingsPane">
           <div class="sharedClassHeader"><div><h2>クラス設定</h2><div class="small">「誰を教えるか」を登録します。名簿と座席表は、同じクラスを参照する授業タイルで共有されます。</div></div><button class="btn primary" id="newSharedClassBtn">＋クラスを追加</button></div>
           <div class="sharedClassGrid" id="sharedClassSettingsGrid"></div>
         </div>
-        <div id="classSettingsPane" style="display:none"><div class="sharedClassHeader"><div><h2>授業タイル作成</h2><div class="small">「どのクラスで何を教えるか」を設定します。ホームと授業ボードには、この授業タイルが表示されます。</div></div></div><div class="settingClassGrid" id="classSettingsGrid"></div></div>
+        <div id="classSettingsPane" style="display:none"><div class="sharedClassHeader"><div><h2>授業タイル作成</h2><div class="small">「どのクラスで何を教えるか」を設定します。トップページには、この授業タイルが表示されます。週の時間割が決定している場合は、時間割設定に進みましょう。</div></div></div><div class="settingClassGrid" id="classSettingsGrid"></div></div>
         <div id="timetableSettingsPane" style="display:none">
           <div class="timetableSettingsHeader">
             <div class="timetableTitleLine"><h2>時間割設定</h2><div class="small">下のクラスタイルを時間割へドラッグ＆ドロップします。タイルを選択して枠をタップすることでも配置できます。</div></div>
@@ -1468,7 +1480,7 @@ h2,.title,.sideTitle{color:#6f625b}.small{color:#8b817b}
 
 <div class="modalBack" id="sharedClassModal"><div class="modal"><h2 id="sharedClassModalTitle">クラス登録</h2><div class="formRow"><label>学校名</label><input id="sharedSchoolInput" list="schoolNameOptions" placeholder="例：○○小学校"><datalist id="schoolNameOptions"></datalist></div><div class="formRow"><label>クラス名</label><input id="sharedClassNameInput" placeholder="例：5-1"></div><div class="formRow"><label>学年</label><select id="sharedClassGradeInput"></select></div><div class="formRow"><label>人数</label><input id="sharedClassCountInput" type="number" min="1" max="40"></div><h3>名簿登録</h3><div class="small">Excel / Googleスプレッドシートから「出席番号・名前漢字・名前ひらがな」の列をコピーして貼り付けできます。</div><textarea id="rosterText" style="min-height:180px" placeholder="1	山田太郎	やまだたろう&#10;2	佐藤花子	さとうはなこ"></textarea><div style="display:flex;align-items:center;gap:8px;margin-top:8px"><div class="small" id="rosterPreview" style="flex:1">貼り付けると読み込み予定人数を表示します。</div><button class="btn primary" id="quickRosterSaveBtn">名簿を登録して反映</button></div><div style="display:flex;justify-content:space-between;gap:8px;margin-top:12px"><div><button class="btn danger" id="deleteSharedClassBtn">削除</button> <button class="btn" id="openSharedSeatBtn">新しい座席表の作成</button></div><div><button class="btn" id="cancelSharedClassBtn">閉じる</button> <button class="btn primary" id="saveSharedClassBtn">クラスを保存</button></div></div></div></div>
 
-<div class="modalBack" id="classModal"><div class="modal"><h2 id="classModalTitle">授業タイル編集</h2><div class="formRow"><label>参照クラス</label><select id="tileClassInput"></select></div><div class="formRow"><label>教科</label><select id="tileSubjectInput"></select></div><div class="formRow"><label>色</label><select id="classColorInput"><option value="grade3">緑</option><option value="grade4">オレンジ</option><option value="grade5">青</option><option value="grade6">ピンク</option><option value="apple">アップルグリーン</option><option value="purple">パープル</option><option value="brown">ブラウン</option><option value="gray">グレー</option></select></div><div class="formRow"><label>見取り内容</label><select id="classTagSetInput"></select></div><div class="formRow"><label>授業内容リスト</label><select id="classLessonListInput"></select></div><label class="tileSchoolToggle"><input id="tileShowSchoolInput" type="checkbox" checked><span>学校名をタイル内に表示する</span></label><div class="small" id="tileClassShareInfo">名簿と座席表は、選択した参照クラスの共有データを使用します。</div><div style="display:flex;justify-content:space-between;margin-top:12px"><button class="btn danger" id="deleteClassBtn">削除</button><div><button class="btn" id="cancelClassBtn">閉じる</button> <button class="btn primary" id="saveClassBtn">授業タイルを保存</button></div></div></div></div>
+<div class="modalBack" id="classModal"><div class="modal"><h2 id="classModalTitle">授業タイル編集</h2><div class="formRow"><label>参照クラス</label><select id="tileClassInput"></select></div><div class="formRow"><label>教科</label><select id="tileSubjectInput"></select></div><div class="formRow"><label>色</label><div><input id="classColorInput" type="hidden" value="grade3"><div class="tileColorPicker" id="classColorPicker" role="radiogroup" aria-label="授業タイルの色"></div></div></div><div class="formRow"><label>見取り内容</label><select id="classTagSetInput"></select></div><div class="formRow"><label>授業内容リスト</label><select id="classLessonListInput"></select></div><label class="tileSchoolToggle"><input id="tileShowSchoolInput" type="checkbox" checked><span>学校名をタイル内に表示する</span></label><div class="small" id="tileClassShareInfo">名簿と座席表は、選択した参照クラスの共有データを使用します。</div><div style="display:flex;justify-content:space-between;margin-top:12px"><button class="btn danger" id="deleteClassBtn">削除</button><div><button class="btn" id="cancelClassBtn">閉じる</button> <button class="btn primary" id="saveClassBtn">授業タイルを保存</button></div></div></div></div>
 
 <div class="modalBack" id="boardHoursCancelModal"><div class="modal" style="width:min(620px,92vw)">
   <h2>時数確定の取消</h2>
@@ -1528,6 +1540,41 @@ const KEY='MITORI_V033_SETTINGS_LAYOUT_SYNC';
 const startupDate=new Date();
 const today=`${startupDate.getFullYear()}-${String(startupDate.getMonth()+1).padStart(2,'0')}-${String(startupDate.getDate()).padStart(2,'0')}`;
 const initialClasses=[];
+function gradePresetOptions(){return [1,2,3,4,5,6].map(number=>({id:`grade_primary_${number}`,name:`${number}年生`}))}
+function subjectPresetOptions(stage){
+  const names=stage==='junior'?['国語','社会','数学','理科','音楽','美術','保健体育','技術・家庭','外国語','道徳','総合','学級活動']:['国語','社会','算数','理科','生活','音楽','図画工作','家庭','体育','外国語活動','外国語','道徳','総合','学級活動'];
+  const prefix=stage==='junior'?'junior':'elementary';return names.map((name,index)=>({id:`subject_${prefix}_${index+1}`,name,stage:prefix,preset:true}));
+}
+function setCatalogPresetActive(items,preset,active,matchByName=false){
+  let item=(items||[]).find(entry=>entry?.id===preset.id)||(matchByName?(items||[]).find(entry=>entry?.name===preset.name):null);
+  if(!item&&!active)return null;
+  if(!item){item={...preset};items.push(item)}
+  item.active=!!active;return item;
+}
+function findSubjectPresetItem(items,preset){return (items||[]).find(entry=>entry?.id===preset.id||entry?.presetId===preset.id)||((items||[]).find(entry=>entry?.stage===preset.stage&&entry?.name===preset.name)||null)}
+function setSubjectPresetActive(items,preset,active){
+  let item=findSubjectPresetItem(items,preset);if(!item&&!active)return null;
+  if(!item){item={...preset,presetId:preset.id};items.push(item)}
+  item.stage=preset.stage;item.preset=true;item.presetId=preset.id;item.active=!!active;return item;
+}
+function reconcileSubjectPresets(items){['elementary','junior'].forEach(stage=>subjectPresetOptions(stage).forEach(preset=>{const item=findSubjectPresetItem(items,preset);if(item){item.stage=preset.stage;item.preset=true;item.presetId=preset.id}}));return items}
+function subjectCatalogLabel(item){const suffix=item?.stage==='elementary'?'小学校':item?.stage==='junior'?'中学校':'既存・その他';return `${item?.name||'教科未設定'}（${suffix}）`}
+function availableCatalogItems(items,selectedId=''){return (items||[]).filter(item=>(item&&item.active!==false)||item?.id===selectedId)}
+function classColorOptions(){return [
+  {id:'lemon',name:'レモン',color:'#E8CF72',group:'暖色系'},
+  {id:'grade4',name:'オレンジ',color:'#FFB463',group:'暖色系'},
+  {id:'coral',name:'コーラル',color:'#D97D6C',group:'暖色系'},
+  {id:'grade6',name:'ピンク',color:'#F48BA8',group:'暖色系'},
+  {id:'apple',name:'アップルグリーン',color:'#A8D08D',group:'グリーン系'},
+  {id:'grade3',name:'ミント',color:'#8CCBC2',group:'グリーン系'},
+  {id:'teal',name:'ティール',color:'#4F9E91',group:'グリーン系'},
+  {id:'grade5',name:'ブルー',color:'#8BB7E8',group:'ブルー・パープル系'},
+  {id:'indigo',name:'インディゴ',color:'#6F78B8',group:'ブルー・パープル系'},
+  {id:'purple',name:'パープル',color:'#B59AD9',group:'ブルー・パープル系'},
+  {id:'mauve',name:'モーヴ',color:'#B27696',group:'ブルー・パープル系'},
+  {id:'brown',name:'ブラウン',color:'#9A8F86',group:'ニュートラル系'},
+  {id:'gray',name:'グレー',color:'#C8C3BE',group:'ニュートラル系'}
+]}
 let state=JSON.parse(localStorage.getItem(KEY)||'null')||{
   date:today,mode:'record',currentClass:null,nameDisplay:'kanji',
   classes:initialClasses.map(x=>({id:x[0],name:x[1],color:x[2],hours:0,count:35,tagSetId:x[3]})),
@@ -1535,11 +1582,11 @@ let state=JSON.parse(localStorage.getItem(KEY)||'null')||{
   board:{},classData:{},sharedClassData:{},classLayout:[],records:[],lessonLists:[],
   timetable:{},timetableApplyStart:'',termSettings:{},
   weeklyPlan:{},
-  performanceTests:[],criteriaSets:[],performanceResults:{},schemaVersion:3
+  performanceTests:[],criteriaSets:[],performanceResults:{},schemaVersion:4
 };
 state.classes=Array.isArray(state.classes)?state.classes:[];
-state.grades=Array.isArray(state.grades)?state.grades.filter(g=>g&&g.id):[];
-state.subjects=Array.isArray(state.subjects)?state.subjects.filter(x=>x&&x.id):[];
+state.grades=Array.isArray(state.grades)?state.grades.filter(g=>g&&g.id).map(g=>({...g,active:g.active!==false})):[];
+state.subjects=Array.isArray(state.subjects)?state.subjects.filter(x=>x&&x.id).map(x=>({...x,active:x.active!==false})):[];reconcileSubjectPresets(state.subjects);
 state.sharedClasses=Array.isArray(state.sharedClasses)?state.sharedClasses.filter(x=>x&&x.id):[];
 state.tagSets=Array.isArray(state.tagSets)?state.tagSets:[];
 state.lessonLists=Array.isArray(state.lessonLists)?state.lessonLists:[];
@@ -1623,7 +1670,7 @@ state.performanceTests.forEach((test,testIndex)=>{test.id=test.id||`pt_legacy_${
 state.criteriaSets.forEach((set,setIndex)=>{set.id=set.id||`criteria_legacy_${setIndex}`;set.name=String(set.name||'名称未設定の評価基準');set.levels=Array.isArray(set.levels)?set.levels:[];set.levels.forEach((level,levelIndex)=>{level.id=level.id||`criteria_level_legacy_${levelIndex}`;level.label=String(level.label??(levelIndex+1));level.score=Number.isFinite(Number(level.score))?Number(level.score):levelIndex+1;level.criterion=String(level.criterion||'')})});
 if(!state.classLayout.length)state.classLayout=[...state.classes.map(c=>c.id),...Array(24-state.classes.length).fill(null)];
 while(state.classLayout.length<24)state.classLayout.push(null);
-state.schemaVersion=3;
+state.schemaVersion=4;
 if(state.currentClass&&!state.classes.some(c=>c.id===state.currentClass))state.currentClass=null;
 
 const $=id=>document.getElementById(id);
@@ -1674,6 +1721,8 @@ function tileShowsSchool(tileOrId){const tile=typeof tileOrId==='object'?tileOrI
 function tileSchoolLabel(tileOrId,fallback=false){if(!tileShowsSchool(tileOrId))return'';return tileSchoolName(tileOrId)||(fallback?'学校名未設定':'')}
 function grade(id){return state.grades.find(g=>g.id===id)||null}
 function gradeName(id){return grade(id)?.name||'学年未設定'}
+function availableGrades(selectedId=''){return availableCatalogItems(state.grades,selectedId)}
+function availableSubjects(selectedId=''){return availableCatalogItems(state.subjects,selectedId)}
 function formatHeaderDate(dateStr){const d=new Date(String(dateStr||today)+'T12:00:00'),w=['日','月','火','水','木','金','土'];if(Number.isNaN(d.getTime()))return String(dateStr||'');return `${d.getFullYear()}/${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getDate()).padStart(2,'0')}(${w[d.getDay()]})`}
 let headerCalendarMonth=state.date.slice(0,7);
 function renderHeaderDate(){$('dateInput').value=state.date;$('dateDisplay').textContent=formatHeaderDate(state.date);if($('datePickerWrap')?.classList.contains('open'))renderHeaderCalendar()}
@@ -1923,9 +1972,10 @@ function setClassArrangeMode(enabled){
   renderClasses();
 }
 function renderClasses(){
-  const grid=$('classGrid'),arrangeBtn=$('classArrangeBtn');
+  const grid=$('classGrid'),arrangeBtn=$('classArrangeBtn'),emptyHint=$('emptyTileHint');
   if(selectedArrangeClassId&&!cls(selectedArrangeClassId))selectedArrangeClassId=null;
   grid.innerHTML='';
+  if(emptyHint)emptyHint.style.display=state.classes.length?'none':'inline';
   grid.classList.toggle('arrangeMode',classArrangeMode);
   if(arrangeBtn){arrangeBtn.textContent=classArrangeMode?'配置完了':'配置変更';arrangeBtn.classList.toggle('active',classArrangeMode);arrangeBtn.setAttribute('aria-pressed',String(classArrangeMode));}
   for(let idx=0;idx<classSlotCount();idx++){
@@ -2374,6 +2424,7 @@ function reorderById(arr,fromId,toId){
   arr.splice(to,0,item);
 }
 function refreshGradeDependentViews(){syncAllTileDerivedFields();renderGradeSettings();renderSharedClassSettings();renderClassSettings();renderLessonListSettings();renderPerformanceTestList();if(performanceDraft)fillPerformanceGradeSelect(performanceDraft.gradeId||'');if(activePerformanceTestId&&$('performanceClassScreen')?.classList.contains('active'))renderPerformanceClassGroups()}
+function toggleGradePreset(id,active){const preset=gradePresetOptions().find(item=>item.id===id);if(!preset)return;setCatalogPresetActive(state.grades,preset,active,true);save();refreshGradeDependentViews()}
 function addGrade(){
   const input=$('newGradeNameInput'),name=(input?.value||'').trim();
   if(!name){alert('学年名を入力してください。');return}
@@ -2390,9 +2441,8 @@ function saveGradeName(id,input){
   g.name=name;save();refreshGradeDependentViews();
 }
 function moveGrade(id,delta){
-  const from=state.grades.findIndex(g=>g.id===id),to=from+delta;
-  if(from<0||to<0||to>=state.grades.length)return;
-  const [item]=state.grades.splice(from,1);state.grades.splice(to,0,item);
+  const presetNames=new Set(gradePresetOptions().map(item=>item.name)),group=state.grades.filter(item=>!presetNames.has(item.name)),from=group.findIndex(item=>item.id===id),to=from+delta;if(from<0||to<0||to>=group.length)return;
+  const targetId=group[to].id,fromAll=state.grades.findIndex(item=>item.id===id);if(fromAll<0)return;const [item]=state.grades.splice(fromAll,1),targetAll=state.grades.findIndex(entry=>entry.id===targetId);state.grades.splice(delta>0?targetAll+1:targetAll,0,item);
   save();refreshGradeDependentViews();
 }
 function deleteGrade(id){
@@ -2416,16 +2466,18 @@ function confirmGradeDelete(){
 }
 function cancelGradeDelete(){pendingDeleteGradeId=null;$('gradeDeleteModal').style.display='none'}
 function renderGradeSettings(){
-  const list=$('gradeSettingsList');if(!list)return;list.innerHTML='';
-  if(!state.grades.length){list.innerHTML='<div class="gradeEmpty">学年はまだ登録されていません。上の入力欄から追加できます。</div>';return}
-  state.grades.forEach((g,index)=>{
+  const list=$('gradeSettingsList'),presetGrid=$('gradePresetGrid');if(!list||!presetGrid)return;list.innerHTML='';presetGrid.innerHTML='';
+  gradePresetOptions().forEach(preset=>{const current=state.grades.find(item=>item.id===preset.id)||state.grades.find(item=>item.name===preset.name),label=document.createElement('label');label.className='presetCheckItem';const checkbox=document.createElement('input');checkbox.type='checkbox';checkbox.checked=!!current&&current.active!==false;checkbox.onchange=()=>toggleGradePreset(preset.id,checkbox.checked);const text=document.createElement('span');text.textContent=preset.name;label.append(checkbox,text);presetGrid.appendChild(label)});
+  const presetNames=new Set(gradePresetOptions().map(item=>item.name)),custom=state.grades.filter(item=>!presetNames.has(item.name));
+  if(!custom.length){list.innerHTML='<div class="gradeEmpty">追加した学年はありません。</div>';return}
+  custom.forEach((g,index)=>{
     const row=document.createElement('div');row.className='gradeSettingRow';row.dataset.id=g.id;
     const handle=document.createElement('span');handle.className='gradeDragHandle';handle.textContent='≡';handle.title='ドラッグして並べ替え';handle.draggable=true;
     handle.ondragstart=e=>{e.dataTransfer.setData('gradeId',g.id)};
     const input=document.createElement('input');input.value=g.name;input.setAttribute('aria-label',`${g.name}の学年名`);input.onkeydown=e=>{if(e.key==='Enter')saveGradeName(g.id,input)};
     const saveBtn=document.createElement('button');saveBtn.className='btn';saveBtn.textContent='保存';saveBtn.onclick=()=>saveGradeName(g.id,input);
     const up=document.createElement('button');up.className='btn';up.textContent='↑';up.title='上へ';up.disabled=index===0;up.onclick=()=>moveGrade(g.id,-1);
-    const down=document.createElement('button');down.className='btn';down.textContent='↓';down.title='下へ';down.disabled=index===state.grades.length-1;down.onclick=()=>moveGrade(g.id,1);
+    const down=document.createElement('button');down.className='btn';down.textContent='↓';down.title='下へ';down.disabled=index===custom.length-1;down.onclick=()=>moveGrade(g.id,1);
     const del=document.createElement('button');del.className='btn danger';del.textContent='削除';del.onclick=()=>deleteGrade(g.id);
     row.ondragover=e=>{e.preventDefault();row.classList.add('dragOver')};row.ondragleave=()=>row.classList.remove('dragOver');
     row.ondrop=e=>{e.preventDefault();row.classList.remove('dragOver');const from=e.dataTransfer.getData('gradeId');reorderById(state.grades,from,g.id);save();refreshGradeDependentViews()};
@@ -2433,38 +2485,44 @@ function renderGradeSettings(){
   });
 }
 function refreshSubjectDependentViews(){syncAllTileDerivedFields();renderSubjectSettings();renderSharedClassSettings();renderClassSettings();renderTimetableSettings();renderLessonListSettings();renderClasses();renderBoard()}
-function addSubject(){
-  const input=$('newSubjectNameInput'),name=(input?.value||'').trim();
+function toggleSubjectPreset(stage,id,active){const preset=subjectPresetOptions(stage).find(item=>item.id===id);if(!preset)return;setSubjectPresetActive(state.subjects,preset,active);save();refreshSubjectDependentViews()}
+function setAllSubjectPresets(stage,active){subjectPresetOptions(stage).forEach(preset=>setSubjectPresetActive(state.subjects,preset,active));save();refreshSubjectDependentViews()}
+function addSubject(stage='other'){
+  const input=$(stage==='elementary'?'newElementarySubjectNameInput':stage==='junior'?'newJuniorSubjectNameInput':'newSubjectNameInput'),name=(input?.value||'').trim();
   if(!name){alert('教科名を入力してください。');return}
-  if(state.subjects.some(x=>x.name===name)){alert('同じ教科名がすでに登録されています。');return}
-  state.subjects.push({id:'subject_'+Date.now(),name});if(input)input.value='';save();refreshSubjectDependentViews();
+  const preset=subjectPresetOptions(stage).find(item=>item.name===name);if(preset){setSubjectPresetActive(state.subjects,preset,true);if(input)input.value='';save();refreshSubjectDependentViews();return}
+  if(state.subjects.some(x=>(x.stage||'other')===stage&&x.name===name)){alert('同じ区分に同名の教科がすでに登録されています。');return}
+  state.subjects.push({id:'subject_'+Date.now()+'_'+Math.random().toString(36).slice(2,5),name,stage,active:true,preset:false});if(input)input.value='';save();refreshSubjectDependentViews();
 }
 function saveSubjectName(id,input){
   const item=subject(id),name=input.value.trim();if(!item)return;
   if(!name){alert('教科名を入力してください。');input.value=item.name;return}
-  if(state.subjects.some(x=>x.id!==id&&x.name===name)){alert('同じ教科名がすでに登録されています。');input.value=item.name;return}
+  if(state.subjects.some(x=>x.id!==id&&(x.stage||'other')===(item.stage||'other')&&x.name===name)){alert('同じ区分に同名の教科がすでに登録されています。');input.value=item.name;return}
   item.name=name;syncAllTileDerivedFields();save();refreshSubjectDependentViews();
 }
-function moveSubject(id,delta){const from=state.subjects.findIndex(x=>x.id===id),to=from+delta;if(from<0||to<0||to>=state.subjects.length)return;const [item]=state.subjects.splice(from,1);state.subjects.splice(to,0,item);save();refreshSubjectDependentViews()}
+function moveSubject(id,delta){const item=subject(id);if(!item)return;const stage=item.stage||'other',group=state.subjects.filter(entry=>!entry.preset&&(entry.stage||'other')===stage),from=group.findIndex(entry=>entry.id===id),to=from+delta;if(from<0||to<0||to>=group.length)return;const targetId=group[to].id,fromAll=state.subjects.findIndex(entry=>entry.id===id),[moved]=state.subjects.splice(fromAll,1),targetAll=state.subjects.findIndex(entry=>entry.id===targetId);state.subjects.splice(delta>0?targetAll+1:targetAll,0,moved);save();refreshSubjectDependentViews()}
 function deleteSubject(id){
   const item=subject(id);if(!item)return;const tileCount=state.classes.filter(x=>x.subjectId===id).length,listCount=state.lessonLists.filter(x=>x.subjectId===id).length;
   if(!confirm(`「${item.name}」は${tileCount}件の授業タイル、${listCount}件の授業内容リストで使用されています。\n\n教科を削除しますか？\n授業タイル・授業内容リスト・過去の記録は削除されず、教科との関連だけが未設定になります。`))return;
   state.classes.forEach(x=>{if(x.subjectId===id)x.subjectId=''});state.lessonLists.forEach(x=>{if(x.subjectId===id)x.subjectId=''});state.subjects=state.subjects.filter(x=>x.id!==id);if(lessonListSubjectFilterId===id)lessonListSubjectFilterId='all';syncAllTileDerivedFields();save();refreshSubjectDependentViews();
 }
-function renderSubjectSettings(){
-  const list=$('subjectSettingsList');if(!list)return;list.innerHTML='';
-  if(!state.subjects.length){list.innerHTML='<div class="gradeEmpty">教科はまだ登録されていません。上の入力欄から自由に追加できます。</div>';return}
-  state.subjects.forEach((item,index)=>{
+function renderSubjectRows(list,items){
+  if(!list)return;list.innerHTML='';if(!items.length){list.innerHTML='<div class="gradeEmpty">追加した教科はありません。</div>';return}
+  items.forEach((item,index)=>{
     const row=document.createElement('div');row.className='gradeSettingRow';row.dataset.id=item.id;
     const handle=document.createElement('span');handle.className='gradeDragHandle';handle.textContent='≡';handle.title='ドラッグして並べ替え';handle.draggable=true;handle.ondragstart=e=>e.dataTransfer.setData('subjectId',item.id);
     const input=document.createElement('input');input.value=item.name;input.setAttribute('aria-label',`${item.name}の教科名`);input.onkeydown=e=>{if(e.key==='Enter')saveSubjectName(item.id,input)};
     const saveBtn=document.createElement('button');saveBtn.className='btn';saveBtn.textContent='保存';saveBtn.onclick=()=>saveSubjectName(item.id,input);
     const up=document.createElement('button');up.className='btn';up.textContent='↑';up.disabled=index===0;up.onclick=()=>moveSubject(item.id,-1);
-    const down=document.createElement('button');down.className='btn';down.textContent='↓';down.disabled=index===state.subjects.length-1;down.onclick=()=>moveSubject(item.id,1);
+    const down=document.createElement('button');down.className='btn';down.textContent='↓';down.disabled=index===items.length-1;down.onclick=()=>moveSubject(item.id,1);
     const del=document.createElement('button');del.className='btn danger';del.textContent='削除';del.onclick=()=>deleteSubject(item.id);
     row.ondragover=e=>{e.preventDefault();row.classList.add('dragOver')};row.ondragleave=()=>row.classList.remove('dragOver');row.ondrop=e=>{e.preventDefault();row.classList.remove('dragOver');reorderById(state.subjects,e.dataTransfer.getData('subjectId'),item.id);save();refreshSubjectDependentViews()};
     row.append(handle,input,saveBtn,up,down,del);list.appendChild(row);
   });
+}
+function renderSubjectSettings(){
+  ['elementary','junior'].forEach(stage=>{const grid=$(stage+'SubjectPresetGrid');if(!grid)return;grid.innerHTML='';subjectPresetOptions(stage).forEach(preset=>{const current=findSubjectPresetItem(state.subjects,preset),label=document.createElement('label');label.className='presetCheckItem';const checkbox=document.createElement('input');checkbox.type='checkbox';checkbox.checked=!!current&&current.active!==false;checkbox.onchange=()=>toggleSubjectPreset(stage,preset.id,checkbox.checked);const text=document.createElement('span');text.textContent=preset.name;label.append(checkbox,text);grid.appendChild(label)});renderSubjectRows($(stage+'SubjectCustomList'),state.subjects.filter(item=>!item.preset&&(item.stage||'other')===stage))});
+  const legacy=state.subjects.filter(item=>!item.preset&&!['elementary','junior'].includes(item.stage||'other')),section=$('legacySubjectSection');if(section)section.style.display=legacy.length?'block':'none';renderSubjectRows($('subjectSettingsList'),legacy);
 }
 function renderLessonTitleList(){
   const grid=$('tagSetGrid');
@@ -2554,12 +2612,12 @@ function renderLessonListSettings(){
 }
 function renderLessonListGradeFilter(){
   const box=$('lessonListGradeFilter');if(!box)return;box.innerHTML='';
-  const entries=[['all','すべて'],...state.grades.map(g=>[g.id,g.name]),['unassigned','学年未設定']];
+  const entries=[['all','すべて'],...availableGrades(lessonListGradeFilterId).map(g=>[g.id,g.name]),['unassigned','学年未設定']];
   entries.forEach(([id,label])=>{const b=document.createElement('button');b.textContent=label;b.classList.toggle('active',lessonListGradeFilterId===id);b.onclick=()=>{saveLessonListEdit(false);lessonListGradeFilterId=id;renderLessonListSettings()};box.appendChild(b)});
 }
 function renderLessonListSubjectFilter(){
   const box=$('lessonListSubjectFilter');if(!box)return;box.innerHTML='';
-  const entries=[['all','すべて'],...state.subjects.map(s=>[s.id,s.name]),['unassigned','教科未設定']];
+  const entries=[['all','すべて'],...availableSubjects(lessonListSubjectFilterId).map(s=>[s.id,subjectCatalogLabel(s)]),['unassigned','教科未設定']];
   entries.forEach(([id,label])=>{const b=document.createElement('button');b.textContent=label;b.classList.toggle('active',lessonListSubjectFilterId===id);b.onclick=()=>{saveLessonListEdit(false);lessonListSubjectFilterId=id;renderLessonListSettings()};box.appendChild(b)});
 }
 function renderLessonListTitleList(){
@@ -2579,10 +2637,10 @@ function renderLessonListTitleList(){
   });
 }
 function fillGradeSelect(select,selectedId=''){
-  if(!select)return;select.innerHTML='<option value="">学年未設定</option>'+state.grades.map(g=>`<option value="${g.id}">${escapeOptionText(g.name)}</option>`).join('');select.value=grade(selectedId)?selectedId:'';
+  if(!select)return;select.innerHTML='<option value="">学年未設定</option>'+availableGrades(selectedId).map(g=>`<option value="${g.id}">${escapeOptionText(g.name)}</option>`).join('');select.value=grade(selectedId)?selectedId:'';
 }
 function fillSubjectSelect(select,selectedId='',emptyLabel='教科未設定'){
-  if(!select)return;select.innerHTML=`<option value="">${escapeOptionText(emptyLabel)}</option>`+state.subjects.map(s=>`<option value="${s.id}">${escapeOptionText(s.name)}</option>`).join('');select.value=subject(selectedId)?selectedId:'';
+  if(!select)return;select.innerHTML=`<option value="">${escapeOptionText(emptyLabel)}</option>`+availableSubjects(selectedId).map(s=>`<option value="${s.id}">${escapeOptionText(subjectCatalogLabel(s))}</option>`).join('');select.value=subject(selectedId)?selectedId:'';
 }
 function renderLessonListEditor(id){
   const x=lessonList(id),nameInput=$('lessonListNameInput'),textInput=$('lessonListText'),gradeInput=$('lessonListGradeInput'),subjectInput=$('lessonListSubjectInput'),unitSelect=$('lessonUnitSelect'),unitNameInput=$('lessonUnitNameInput'),bulkInput=$('lessonUnitBulkInput');if(!nameInput)return;
@@ -2662,7 +2720,7 @@ function showPerformanceScreen(id){
 function renderPerformanceGradeFilter(){
   const box=$('performanceGradeFilter');if(!box)return;
   if(performanceGradeFilterId!=='all'&&performanceGradeFilterId!=='unassigned'&&!grade(performanceGradeFilterId))performanceGradeFilterId='all';
-  const entries=[['all','すべて'],...state.grades.map(g=>[g.id,g.name])];
+  const entries=[['all','すべて'],...availableGrades(performanceGradeFilterId).map(g=>[g.id,g.name])];
   if(state.performanceTests.some(test=>!test.gradeId))entries.push(['unassigned','学年未設定']);
   box.innerHTML='';
   entries.forEach(([id,label])=>{
@@ -2703,18 +2761,19 @@ function renderPerformanceTestList(){
 function fillPerformanceGradeSelect(selectedId=''){
   const select=$('performanceTestGradeInput');if(!select)return;
   select.innerHTML='';
-  if(!state.grades.length){
+  const grades=availableGrades(selectedId);
+  if(!grades.length){
     const option=document.createElement('option');option.value='';option.textContent='先に学年設定で登録してください';select.appendChild(option);
   }else{
     const empty=document.createElement('option');empty.value='';empty.textContent='対象学年を選択';select.appendChild(empty);
-    state.grades.forEach(g=>{const option=document.createElement('option');option.value=g.id;option.textContent=g.name;select.appendChild(option)});
+    grades.forEach(g=>{const option=document.createElement('option');option.value=g.id;option.textContent=g.name;select.appendChild(option)});
   }
   select.value=grade(selectedId)?selectedId:'';
 }
 function openPerformanceEditor(testId=null){
   const source=testId?performanceTest(testId):null;
   editingPerformanceTestId=source?.id||null;
-  performanceDraft=source?performanceClone(source):{id:'',name:'',gradeId:state.grades[0]?.id||'',items:[newPerformanceItem()]};
+  performanceDraft=source?performanceClone(source):{id:'',name:'',gradeId:availableGrades()[0]?.id||'',items:[newPerformanceItem()]};
   expandedPerformanceItemIds=new Set(performanceDraft.items?.[0]?.id?[performanceDraft.items[0].id]:[]);
   $('performanceEditorTitle').textContent=source?'テストを編集':'テストを作成';
   $('performanceTestNameInput').value=performanceDraft.name||'';
@@ -2890,7 +2949,7 @@ function openPerformanceClassSelect(testId){
   renderPerformanceClassGroups();showPerformanceScreen('performanceClassScreen');
 }
 function classColorValue(color){
-  return {grade3:'#8ccbc2',grade4:'#ffb463',grade5:'#8bb7e8',grade6:'#f48ba8',apple:'#A8D08D',purple:'#B59AD9',brown:'#9A8F86',gray:'#c8c3be'}[color]||'#8ccbc2';
+  return classColorOptions().find(option=>option.id===color)?.color||'#8CCBC2';
 }
 function createPerformanceClassCard(c){
   const linkedTile=tilesForSharedClass(c.id)[0];const button=document.createElement('button');button.className='performanceClassCard';button.style.setProperty('--class-color',classColorValue(linkedTile?.color||'gray'));
@@ -3488,9 +3547,12 @@ function fillSharedClassSelect(select,selectedId=''){
 function updateTileClassShareInfo(){
   const shared=sharedClass($('tileClassInput')?.value),subjectId=$('tileSubjectInput')?.value||'',selected=$('classLessonListInput')?.value||'';$('tileClassShareInfo').textContent=shared?`${shared.school?shared.school+'／':''}${shared.name}の名簿・座席表を共有します。授業記録はこの授業タイル専用です。`:'名簿と座席表は、選択した参照クラスの共有データを使用します。';renderClassLessonListOptions(selected,shared?.gradeId||'',subjectId);
 }
+function renderClassColorPicker(selectedId='grade3'){
+  const picker=$('classColorPicker'),input=$('classColorInput');if(!picker||!input)return;const options=classColorOptions(),valid=options.some(option=>option.id===selectedId)?selectedId:'grade3';input.value=valid;picker.innerHTML='';let lastGroup='';options.forEach(option=>{if(option.group!==lastGroup){lastGroup=option.group;const heading=document.createElement('div');heading.className='tileColorGroupLabel';heading.textContent=option.group;picker.appendChild(heading)}const button=document.createElement('button');button.type='button';button.className='tileColorChoice'+(option.id===valid?' selected':'');button.dataset.colorId=option.id;button.style.setProperty('--choice-color',option.color);button.setAttribute('role','radio');button.setAttribute('aria-checked',String(option.id===valid));const swatch=document.createElement('span');swatch.className='tileColorSwatch';swatch.setAttribute('aria-hidden','true');const name=document.createElement('span');name.className='tileColorName';name.textContent=option.name;button.append(swatch,name);button.onclick=()=>renderClassColorPicker(option.id);picker.appendChild(button)});
+}
 function openClassEdit(id){
   editingClassId=id;const c=id?cls(id):{sharedClassId:state.sharedClasses[0]?.id||'',subjectId:'',color:'grade3',tagSetId:firstTagSetId(),lessonListId:'',showSchoolOnTile:true};if(!c)return;
-  $('classModalTitle').textContent=id?'授業タイル編集':'授業タイル作成';fillSharedClassSelect($('tileClassInput'),c.sharedClassId||'');fillSubjectSelect($('tileSubjectInput'),c.subjectId||'','教科未設定');$('classColorInput').value=c.color||'grade3';
+  $('classModalTitle').textContent=id?'授業タイル編集':'授業タイル作成';fillSharedClassSelect($('tileClassInput'),c.sharedClassId||'');fillSubjectSelect($('tileSubjectInput'),c.subjectId||'','教科未設定');renderClassColorPicker(c.color||'grade3');
   $('tileShowSchoolInput').checked=c.showSchoolOnTile!==false;
   const tsi=$('classTagSetInput');tsi.innerHTML='<option value="">未設定</option>'+state.tagSets.map(t=>`<option value="${t.id}">${escapeOptionText(t.name)}</option>`).join('');tsi.value=c.tagSetId||'';
   renderClassLessonListOptions(c.lessonListId||'',tileSharedClass(c)?.gradeId||'',c.subjectId||'');updateTileClassShareInfo();$('deleteClassBtn').style.display=id?'inline-block':'none';$('classModal').style.display='flex';
@@ -3688,7 +3750,9 @@ $('clearTimetableBtn').onclick=clearTimetable;$('applyTimetableBtn').onclick=app
 $('termSystemSelect').onchange=e=>{stashTermSettingsInputs();state.termSettings.system=e.target.value==='semester'?'semester':'trimester';save();renderTermSettings()};$('saveTermSettingsBtn').onclick=()=>saveTermSettings(true);
 $('newGradeBtn').onclick=addGrade;
 $('newGradeNameInput').addEventListener('keydown',e=>{if(e.key==='Enter')addGrade()});
-$('newSubjectBtn').onclick=addSubject;$('newSubjectNameInput').addEventListener('keydown',e=>{if(e.key==='Enter')addSubject()});
+$('newElementarySubjectBtn').onclick=()=>addSubject('elementary');$('newElementarySubjectNameInput').addEventListener('keydown',e=>{if(e.key==='Enter')addSubject('elementary')});
+$('newJuniorSubjectBtn').onclick=()=>addSubject('junior');$('newJuniorSubjectNameInput').addEventListener('keydown',e=>{if(e.key==='Enter')addSubject('junior')});
+document.querySelectorAll('[data-subject-action]').forEach(button=>button.onclick=()=>setAllSubjectPresets(button.dataset.subjectStage,button.dataset.subjectAction==='all'));
 $('newSharedClassBtn').onclick=()=>openSharedClassEdit(null);$('cancelSharedClassBtn').onclick=()=>$('sharedClassModal').style.display='none';$('saveSharedClassBtn').onclick=()=>saveSharedClassEdit(true);$('quickRosterSaveBtn').onclick=()=>saveSharedClassEdit(true);$('deleteSharedClassBtn').onclick=deleteSharedClass;$('openSharedSeatBtn').onclick=openSharedSeatFromSettings;$('rosterText').addEventListener('input',updateRosterPreview);
 $('sharedSeatBackBtn').onclick=closeSharedSeatEditor;
 $('sharedSeatPrintBtn').onclick=printSharedSeat;
