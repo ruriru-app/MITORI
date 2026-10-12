@@ -1,9 +1,10 @@
-const CACHE_NAME = 'mitori-app-v6';
+const CACHE_NAME = 'mitori-app-v7';
 const APP_SHELL = [
   './',
   './index.html',
   './manifest.webmanifest',
   './mitori-footer.svg',
+  './backup.js',
   './icons/icon-192.png',
   './icons/icon-512.png',
   './icons/apple-touch-icon.png',

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MITORI v0.3.85</title>
+<title>MITORI v0.3.86</title>
 <meta name="theme-color" content="#8ccbc2">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -593,6 +593,16 @@ h2,.title,.sideTitle{color:#6f625b}.small{color:#8b817b}
 #cancelBoardHoursBtn:disabled{opacity:.42;cursor:not-allowed}
 .boardHoursCancelList{display:flex;flex-direction:column;gap:8px;margin:14px 0}.boardHoursCancelItem{display:grid;grid-template-columns:24px minmax(0,1fr);gap:10px;align-items:center;border:1px solid var(--line);border-radius:14px;background:#fffdfa;padding:11px 12px;cursor:pointer}.boardHoursCancelItem:has(input:checked){border-color:#efb9b3;background:#fff7f6;box-shadow:0 0 0 2px rgba(196,90,116,.08)}.boardHoursCancelItem input{width:18px;height:18px;accent-color:#c45a74}.boardHoursCancelTitle{font-weight:900;color:#6f625b}.boardHoursCancelSchool{font-size:11px;color:#8b817b;font-weight:800}.boardHoursCancelMeta{font-size:11px;color:#9a8f86;margin-top:2px}.boardHoursCancelWarning{border:1px solid #f0d4c9;border-radius:12px;background:#fffaf6;color:#8b6f61;padding:10px 12px;font-size:12px;line-height:1.55}
 .settingsContent{min-width:0}
+.backupNavButton{position:relative}
+.backupDueDot{position:absolute;top:3px;right:3px;width:10px;height:10px;border:2px solid #fcfaf5;border-radius:50%;background:#f48ba8;box-shadow:0 1px 3px #0002}
+.backupDueDot[hidden]{display:none}
+.backupToast{position:fixed;right:22px;bottom:22px;z-index:120;max-width:min(420px,calc(100vw - 32px));border:1px solid #bfe5df;border-radius:14px;background:#f0faf8;color:#39756d;padding:11px 15px;box-shadow:0 12px 30px #5d48452b;font-weight:800;opacity:0;transform:translateY(10px);pointer-events:none;transition:.2s}
+.backupToast.show{opacity:1;transform:none}.backupToast.error{border-color:#efb9b3;background:#fff7f6;color:#9b2929}
+.backupReminder{position:fixed;right:22px;bottom:22px;z-index:110;width:min(390px,calc(100vw - 32px));border:1px solid #eadfd4;border-radius:18px;background:#fffdfa;padding:15px;box-shadow:0 16px 42px #5d484533}
+.backupReminder[hidden]{display:none}.backupReminder h3{margin:0 0 5px}.backupReminder p{margin:0;color:var(--muted);font-size:12px;line-height:1.55}.backupReminderActions{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
+.backupSettingsHeader{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap}.backupSettingsHeader h2{margin-bottom:4px}
+.backupSettingsGrid{display:grid;grid-template-columns:minmax(260px,1fr) minmax(260px,1fr);gap:12px;max-width:900px}.backupSettingsCard{border:1px solid var(--line);border-radius:16px;background:#fffdfa;padding:16px}.backupSettingsCard h3{margin:0 0 10px}.backupStatusList{display:grid;grid-template-columns:130px 1fr;gap:8px 12px;font-size:13px}.backupStatusList dt{color:var(--muted)}.backupStatusList dd{margin:0;font-weight:800;overflow-wrap:anywhere}.backupSettingRow{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}.backupSettingRow select{min-width:150px}.backupButtonRow{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.backupPrivacy{max-width:900px;margin-top:12px;border:1px solid #f1dfba;border-radius:14px;background:#fffaf0;padding:11px 13px;color:#806b55;font-size:12px;line-height:1.55}
+@media(max-width:850px){.backupSettingsGrid{grid-template-columns:1fr}}
 .timetableSettingsHeader{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:7px;flex-wrap:wrap}
 .timetableTitleLine{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;min-width:0}.timetableTitleLine h2{margin:0}.timetableTitleLine .small{white-space:nowrap}
 .timetableActions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
@@ -1042,6 +1052,7 @@ h2,.title,.sideTitle{color:#6f625b}.small{color:#8b817b}
 </g>
 </g>
 </svg></span><span class="label">ホーム</span></button>
+    <button class="navIconBtn backupNavButton" id="backupSaveBtn" title="バックアップを保存" aria-label="バックアップを保存"><span class="icon svgIconWrap"><svg class="navSvgIcon" aria-hidden="true" focusable="false" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="1020" height="1020" rx="130" fill="#fcfaf5"/><path d="M300 709h430c87 0 158-69 158-154 0-79-61-145-140-153-27-119-136-207-265-207-136 0-249 98-268 227-75 18-131 84-131 163 0 68 42 124 100 149 34 14 75 14 116 14z" fill="#f7e7c6"/><path d="M512 344v270m0 0-104-104m104 104 104-104" fill="none" stroke="#67c5ba" stroke-width="66" stroke-linecap="round" stroke-linejoin="round"/><path d="M355 748h314" fill="none" stroke="#b59ad9" stroke-width="60" stroke-linecap="round"/></svg></span><span class="label">バックアップ</span><span class="backupDueDot" id="backupDueDot" hidden></span></button>
     <button class="navIconBtn" id="settingsBtn" title="各種設定" aria-label="各種設定"><span class="icon svgIconWrap"><svg class="navSvgIcon" aria-hidden="true" focusable="false" height="1024.0px" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 1024 1024" width="1024.0px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <defs/>
 <g id="設定">
@@ -1077,7 +1088,7 @@ h2,.title,.sideTitle{color:#6f625b}.small{color:#8b817b}
       </div>
       <div class="footer">
         <img class="footerArtwork" src="mitori-footer.svg" alt="">
-        <div class="footerInfo"><span id="status">未保存</span><span class="footerVersion">v0.3.85：色選択プルダウン</span></div>
+        <div class="footerInfo"><span id="status">未保存</span><span class="footerVersion">v0.3.86：手動バックアップ</span></div>
       </div>
     </div>
   </div>
@@ -1352,6 +1363,7 @@ h2,.title,.sideTitle{color:#6f625b}.small{color:#8b817b}
         <button class="btn" id="tagSettingsTab">見取り内容編集</button>
         <button class="btn" id="lessonListSettingsTab">授業内容リスト編集</button>
         <button class="btn" id="checklistSettingsTab">チェック表設定</button>
+        <button class="btn" id="backupSettingsTab">バックアップ／復元</button>
         <div class="exportZone"><button class="btn" id="exportObservationBtn">見取り内容CSV書き出し</button><button class="btn" id="exportLessonListBtn">授業内容CSV書き出し</button></div>
         <div class="dangerZone"><div><h2>危険操作</h2><div class="small">保存済みのクラス・見取り内容・授業内容リスト・記録をすべて削除します。</div></div><button class="btn danger" id="resetAllBtn">全データ初期化</button></div>
       </div>
@@ -1444,10 +1456,22 @@ h2,.title,.sideTitle{color:#6f625b}.small{color:#8b817b}
             </div>
           </div>
         </div>
+        <div id="backupSettingsPane" style="display:none">
+          <div class="backupSettingsHeader"><div><h2>バックアップ／復元</h2><div class="small">MITORI本体とチェック表を1つのファイルにまとめます。Googleドライブなど、学校が指定する場所へ保存してください。</div></div><button class="btn primary" id="backupNowSettingsBtn" type="button">今すぐバックアップ</button></div>
+          <div class="backupSettingsGrid">
+            <section class="backupSettingsCard"><h3>現在の保存先</h3><dl class="backupStatusList"><dt>ファイル</dt><dd id="backupFileName">未設定</dd><dt>最終バックアップ</dt><dd id="backupLastSaved">まだ保存されていません</dd><dt>保存方式</dt><dd id="backupSupportStatus">確認中</dd></dl><div class="backupButtonRow"><button class="btn" id="changeBackupDestinationBtn" type="button">保存先を変更</button></div></section>
+            <section class="backupSettingsCard"><h3>保存のお知らせ</h3><div class="backupSettingRow"><label for="backupIntervalSelect">通知する間隔</label><select id="backupIntervalSelect"><option value="7">7日ごと</option><option value="14">14日ごと</option><option value="30">30日ごと</option><option value="0">通知しない</option></select></div><div class="small">期限になるとヘッダーのバックアップボタンに印が付き、手動保存をご案内します。</div></section>
+            <section class="backupSettingsCard"><h3>別端末・故障時の復元</h3><div class="small">Googleドライブ等に保存した同じファイルを選ぶと、この端末へデータを読み込めます。復元前の状態は端末内へ一時退避します。</div><div class="backupButtonRow"><button class="btn primary" id="restoreBackupBtn" type="button">バックアップから復元</button><button class="btn" id="restoreSafetyBackupBtn" type="button" hidden>復元前の状態に戻す</button></div><input id="backupRestoreFileInput" type="file" accept="application/json,.json" hidden></section>
+          </div>
+          <div class="backupPrivacy"><b>個人情報を含みます。</b> 名簿・座席表・授業記録・評価結果を含むため、保存先は学校で利用が認められたGoogleアカウントや記録媒体を選んでください。同じファイルを複数端末で使う場合は、作業前に最新版を復元し、作業後に上書き保存してください。</div>
+        </div>
       </div>
     </div>
   </div>
 </div>
+
+<div class="backupReminder" id="backupReminder" hidden role="dialog" aria-labelledby="backupReminderTitle"><h3 id="backupReminderTitle">バックアップの時期です</h3><p id="backupReminderText">前回のバックアップから日数が経過しています。大切なデータを保存してください。</p><div class="backupReminderActions"><button class="btn" id="backupRemindLaterBtn" type="button">今回は後で</button><button class="btn primary" id="backupReminderSaveBtn" type="button">保存する</button></div></div>
+<div class="backupToast" id="backupToast" role="status" aria-live="polite"></div>
 
 <div class="modalBack" id="sharedSeatPrintModal"><div class="modal sharedSeatPrintModalCard">
   <div class="sharedSeatPrintToolbar"><div><h2>座席表プレビュー</h2><div class="small">A4横向きで、表示されている座席表をそのまま印刷・PDF保存します。</div></div><div class="sharedSeatEditorActions"><button class="btn" id="closeSharedSeatPrintBtn">閉じる</button><button class="btn primary" id="executeSharedSeatPrintBtn">印刷・PDF保存</button></div></div>
@@ -1516,9 +1540,7 @@ h2,.title,.sideTitle{color:#6f625b}.small{color:#8b817b}
   <div class="copyStatus" id="performanceCopyStatus"></div>
   <div class="performanceSummaryWrap"><table class="performanceSummaryTable" id="performanceSummaryTable"></table></div>
 </div></div>
-
-
-
+<script src="backup.js"></script>
 <script src="checklist/palette.js"></script>
 <script src="checklist/workspace.js"></script>
 <script src="checklist/model.js"></script>
@@ -1537,6 +1559,8 @@ h2,.title,.sideTitle{color:#6f625b}.small{color:#8b817b}
 <script src="checklist/app.js"></script>
 <script>
 const KEY='MITORI_V033_SETTINGS_LAYOUT_SYNC';
+const BACKUP_META_KEY='MITORI_BACKUP_META_V1';
+const APP_VERSION='0.3.86';
 const startupDate=new Date();
 const today=`${startupDate.getFullYear()}-${String(startupDate.getMonth()+1).padStart(2,'0')}-${String(startupDate.getDate()).padStart(2,'0')}`;
 const initialClasses=[];
@@ -1675,6 +1699,10 @@ if(state.currentClass&&!state.classes.some(c=>c.id===state.currentClass))state.c
 
 const $=id=>document.getElementById(id);
 let checklistApi=null;
+let backupSupportStore=null,backupFileHandle=null,backupBusy=false,backupToastTimer=null;
+function loadBackupMeta(){let saved={};try{saved=JSON.parse(localStorage.getItem(BACKUP_META_KEY)||'{}')||{}}catch{}const interval=[0,7,14,30].includes(Number(saved.intervalDays))?Number(saved.intervalDays):7;return{intervalDays:interval,firstSeenAt:String(saved.firstSeenAt||new Date().toISOString()),lastBackupAt:String(saved.lastBackupAt||''),lastKnownRemoteCreatedAt:String(saved.lastKnownRemoteCreatedAt||''),remindAfter:String(saved.remindAfter||''),fileName:String(saved.fileName||'')}}
+let backupMeta=loadBackupMeta();
+function saveBackupMeta(){localStorage.setItem(BACKUP_META_KEY,JSON.stringify(backupMeta))}
 let selectedRecord=null, draggingTile=null, dragOffset={x:0,y:0}, editingClassId=null, editingSharedClassId=null, editingTagSetId=null, editingTagType=null, selectedPlacementNo=null,pendingDeleteGradeId=null;
 let selectedStudentNos=new Set(), selectionDrag=null;
 let classArrangeMode=false,selectedArrangeClassId=null;
@@ -1702,6 +1730,28 @@ function ensureSeatPositionRatios(positions,stage,cardW,cardH){
   let changed=false;Object.values(positions||{}).forEach(pos=>{if(!pos||typeof pos!=='object')return;if(validSeatRatio(pos.nx)&&validSeatRatio(pos.ny))return;const point=seatPixelPosition(pos,stage,cardW,cardH);setSeatPosition(pos,point.x,point.y,stage,cardW,cardH);changed=true});return changed;
 }
 function formatSeatCreatedAt(value){const date=new Date(value);if(Number.isNaN(date.getTime()))return'作成日時：未設定';return `作成日時：${date.toLocaleDateString('ja-JP')} ${date.toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit'})}`}
+
+function formatBackupDate(value){const date=new Date(value);if(Number.isNaN(date.getTime()))return'まだ保存されていません';return date.toLocaleString('ja-JP',{year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'})}
+function showBackupToast(message,error=false){const box=$('backupToast');if(!box)return;clearTimeout(backupToastTimer);box.textContent=message;box.classList.toggle('error',!!error);box.classList.add('show');backupToastTimer=setTimeout(()=>box.classList.remove('show'),3800)}
+function backupReminderIsDue(){const snooze=Date.parse(backupMeta.remindAfter||'');if(Number.isFinite(snooze)&&snooze>Date.now())return false;return MitoriBackup.isReminderDue(backupMeta,new Date())}
+function updateBackupReminderUi(showPanel=false){const due=backupReminderIsDue(),dot=$('backupDueDot'),panel=$('backupReminder');if(dot)dot.hidden=!due;if(panel)panel.hidden=!(due&&showPanel);if($('backupReminderText'))$('backupReminderText').textContent=backupMeta.lastBackupAt?`前回のバックアップは${formatBackupDate(backupMeta.lastBackupAt)}です。大切なデータを保存してください。`:'バックアップの保存時期です。最初の保存先を設定して、大切なデータを保管してください。'}
+function setBackupBusy(busy){backupBusy=!!busy;['backupSaveBtn','backupNowSettingsBtn','changeBackupDestinationBtn','restoreBackupBtn','restoreSafetyBackupBtn','backupReminderSaveBtn'].forEach(id=>{const el=$(id);if(el)el.disabled=backupBusy||(id==='changeBackupDestinationBtn'&&typeof window.showSaveFilePicker!=='function')});if($('backupSaveBtn'))$('backupSaveBtn').setAttribute('aria-busy',backupBusy?'true':'false')}
+async function ensureBackupHandlePermission(handle,mode='readwrite'){if(!handle)return false;if(typeof handle.queryPermission!=='function')return true;if(await handle.queryPermission({mode})==='granted')return true;return typeof handle.requestPermission==='function'&&(await handle.requestPermission({mode}))==='granted'}
+async function readBackupHandle(handle){const file=await handle.getFile();if(!file.size)return null;return MitoriBackup.parseBackup(await file.text())}
+async function chooseBackupDestination(){if(typeof window.showSaveFilePicker!=='function'){showBackupToast('このブラウザでは保存先を記憶できません。Chromeで開いてください。',true);return null}const handle=await window.showSaveFilePicker({id:'mitori-full-backup',suggestedName:'MITORI-backup.json',types:[{description:'MITORIバックアップ',accept:{'application/json':['.json']}}]});backupFileHandle=handle;backupMeta.fileName=handle.name||'MITORI-backup.json';backupMeta.lastKnownRemoteCreatedAt='';saveBackupMeta();if(backupSupportStore)await backupSupportStore.saveHandle(handle);await renderBackupSettings();return handle}
+async function currentFullBackup(){if(!checklistApi)throw new Error('チェック表データの準備が完了していません。少し待ってからもう一度お試しください。');await checklistApi.flush();return MitoriBackup.createBackup(state,checklistApi.getWorkspace(),new Date(),APP_VERSION)}
+function downloadBackupFallback(envelope){const blob=new Blob([MitoriBackup.serializeBackup(envelope)],{type:'application/json;charset=utf-8'}),url=URL.createObjectURL(blob),anchor=document.createElement('a'),date=new Date(envelope.createdAt),stamp=`${date.getFullYear()}${String(date.getMonth()+1).padStart(2,'0')}${String(date.getDate()).padStart(2,'0')}-${String(date.getHours()).padStart(2,'0')}${String(date.getMinutes()).padStart(2,'0')}`;anchor.href=url;anchor.download=`MITORI-backup-${stamp}.json`;document.body.appendChild(anchor);anchor.click();anchor.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);return anchor.download}
+async function saveFullBackup(){if(backupBusy)return;setBackupBusy(true);try{let handle=backupFileHandle;if(typeof window.showSaveFilePicker==='function'){if(!handle)handle=await chooseBackupDestination();if(!handle)return;if(!await ensureBackupHandlePermission(handle,'readwrite'))throw new Error('選択したファイルへの保存が許可されませんでした')}const envelope=await currentFullBackup();if(typeof window.showSaveFilePicker!=='function'){const name=downloadBackupFallback(envelope);backupMeta.lastBackupAt=envelope.createdAt;backupMeta.remindAfter='';saveBackupMeta();updateBackupReminderUi(false);showBackupToast(`${name} を保存しました。次回も保存先の指定が必要です。`);await renderBackupSettings();return}let remote=null;try{remote=await readBackupHandle(handle)}catch(error){if(error?.name==='NotFoundError')remote=null;else throw error}const status=MitoriBackup.overwriteStatus(remote,backupMeta.lastKnownRemoteCreatedAt);if(status==='remote-newer'&&!confirm(`Googleドライブ等のバックアップが、この端末で最後に確認したものより新しくなっています。\n別の端末で更新された可能性があります。\n\n［OK］この端末の内容で上書き\n［キャンセル］中止して「バックアップから復元」を行う`))return;if(status==='unknown-existing'&&!confirm(`選択したファイルには既存のMITORIバックアップがあります。\nこの端末ではまだ内容を読み込んでいません。\n\n［OK］この端末の内容で上書き\n［キャンセル］中止して「バックアップから復元」を行う`))return;const writable=await handle.createWritable();await writable.write(MitoriBackup.serializeBackup(envelope));await writable.close();backupMeta.lastBackupAt=envelope.createdAt;backupMeta.lastKnownRemoteCreatedAt=envelope.createdAt;backupMeta.fileName=handle.name||backupMeta.fileName||'MITORI-backup.json';backupMeta.remindAfter='';saveBackupMeta();updateBackupReminderUi(false);showBackupToast(`バックアップを保存しました　${formatBackupDate(envelope.createdAt)}`);await renderBackupSettings()}catch(error){if(error?.name!=='AbortError'){console.error(error);showBackupToast(error?.message||'バックアップを保存できませんでした',true)}}finally{setBackupBusy(false)}}
+function prepareRestoreEnvelope(envelope){const parsed=MitoriBackup.parseBackup(envelope);return{...parsed,checklistState:MitoriChecklistModel.migrateState(parsed.checklistState)}}
+async function writeChecklistBackupState(checklistState){const storage=await MitoriChecklistStorage.openChecklistStorage();storage.save(checklistState);await storage.flush()}
+async function writeMitoriBackupState(mitoriState){localStorage.setItem(KEY,JSON.stringify(mitoriState))}
+async function writeRestoredBackup(envelope,previousEnvelope){await MitoriBackup.commitRestore({next:envelope,previous:previousEnvelope,writeChecklist:writeChecklistBackupState,writeMitori:writeMitoriBackupState})}
+function backupSummaryText(envelope){const summary=MitoriBackup.summarizeBackup(envelope);return `作成日時：${formatBackupDate(summary.createdAt)}\nクラス：${summary.sharedClassCount}件\n授業タイル：${summary.lessonTileCount}件\n授業記録：${summary.recordCount}件\nPerformanceTest：${summary.performanceTestCount}件\nチェック表：${summary.activeChecklistCount}件`}
+async function restoreFullBackupEnvelope(envelope,handle=null,{createSafety=true}={}){const prepared=prepareRestoreEnvelope(envelope);if(!confirm(`${backupSummaryText(prepared)}\n\nこのバックアップをこの端末へ復元しますか？\n現在の内容は復元前の状態として端末内へ一時退避します。`))return false;const previous=await currentFullBackup();if(createSafety)await MitoriBackup.saveRequiredSafetyBackup(backupSupportStore,previous);await writeRestoredBackup(prepared,previous);if(handle){backupFileHandle=handle;backupMeta.fileName=handle.name||backupMeta.fileName;if(backupSupportStore)await backupSupportStore.saveHandle(handle)}backupMeta.lastKnownRemoteCreatedAt=prepared.createdAt;backupMeta.lastBackupAt=prepared.createdAt;backupMeta.remindAfter='';saveBackupMeta();location.reload();return true}
+async function restoreFullBackup(){if(backupBusy)return;setBackupBusy(true);try{if(typeof window.showOpenFilePicker==='function'){const [handle]=await window.showOpenFilePicker({id:'mitori-full-backup',multiple:false,types:[{description:'MITORIバックアップ',accept:{'application/json':['.json']}}]});if(!await ensureBackupHandlePermission(handle,'read'))throw new Error('バックアップファイルの読み取りが許可されませんでした');const envelope=await readBackupHandle(handle);if(!envelope)throw new Error('選択したバックアップファイルは空です');await restoreFullBackupEnvelope(envelope,handle)}else $('backupRestoreFileInput').click()}catch(error){if(error?.name!=='AbortError'){console.error(error);showBackupToast(error?.message||'バックアップを復元できませんでした',true)}}finally{setBackupBusy(false)}}
+async function restoreSafetyBackup(){if(!backupSupportStore)return;const envelope=await backupSupportStore.loadSafetyBackup();if(!envelope){showBackupToast('復元前の一時データはありません',true);return}const prepared=prepareRestoreEnvelope(envelope);if(!confirm(`${backupSummaryText(prepared)}\n\nバックアップを復元する前の状態へ戻しますか？`))return;await writeRestoredBackup(prepared,await currentFullBackup());await backupSupportStore.clearSafetyBackup();location.reload()}
+async function renderBackupSettings(){const supportsRememberedDestination=typeof window.showSaveFilePicker==='function';if($('backupFileName'))$('backupFileName').textContent=backupFileHandle?.name||backupMeta.fileName||'未設定（初回保存時に選択）';if($('backupLastSaved'))$('backupLastSaved').textContent=formatBackupDate(backupMeta.lastBackupAt);if($('backupSupportStatus'))$('backupSupportStatus').textContent=supportsRememberedDestination?'同じファイルへ上書き保存できます':'このブラウザでは毎回ダウンロードになります';if($('changeBackupDestinationBtn')){$('changeBackupDestinationBtn').disabled=!supportsRememberedDestination;$('changeBackupDestinationBtn').title=supportsRememberedDestination?'保存先を変更':'Chromeでは保存先を記憶できます'}if($('backupIntervalSelect'))$('backupIntervalSelect').value=String(backupMeta.intervalDays);if($('restoreSafetyBackupBtn'))$('restoreSafetyBackupBtn').hidden=!(backupSupportStore&&await backupSupportStore.loadSafetyBackup())}
+async function initFullBackup(){saveBackupMeta();try{backupSupportStore=await MitoriBackup.openSupportStore(indexedDB);backupFileHandle=await backupSupportStore.loadHandle();if(backupFileHandle?.name)backupMeta.fileName=backupFileHandle.name}catch(error){console.warn(error)}saveBackupMeta();await renderBackupSettings();updateBackupReminderUi(true)}
 
 function save(){localStorage.setItem(KEY,JSON.stringify(state));$('status').textContent='保存済み '+new Date().toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit'})}
 function cls(id){return state.classes.find(c=>c.id===id)}
@@ -2276,7 +2326,7 @@ function openRecordModal(num,type){const set=tagSet(getDayMeta().observationId||
 function renderRecords(){const box=$('records');box.innerHTML='';if(!state.currentClass)return;const list=state.records.filter(r=>r.date===state.date&&r.classId===state.currentClass).slice().reverse();if(!list.length){box.innerHTML='<span class="small">今日の記録はまだありません</span>';return}list.forEach(r=>{const div=document.createElement('div');div.className='record';div.textContent=`${r.time}｜${r.num}番｜${r.type==='good'?'👍':'✏️'}｜${r.tag}${r.test?'｜テスト実施':''}${r.memo?'｜'+r.memo:''}`;box.appendChild(div)})}
 function renderReport(){const box=$('reportGrid');box.innerHTML='';state.classes.forEach(c=>{const all=state.records.filter(r=>r.classId===c.id),good=all.filter(r=>r.type==='good').length,bad=all.filter(r=>r.type==='bad').length,recorded=new Set(all.map(r=>String(r.num))),none=[];for(let i=1;i<=Math.min(40,Number(c.count||40));i++)if(!recorded.has(String(i)))none.push(i+'番');const div=document.createElement('div');div.className='reportCard';div.innerHTML=`<h2>${c.name}</h2><p>実施時間数：<b>${c.hours||0}</b>時間</p><p>👍 ${good}件　✏️ ${bad}件</p><div class="reportCard obs"><b>観察バランス</b><br><span class="small">記録がまだない番号</span><br>${none.length?none.join('、'):'全員に記録あり'}</div>`;box.appendChild(div)})}
 
-function renderSettings(){renderGradeSettings();renderSubjectSettings();renderSharedClassSettings();renderClassSettings();renderTimetableSettings();renderTermSettings();renderTagSettings();renderLessonListSettings()}
+function renderSettings(){renderGradeSettings();renderSubjectSettings();renderSharedClassSettings();renderClassSettings();renderTimetableSettings();renderTermSettings();renderTagSettings();renderLessonListSettings();renderBackupSettings()}
 function renderSharedClassSettings(){
   const grid=$('sharedClassSettingsGrid');if(!grid)return;grid.innerHTML='';
   state.sharedClasses.forEach(shared=>{
@@ -3578,7 +3628,7 @@ function openTagEdit(id,type){editingTagSetId=id;editingTagType=type;const t=tag
 function addEditableTag(v=''){const div=document.createElement('div');div.className='tagItem';div.innerHTML=`<input value="${String(v).replaceAll('"','&quot;')}"><button class="btn danger">削除</button>`;div.querySelector('button').onclick=()=>div.remove();$('editableTagList').appendChild(div)}
 function saveTagEdit(){const vals=[...$('editableTagList').querySelectorAll('input')].map(i=>i.value.trim()).filter(Boolean);const t=tagSet(editingTagSetId);if(!t)return;editingTagType==='good'?t.good=vals:t.bad=vals;save();$('tagEditModal').style.display='none';render()}
 function showSettingsPane(k){
-  ['grade','subject','sharedClass','class','timetable','term','tag','lessonList'].forEach(x=>{
+  ['grade','subject','sharedClass','class','timetable','term','tag','lessonList','backup'].forEach(x=>{
     const pane=$(x+'SettingsPane');
     const tab=$(x+'SettingsTab');
     if(pane)pane.style.display=x===k?'block':'none';
@@ -3592,6 +3642,7 @@ function showSettingsPane(k){
   if(k==='term')renderTermSettings();
   if(k==='tag')renderTagSettings();
   if(k==='lessonList')renderLessonListSettings();
+  if(k==='backup')renderBackupSettings();
 }
 
 $('headerDateButton').onclick=()=>setHeaderCalendarOpen(!$('datePickerWrap').classList.contains('open'));
@@ -3599,7 +3650,7 @@ $('headerCalendarPrevBtn').onclick=()=>moveHeaderCalendarMonth(-1);$('headerCale
 document.addEventListener('pointerdown',event=>{if(!$('datePickerWrap')?.contains(event.target))setHeaderCalendarOpen(false)});document.addEventListener('keydown',event=>{if(event.key==='Escape'){setHeaderCalendarOpen(false);cancelWeeklyLessonMove()}});
 $('homeLogoBtn').onclick=()=>setMode('record');
 $('homeLogoBtn').onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();setMode('record')}};
-$('recordMode').onclick=()=>setMode('record');$('testMode').onclick=()=>setMode('test');$('checklistMode').onclick=()=>setMode('checklist');$('reportMode').onclick=()=>setMode('report');$('weeklyPlanMode').onclick=()=>setMode('weekly');$('homeBtn').onclick=()=>{if(state.mode==='test'){show('testView');showPerformanceScreen('performanceListScreen');renderPerformanceTestList()}else if(state.mode==='checklist'){show('checklistView');checklistApi?.openList()}else if(state.mode==='report'){show('reportView');renderReport()}else if(state.mode==='weekly'){show('weeklyPlanView');renderWeeklyPlan()}else show('homeView')};$('settingsBtn').onclick=()=>{show('settingsView');renderSettings()};$('classArrangeBtn').onclick=()=>setClassArrangeMode(!classArrangeMode);
+$('recordMode').onclick=()=>setMode('record');$('testMode').onclick=()=>setMode('test');$('checklistMode').onclick=()=>setMode('checklist');$('reportMode').onclick=()=>setMode('report');$('weeklyPlanMode').onclick=()=>setMode('weekly');$('homeBtn').onclick=()=>{if(state.mode==='test'){show('testView');showPerformanceScreen('performanceListScreen');renderPerformanceTestList()}else if(state.mode==='checklist'){show('checklistView');checklistApi?.openList()}else if(state.mode==='report'){show('reportView');renderReport()}else if(state.mode==='weekly'){show('weeklyPlanView');renderWeeklyPlan()}else show('homeView')};$('backupSaveBtn').onclick=saveFullBackup;$('settingsBtn').onclick=()=>{show('settingsView');renderSettings()};$('classArrangeBtn').onclick=()=>setClassArrangeMode(!classArrangeMode);
 $('clearBoardBtn').onclick=clearCurrentBoard;
 $('cancelBoardHoursBtn').onclick=openBoardHoursCancelModal;
 $('closeBoardHoursCancelBtn').onclick=()=>$('boardHoursCancelModal').style.display='none';
@@ -3747,7 +3798,8 @@ $('resetBtn').onclick=()=>{if(state.currentClass&&confirm('このクラスの番
 $('balanceBtn').onclick=toggleBalancePanel;
 $('recordBtn').onclick=()=>{const good=selectedRecord?.tags?.good||[],bad=selectedRecord?.tags?.bad||[];if(!good.length&&!bad.length){alert('記録内容を1つ以上選んでください');return}const memo=$('memo').value.trim();const time=new Date().toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit'});const meta=getDayMeta();const test=!!meta.test;const lessonUnitId=meta.lessonUnitId||'',lessonUnitName=meta.lessonUnitName||'',lessonContent=meta.lessonContent||'';const observationId=meta.observationId||cls(state.currentClass).tagSetId;if(good.length)state.records.push({date:state.date,classId:state.currentClass,num:selectedRecord.num,type:'good',tag:good.join('・'),tags:good,memo,time,test,lessonUnitId,lessonUnitName,lessonContent,observationId});if(bad.length)state.records.push({date:state.date,classId:state.currentClass,num:selectedRecord.num,type:'bad',tag:bad.join('・'),tags:bad,memo,time,test,lessonUnitId,lessonUnitName,lessonContent,observationId});$('recordModal').style.display='none';save();render()};
 $('cancelRecordBtn').onclick=()=>$('recordModal').style.display='none';
-$('gradeSettingsTab').onclick=()=>showSettingsPane('grade');$('subjectSettingsTab').onclick=()=>showSettingsPane('subject');$('sharedClassSettingsTab').onclick=()=>showSettingsPane('sharedClass');$('classSettingsTab').onclick=()=>showSettingsPane('class');$('timetableSettingsTab').onclick=()=>showSettingsPane('timetable');$('termSettingsTab').onclick=()=>showSettingsPane('term');$('tagSettingsTab').onclick=()=>showSettingsPane('tag');$('lessonListSettingsTab').onclick=()=>showSettingsPane('lessonList');$('checklistSettingsTab').onclick=()=>{setMode('checklist');checklistApi?.openSettings('palette')};
+$('gradeSettingsTab').onclick=()=>showSettingsPane('grade');$('subjectSettingsTab').onclick=()=>showSettingsPane('subject');$('sharedClassSettingsTab').onclick=()=>showSettingsPane('sharedClass');$('classSettingsTab').onclick=()=>showSettingsPane('class');$('timetableSettingsTab').onclick=()=>showSettingsPane('timetable');$('termSettingsTab').onclick=()=>showSettingsPane('term');$('tagSettingsTab').onclick=()=>showSettingsPane('tag');$('lessonListSettingsTab').onclick=()=>showSettingsPane('lessonList');$('checklistSettingsTab').onclick=()=>{setMode('checklist');checklistApi?.openSettings('palette')};$('backupSettingsTab').onclick=()=>showSettingsPane('backup');
+$('backupNowSettingsBtn').onclick=saveFullBackup;$('changeBackupDestinationBtn').onclick=async()=>{if(backupBusy)return;setBackupBusy(true);try{await chooseBackupDestination();showBackupToast('保存先を設定しました。次回の保存からこのファイルへ上書きします。')}catch(error){if(error?.name!=='AbortError')showBackupToast(error?.message||'保存先を変更できませんでした',true)}finally{setBackupBusy(false)}};$('restoreBackupBtn').onclick=restoreFullBackup;$('restoreSafetyBackupBtn').onclick=restoreSafetyBackup;$('backupIntervalSelect').onchange=e=>{backupMeta.intervalDays=Number(e.target.value)||0;backupMeta.remindAfter='';saveBackupMeta();updateBackupReminderUi(false);renderBackupSettings()};$('backupReminderSaveBtn').onclick=()=>{if($('backupReminder'))$('backupReminder').hidden=true;saveFullBackup()};$('backupRemindLaterBtn').onclick=()=>{backupMeta.remindAfter=new Date(Date.now()+86400000).toISOString();saveBackupMeta();updateBackupReminderUi(false);showBackupToast('明日、もう一度お知らせします。')};$('backupRestoreFileInput').onchange=async e=>{const file=e.target.files?.[0];e.target.value='';if(!file)return;try{await restoreFullBackupEnvelope(MitoriBackup.parseBackup(await file.text()))}catch(error){showBackupToast(error?.message||'バックアップを復元できませんでした',true)}};
 $('clearTimetableBtn').onclick=clearTimetable;$('applyTimetableBtn').onclick=applyTimetableFromStart;
 $('termSystemSelect').onchange=e=>{stashTermSettingsInputs();state.termSettings.system=e.target.value==='semester'?'semester':'trimester';save();renderTermSettings()};$('saveTermSettingsBtn').onclick=()=>saveTermSettings(true);
 $('newGradeBtn').onclick=addGrade;
@@ -3806,7 +3858,7 @@ render();
 MitoriChecklist.init({root:document,getMitoriState:()=>state,notify:message=>alert(message),confirm:message=>confirm(message),openMainSettings:()=>{setMode('record');show('settingsView');renderSettings()}})
   .then(api=>{checklistApi=api;setMode(state.mode,false);MitoriPwa.init({flushChecklist:()=>api.flush(),saveMitori:()=>save(),setOffline:value=>api.setOffline(value)}).catch(error=>console.error(error))})
   .catch(error=>{console.error(error);setMode(state.mode==='checklist'?'record':state.mode,false)})
-  .finally(()=>{document.body.dataset.appReady='true'});
+  .finally(()=>{document.body.dataset.appReady='true';initFullBackup().catch(error=>console.error(error))});
 </script>
 </body>
 </html>
