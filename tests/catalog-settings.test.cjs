@@ -105,3 +105,52 @@ test('the tile palette exposes thirteen grouped colors and resolves every displa
   );
   options.forEach(option => assert.equal(classColorValue(option.id), option.color));
 });
+
+test('the compact tile color dropdown renders reliable swatches in four groups', () => {
+  const classColorOptions = loadFunction('classColorOptions');
+  const createNode = tagName => ({
+    tagName,
+    children: [],
+    style: {},
+    dataset: {},
+    hidden: false,
+    attributes: {},
+    appendChild(child) { this.children.push(child); },
+    append(...children) { this.children.push(...children); },
+    setAttribute(name, value) { this.attributes[name] = String(value); },
+  });
+  const input = createNode('input');
+  const button = createNode('button');
+  const menu = createNode('div');
+  const nodes = {
+    classColorInput: input,
+    classColorDropdownButton: button,
+    classColorDropdownMenu: menu,
+  };
+  const document = {
+    createElement: createNode,
+  };
+  const renderClassColorDropdown = loadFunction('renderClassColorDropdown', {
+    classColorOptions,
+    document,
+    $: id => nodes[id] || null,
+    setClassColorDropdownOpen() {},
+    chooseClassColor() {},
+  });
+
+  renderClassColorDropdown('purple');
+
+  assert.deepEqual(
+    Array.from(menu.children, group => group.children[0].textContent),
+    ['暖色系', 'グリーン系', 'ブルー・パープル系', 'ニュートラル系'],
+  );
+  const options = menu.children.flatMap(group => group.children.slice(1));
+  assert.equal(options.length, 13);
+  const purple = options.find(option => option.dataset.colorId === 'purple');
+  assert.equal(purple.children[0].style.background, '#B59AD9');
+  assert.equal(purple.children[1].textContent, 'パープル');
+  assert.equal(input.value, 'purple');
+  assert.equal(button.children[0].style.background, '#B59AD9');
+  assert.equal(button.children[1].textContent, 'パープル');
+  assert.equal(menu.hidden, true);
+});
