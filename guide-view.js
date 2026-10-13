@@ -129,15 +129,18 @@
         const row=byId('guideRows').querySelector('[data-step-row="'+step.id+'"]');
         row.querySelector('input').checked=state.session.checks[step.id]===true;
         row.querySelector('details').open=state.session.expandedIds.includes(step.id);
+        row.hidden=count===state.guide.steps.length&&!state.reviewCompleted&&step.id!==state.session.lastCompletedId;
       }
       byId('guideCompletion').hidden=count!==state.guide.steps.length;
-      byId('guideRows').hidden=count===state.guide.steps.length&&!state.reviewCompleted;
+      byId('guideRows').hidden=count===state.guide.steps.length&&!state.reviewCompleted&&!state.session.lastCompletedId;
       const last=state.guide.steps.find(s=>s.id===state.session.lastCompletedId);
       if(!last||previous?.session.lastCompletedId!==last.id||count===state.guide.steps.length)byId('guideRecent').hidden=!last||count!==state.guide.steps.length;
       byId('guideRecent').textContent=last?'✓ 直前に完了：'+last.title:'';
       if(state.visible)window.requestAnimationFrame(()=>{
+        if(current.session!==state.session)return;
         resize();
-        if(!last||previous?.session.lastCompletedId===last.id||count===state.guide.steps.length)return;
+        if(count===state.guide.steps.length){if(last&&previous?.session.lastCompletedId!==last.id)byId('guideTodoScroll').scrollTop=0;return;}
+        if(!last||previous?.session.lastCompletedId===last.id)return;
         const index=state.guide.steps.findIndex(step=>step.id===last.id);
         const next=state.guide.steps.slice(index+1).find(step=>!state.session.checks[step.id])||state.guide.steps.find(step=>!state.session.checks[step.id]);
         if(!next)return;

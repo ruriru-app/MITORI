@@ -65,6 +65,17 @@ test('corrupt guide entry does not erase a valid other guide',()=>{
   assert.equal(storage.getItem('MITORI_V033_SETTINGS_LAYOUT_SYNC'),'safe');
   assert.equal(store.read(other).checks.subject,true);
 });
+test('malformed progress alone warns and preserves valid neighboring progress',()=>{
+  for(const bad of ['broken',{checks:'broken'},{checks:{grade:'yes'}},{checks:{},started:'yes'},{checks:{},introPage:NaN}]){
+    let warnings=0;
+    const storage=memory({MITORI_GUIDE_PROGRESS_V1:JSON.stringify({schemaVersion:1,guides:{'initial-setup':bad,'other-guide':{checks:{subject:true}}}})});
+    const store=Storage.createGuideStore({storage,onError:()=>warnings++});store.read(guide);
+    assert.equal(store.read(guide).persistent,false);assert.ok(warnings>0);
+    assert.equal(store.read(other).checks.subject,true);
+  }
+  let warnings=0;const store=Storage.createGuideStore({storage:memory({MITORI_GUIDE_PROGRESS_V1:'{"schemaVersion":1,"guides":"broken"}'}),onError:()=>warnings++});
+  assert.equal(store.read(guide).persistent,false);assert.ok(warnings>0);
+});
 test('non-finite position and out-of-range intro index normalize safely',()=>{
   const store=Storage.createGuideStore({storage:memory()});
   store.saveUi({visible:true,activeGuideId:guide.id,position:{x:NaN,y:Infinity}});

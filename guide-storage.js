@@ -31,6 +31,7 @@
       }catch(error){fail(error);return {};}
     }
     const loaded=load(KEYS.progress);
+    if(loaded.guides!==undefined&&!object(loaded.guides))fail(new Error('ガイドの進捗を読み込めません'));
     const guides=object(loaded.guides)?{...loaded.guides}:{};
     const rawUi=load(KEYS.ui);
     let ui={visible:rawUi.visible===true,activeGuideId:typeof rawUi.activeGuideId==='string'?rawUi.activeGuideId:'initial-setup',position:position(rawUi.position)};
@@ -44,7 +45,14 @@
     }
     function entry(id){
       if(!/^[a-z][a-z0-9-]{0,63}$/.test(id))throw new Error('不正なガイド識別子です');
+      if(guides[id]!==undefined&&!object(guides[id])){fail(new Error('このガイドの進捗が壊れています'));guides[id]={};}
       if(!object(guides[id]))guides[id]={};
+      const value=guides[id];
+      if((value.checks!==undefined&&(!object(value.checks)||Object.values(value.checks).some(check=>typeof check!=='boolean')))||
+        (value.started!==undefined&&typeof value.started!=='boolean')||(value.introPage!==undefined&&!Number.isInteger(value.introPage))){
+        fail(new Error('このガイドの進捗の形式を確認できません'));
+        guides[id]={checks:object(value.checks)?Object.fromEntries(Object.entries(value.checks).filter(([,check])=>typeof check==='boolean')):{},started:value.started===true,introPage:page(value.introPage)};
+      }
       return guides[id];
     }
     function checksFor(guide,checks){

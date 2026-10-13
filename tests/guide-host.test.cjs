@@ -50,3 +50,29 @@ test('dirty forms are detected without persisting baseline data',async()=>{
   assert.equal(edits[0].id,'shared-class');
   assert.equal(input.value,'changed');assert.deepEqual(x.calls,[]);
 });
+test('hidden term draft plus visible class draft blocks partial save and render',async()=>{
+  const x=setup(),term={id:'termDate',type:'date',value:'2026-12-25'},name={id:'sharedClassNameInput',value:'1組'};
+  x.nodes.termSettingsPane={getClientRects:()=>[],querySelectorAll:()=>[term]};
+  x.nodes.sharedClassModal={style:{display:'flex'},getClientRects:()=>[1],querySelectorAll:()=>[name]};
+  x.ctx.captureGuideEditorBaseline('term');x.ctx.captureGuideEditorBaseline('shared-class');
+  term.value='2026-12-20';name.value='2組';
+  x.ctx.saveSharedClassEdit=()=>{x.calls.push('save');term.value='2026-12-25';return true;};
+  const nav=require('../guide-navigation.js').createGuideNavigator(x.host);
+  assert.equal(await nav.navigate({kind:'board'}),false);
+  assert.equal(term.value,'2026-12-20');assert.equal(name.value,'2組');assert.deepEqual(x.calls,[]);
+  const pending=await x.host.inspectEditors({kind:'board'});assert.equal(pending.length,2);
+});
+test('checklist-owned clean dialog cleanup runs before opening destination',async()=>{
+  const x=setup(),column={hidden:false},method={hidden:false};x.nodes.checklistColumnModal=column;
+  x.ctx.checklistApi={closeGuideNavigationDialogs:()=>{column.hidden=true;method.hidden=true;x.calls.push('cleanup');return true;}};
+  assert.equal(await x.host.openTarget({kind:'settings',pane:'grade'}),true);
+  assert.equal(column.hidden,true);assert.equal(method.hidden,true);
+  assert.deepEqual(x.calls,['cleanup',['show','settingsView'],['pane','grade']]);
+});
+test('returning to an unsaved initial-setup pane preserves its draft for manual save',()=>{
+  const x=setup(),input={id:'date',value:'original'},pane={style:{display:'none'},getClientRects:()=>[],querySelectorAll:()=>[input]};
+  x.nodes.termSettingsPane=pane;x.ctx.captureGuideEditorBaseline('term');input.value='draft';
+  x.ctx.renderTermSettings=()=>input.value='original';
+  vm.runInContext(extract('showSettingsPane'),x.ctx);x.ctx.showSettingsPane('term');
+  assert.equal(input.value,'draft');assert.equal(pane.style.display,'block');
+});

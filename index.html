@@ -1866,9 +1866,10 @@ async function inspectGuideEditors(target){
   }
   for(const [id,rootId] of Object.entries(guideEditorRoots())){
     const element=$(rootId);
-    if(!isGuideElementVisible(element))continue;
+    // 他の設定へ移った後も残る下書きは、全体再描画で消さないよう検査する。
+    if(!isGuideElementVisible(element)&&!['term','apply-start','tag','lesson-list'].includes(id))continue;
     const baseline=guideEditorBaselines.get(id);
-    if(baseline!==undefined&&baseline!==guideFormSignature(element))pending.push({id,kind:['shared-class','tile','term'].includes(id)?'saveable':'manual',label:({'shared-class':'クラスと名簿',tile:'授業タイル',term:'学期・休業日'})[id]||'編集中の内容'});
+    if(baseline!==undefined&&baseline!==guideFormSignature(element))pending.push({id,kind:['shared-class','tile','term'].includes(id)?'saveable':'manual',label:({'shared-class':'クラスと名簿',tile:'授業タイル',term:'学期・休業日','apply-start':'反映開始日（未実行）',tag:'見取り内容','lesson-list':'授業内容リスト'})[id]||'編集中の内容'});
   }
   for(const id of ['newGradeNameInput','newElementarySubjectNameInput','newJuniorSubjectNameInput','newSubjectNameInput']){
     if(isGuideElementVisible($(id))&&$(id).value.trim())pending.push({id,kind:'manual',label:'未追加の名称'});
@@ -1894,8 +1895,10 @@ function bootstrapMitoriGuide({startupStatus,checklistStartupStatus}){
 }
 function createMitoriGuideHost(view){
   function finishCleanDialogs(){
+    if(checklistApi?.closeGuideNavigationDialogs?.()===false)return false;
     for(const id of ['sharedClassModal','classModal','recordModal','tagEditModal','criteriaSetModal'])if($(id))$(id).style.display='none';
     closeReportDetail();
+    return true;
   }
   function focusField(id){const field=$(id);field?.scrollIntoView?.({block:'nearest'});field?.focus?.({preventScroll:true});}
   return {
@@ -1916,9 +1919,9 @@ function createMitoriGuideHost(view){
           id=await view.chooseClass(classes.map(item=>({id:item.id,label:[item.school,item.name].filter(Boolean).join(' ・ ')})));
           if(!classes.some(item=>item.id===id))return false;
         }
-        finishCleanDialogs();show('settingsView');showSettingsPane('sharedClass');openSharedClassEdit(id);focusField('rosterText');return true;
+        if(!finishCleanDialogs())return false;show('settingsView');showSettingsPane('sharedClass');openSharedClassEdit(id);focusField('rosterText');return true;
       }
-      finishCleanDialogs();
+      if(!finishCleanDialogs())return false;
       if(target.kind==='board'){setMode('record');return true;}
       if(target.kind==='settings'){show('settingsView');showSettingsPane(target.pane);if(target.focus)focusField(target.focus);return true;}
       return false;
@@ -3887,6 +3890,8 @@ function openTagEdit(id,type){editingTagSetId=id;editingTagType=type;const t=tag
 function addEditableTag(v=''){const div=document.createElement('div');div.className='tagItem';div.innerHTML=`<input value="${String(v).replaceAll('"','&quot;')}"><button class="btn danger">削除</button>`;div.querySelector('button').onclick=()=>div.remove();$('editableTagList').appendChild(div)}
 function saveTagEdit(){const vals=[...$('editableTagList').querySelectorAll('input')].map(i=>i.value.trim()).filter(Boolean);const t=tagSet(editingTagSetId);if(!t)return;editingTagType==='good'?t.good=vals:t.bad=vals;save();$('tagEditModal').style.display='none';render()}
 function showSettingsPane(k){
+  const draftId=k==='term'?'term':k==='timetable'?'apply-start':null;
+  const preserveDraft=draftId&&guideEditorBaselines.has(draftId)&&guideEditorBaselines.get(draftId)!==guideFormSignature($(guideEditorRoots()[draftId]));
   ['grade','subject','sharedClass','class','timetable','term','tag','lessonList','backup'].forEach(x=>{
     const pane=$(x+'SettingsPane');
     const tab=$(x+'SettingsTab');
@@ -3897,8 +3902,8 @@ function showSettingsPane(k){
   if(k==='subject')renderSubjectSettings();
   if(k==='sharedClass')renderSharedClassSettings();
   if(k==='class')renderClassSettings();
-  if(k==='timetable')renderTimetableSettings();
-  if(k==='term')renderTermSettings();
+  if(k==='timetable'&&!preserveDraft)renderTimetableSettings();
+  if(k==='term'&&!preserveDraft)renderTermSettings();
   if(k==='tag')renderTagSettings();
   if(k==='lessonList')renderLessonListSettings();
   if(k==='backup')renderBackupSettings();

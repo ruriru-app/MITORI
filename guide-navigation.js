@@ -15,7 +15,8 @@
       try{
         const pending=await host.inspectEditors(target);
         if(pending.length>1||pending.some(editor=>editor.kind!=='saveable')){
-          await host.notify('入力中の内容があります。元の画面で保存・追加・実行などを済ませてから、もう一度移動ボタンを押してください。');
+          const labels=[...new Set(pending.map(editor=>editor.label||'編集中の内容'))].join('、');
+          await host.notify('入力中の内容があります（'+labels+'）。別の設定欄に残っている入力も確認し、保存・追加・実行などを済ませてから、もう一度移動ボタンを押してください。');
           return false;
         }
         if(pending.length){

@@ -79,19 +79,32 @@
     const settingsScreen = byId('checklistSettingsScreen');
 
     function checklistGuideSignature(kind) {
-      const roots = { editor:'checklistEditorScreen', palette:'checklistPaletteSettingsPane', column:'checklistColumnModal', group:'checklistGroupSettingsPane' };
+      const roots = { editor:'checklistEditorScreen', palette:'checklistPaletteSettingsPane', column:'checklistColumnModal', group:'checklistGroupSettingsPane', method:'checklistInputMethodModal' };
       const values = [...(byId(roots[kind])?.querySelectorAll('input,textarea,select') || [])].map(input => [input.id || '', input.type, input.value, Boolean(input.checked)]);
       if (kind === 'palette') values.push(['draft', JSON.stringify(paletteDraft)]);
       return JSON.stringify(values);
     }
     function captureChecklistGuideBaseline(kind) { guideDraftBaselines.set(kind, checklistGuideSignature(kind)); }
     function getGuideNavigationState() {
-      const roots = { editor:'checklistEditorScreen', palette:'checklistPaletteSettingsPane', column:'checklistColumnModal', group:'checklistGroupSettingsPane' };
+      const roots = { editor:'checklistEditorScreen', palette:'checklistPaletteSettingsPane', column:'checklistColumnModal', group:'checklistGroupSettingsPane', method:'checklistInputMethodModal' };
       for (const [kind, id] of Object.entries(roots)) {
         const element = byId(id), baseline = guideDraftBaselines.get(kind);
-        if (element && !element.hidden && element.getClientRects?.().length && baseline !== undefined && baseline !== checklistGuideSignature(kind)) return { kind:'manual', label:'チェック表の未保存編集' };
+        const outstanding=(kind==='editor'&&screen==='editor')||(kind==='palette'&&screen==='settings'&&settingsSection==='palette')||(kind==='group'&&screen==='settings'&&settingsSection==='groups')||(kind==='column'&&columnDraft!==null)||(kind==='method'&&inputMethodColumnId!==null);
+        if (element && !element.hidden && (element.getClientRects?.().length||outstanding) && baseline !== undefined && baseline !== checklistGuideSignature(kind)) return { kind:'manual', label:'チェック表の未保存編集' };
+      }
+      const numberInput=byId('checklistNumberInput');
+      if(numberTarget&&numberInput&&!numberInput.hidden){
+        const values=workspace.classRecords[numberTarget.classId]?.[activeSheetId]?.values||{};
+        const saved=String(values[recordKey(numberTarget.columnId,numberTarget.studentId)]||'');
+        if(numberInput.value!==saved)return {kind:'manual',label:'チェック表の点数（Enterで未確定）'};
       }
       return { kind:'safe', label:'' };
+    }
+    function closeGuideNavigationDialogs() {
+      if(getGuideNavigationState().kind!=='safe')return false;
+      closeColumnEditor();closeInputMethodDialog();closePalette();
+      if(byId('checklistExportModal'))byId('checklistExportModal').style.display='none';
+      return true;
     }
 
     function classIdsForSheet(sheet) {
@@ -769,6 +782,7 @@
         : `<legend>入力方法</legend><label><input type="radio" name="checklistColumnInputMethod" value="cycle"${column.inputMethod === 'cycle' ? ' checked' : ''}>連続タップ</label><label><input type="radio" name="checklistColumnInputMethod" value="direct"${column.inputMethod !== 'cycle' ? ' checked' : ''}>パレット指定</label>`;
       byId('checklistInputMethodError').textContent = '';
       byId('checklistInputMethodModal').hidden = false;
+      captureChecklistGuideBaseline('method');
     }
 
     function closeInputMethodDialog() {
@@ -1490,6 +1504,7 @@
       render,
       flush: () => storage.flush(),
       getGuideNavigationState,
+      closeGuideNavigationDialogs,
       setOffline: value => storage.setOffline(Boolean(value)),
       countClassReferences: classId => workspace.sheetDefinitions.filter(sheet => classIdsForSheet(sheet).includes(classId)).length,
       getWorkspace: () => clone(workspace),
