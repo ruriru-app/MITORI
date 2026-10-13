@@ -1,10 +1,17 @@
-const CACHE_NAME = 'mitori-app-v12';
+const CACHE_NAME = 'mitori-app-v13';
 const APP_SHELL = [
   './',
   './index.html',
   './manifest.webmanifest',
   './mitori-footer.svg',
   './backup.js',
+  './guide-content.js?v=0401',
+  './guide-model.js?v=0401',
+  './guide-storage.js?v=0401',
+  './guide-navigation.js?v=0401',
+  './guide-app.js?v=0401',
+  './guide-view.js?v=0401',
+  './guide.css?v=0401',
   './report-model.js',
   './report-export.js',
   './report-xlsx.js',
@@ -27,7 +34,7 @@ const APP_SHELL = [
   './checklist/xlsx-export.js',
   './checklist/print-export.js',
   './checklist/pwa.js?v=0390',
-  './checklist/app.js?v=0389',
+  './checklist/app.js?v=0401',
   './checklist/styles.css'
 ];
 
