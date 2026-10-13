@@ -44,12 +44,17 @@ test('individual print emits one A4 student section per selection and breaks bet
 });
 
 test('list print keeps selected student reports continuous without forced breaks', () => {
+  const report = fixtureReport();
+  const selectedKeys = new Set(['current:1', 'current:2']);
+  const before = JSON.stringify(report);
   const html = printer.buildPrintDocument({
-    report: fixtureReport(), selectedKeys: new Set(['current:1', 'current:2']), context, format: 'list',
+    report, selectedKeys, context, format: 'list',
   });
 
   assert.equal((html.match(/<section class="reportPrintStudent/g) || []).length, 2);
   assert.doesNotMatch(html, /class="reportPrintStudent reportPrintBreak"/);
+  assert.equal(JSON.stringify(report), before);
+  assert.deepEqual([...selectedKeys], ['current:1', 'current:2']);
 });
 
 test('print window is injectable and reports a blocked popup', () => {

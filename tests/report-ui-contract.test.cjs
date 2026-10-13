@@ -41,3 +41,24 @@ test('report student screen exposes period, roster, output, and read-only detail
   const modal = html.match(/<div class="modalBack" id="reportDetailModal"[\s\S]*?<\/div><\/div>/)?.[0] || '';
   assert.doesNotMatch(modal, />\s*(編集|保存|削除)\s*</);
 });
+
+test('report output controls cover multi-selection, print, Excel, and spreadsheet copy', () => {
+  [
+    'reportSelectionModeBtn',
+    'reportSelectAllBtn',
+    'reportClearSelectionBtn',
+    'reportExitSelectionBtn',
+    'reportPrintBtn',
+    'reportExcelBtn',
+    'reportCopyBtn',
+    'reportPrintIndividualBtn',
+    'reportPrintListBtn',
+    'reportCopySummaryBtn',
+    'reportCopyDetailBtn',
+  ].forEach(id => assert.match(html, new RegExp(`id="${id}"`), `${id} must exist`));
+  assert.match(html, />個票形式</);
+  assert.match(html, />一覧形式</);
+  assert.match(html, />児童別まとめ</);
+  assert.match(html, />記録一覧</);
+  assert.match(html, /児童生徒の個人情報を含みます/);
+});

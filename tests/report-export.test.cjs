@@ -52,6 +52,33 @@ test('TSV serialization keeps multiline, tab, and quote content inside one quote
   assert.equal(tsv, '氏名\tメモ\n山田花子\t"1行目\n2行目 ""確認"""');
 });
 
+test('copying a table uses an injectable clipboard and reports unavailable clipboard access', async () => {
+  const writes = [];
+  const result = await exporter.copyTable([['氏名'], ['山田花子']], {
+    writeText: async value => writes.push(value),
+  });
+
+  assert.equal(result, '氏名\n山田花子');
+  assert.deepEqual(writes, ['氏名\n山田花子']);
+  await assert.rejects(() => exporter.copyTable([['氏名']], { writeText: null }), {
+    message: 'この端末ではコピーできません',
+  });
+  await assert.rejects(() => exporter.copyTable([['氏名']], {
+    writeText: async () => { throw new Error('denied'); },
+  }), { message: 'コピーできませんでした' });
+});
+
+test('export builders do not mutate the report or selected keys', () => {
+  const report = fixtureReport();
+  const selected = ['current:1', 'current:2'];
+  const before = JSON.stringify({ report, selected });
+
+  exporter.buildSummaryTable(report, selected, context);
+  exporter.buildDetailTable(report, selected, context);
+
+  assert.equal(JSON.stringify({ report, selected }), before);
+});
+
 function storedZipEntries(bytes) {
   const entries = new Map();
   let offset = 0;
@@ -94,4 +121,10 @@ test('workbook filename removes Windows-forbidden characters', () => {
 
   assert.equal(/[<>:"/\\|?*]/.test(name), false);
   assert.match(name, /^MITORI-○○小学校-5_1_算数_-A_B-20260503-0405\.xlsx$/);
+});
+
+test('workbook download reports unavailable browser adapters', () => {
+  assert.throws(() => xlsx.download({ summaryTable: [], detailTable: [] }, {
+    documentRef: {}, urlApi: {}, BlobCtor: null,
+  }), { message: 'この端末ではExcelを保存できません' });
 });

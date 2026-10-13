@@ -83,5 +83,17 @@
       .join('\n');
   }
 
-  return { buildSummaryTable, buildDetailTable, tableToTsv };
+  async function copyTable(table, adapters = {}) {
+    const writeText = adapters.writeText;
+    if (typeof writeText !== 'function') throw new Error('この端末ではコピーできません');
+    const text = tableToTsv(table);
+    try {
+      await writeText(text);
+    } catch (error) {
+      throw new Error('コピーできませんでした', { cause: error });
+    }
+    return text;
+  }
+
+  return { buildSummaryTable, buildDetailTable, tableToTsv, copyTable };
 });
