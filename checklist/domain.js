@@ -27,15 +27,32 @@
       ? [...new Set(schedule.weekdays.filter(day => Number.isInteger(day) && day >= 0 && day <= 6))]
       : [2, 4];
     const exceptions = schedule.exceptions && typeof schedule.exceptions === 'object' ? schedule.exceptions : {};
-    return { weekdays, exceptions };
+    const normalizeDates = values => Array.isArray(values)
+      ? [...new Set(values.filter(value => dateIndex(value) !== null))].sort()
+      : [];
+    return {
+      weekdays,
+      exceptions,
+      lessonDates: normalizeDates(schedule.lessonDates),
+      boardDates: normalizeDates(schedule.boardDates),
+    };
+  }
+
+  function hasLessonSchedule(schedule) {
+    const normalized = normalizeSchedule(schedule);
+    return normalized.weekdays.length > 0
+      || normalized.lessonDates.length > 0
+      || Object.values(normalized.exceptions).includes('on');
   }
 
   function isLessonDay(iso, schedule) {
     const index = dateIndex(iso);
     if (index === null) return false;
-    const { weekdays, exceptions } = normalizeSchedule(schedule);
+    const { weekdays, exceptions, lessonDates, boardDates } = normalizeSchedule(schedule);
     if (exceptions[iso] === 'off') return false;
     if (exceptions[iso] === 'on') return true;
+    if (boardDates.includes(iso)) return lessonDates.includes(iso);
+    if (lessonDates.includes(iso)) return true;
     return weekdays.includes(new Date(index * 86400000).getUTCDay());
   }
 
@@ -43,19 +60,9 @@
     const start = dateIndex(startIso);
     const end = dateIndex(endIso);
     if (start === null || end === null || end <= start) return 0;
-    const { weekdays, exceptions } = normalizeSchedule(schedule);
-    const length = end - start;
-    const firstDay = new Date((start + 1) * 86400000).getUTCDay();
-    let count = Math.floor(length / 7) * weekdays.length;
-    for (let offset = 0; offset < length % 7; offset += 1) {
-      if (weekdays.includes((firstDay + offset) % 7)) count += 1;
-    }
-    for (const [iso, kind] of Object.entries(exceptions)) {
-      const index = dateIndex(iso);
-      if (index === null || index <= start || index > end) continue;
-      const ordinary = weekdays.includes(new Date(index * 86400000).getUTCDay());
-      if (kind === 'on' && !ordinary) count += 1;
-      if (kind === 'off' && ordinary) count -= 1;
+    let count = 0;
+    for (let index = start + 1; index <= end; index += 1) {
+      if (isLessonDay(dateFromIndex(index), schedule)) count += 1;
     }
     return count;
   }
@@ -63,18 +70,11 @@
   function nextReceiptDayOnOrAfter(iso, schedule) {
     const start = dateIndex(iso);
     if (start === null) return null;
-    const { weekdays, exceptions } = normalizeSchedule(schedule);
-    const candidates = [];
-    const startDay = new Date(start * 86400000).getUTCDay();
-    for (const weekday of weekdays) {
-      let candidate = start + ((weekday - startDay + 7) % 7);
-      while (exceptions[dateFromIndex(candidate)] === 'off') candidate += 7;
-      candidates.push(dateFromIndex(candidate));
+    for (let offset = 0; offset <= 1095; offset += 1) {
+      const candidate = dateFromIndex(start + offset);
+      if (isLessonDay(candidate, schedule)) return candidate;
     }
-    for (const [date, kind] of Object.entries(exceptions)) {
-      if (kind === 'on' && dateIndex(date) !== null && date >= iso) candidates.push(date);
-    }
-    return candidates.filter(date => isLessonDay(date, schedule)).sort()[0] || null;
+    return null;
   }
 
   function nextLessonAfter(iso, schedule) {
@@ -84,6 +84,9 @@
   function delayUnits(startIso, endIso, column, schedule) {
     if (!startIso || !endIso || endIso <= startIso) return 0;
     if (column.basis !== 'lesson') return daysBetween(startIso, endIso);
+    if (!hasLessonSchedule(schedule)) {
+      return daysBetween(startIso, endIso);
+    }
     const assessed = nextReceiptDayOnOrAfter(endIso, schedule);
     return assessed ? Math.max(1, lessonCount(startIso, assessed, schedule)) : null;
   }
@@ -121,7 +124,7 @@
       result.reason = '△の配点はこの試作品では未設定';
       return result;
     }
-    const effective = (origin, date) => column.basis === 'lesson' && origin && date > origin
+    const effective = (origin, date) => column.basis === 'lesson' && hasLessonSchedule(schedule) && origin && date > origin
       ? nextReceiptDayOnOrAfter(date, schedule)
       : date;
     const expired = (origin, end) => Boolean(origin && end && limit > 0 && daysBetween(origin, end) >= limit);
@@ -195,7 +198,7 @@
   }
 
   root.MitoriChecklistDomain = Object.freeze({
-    dateIndex, dateFromIndex, datePlus, daysBetween, normalizeSchedule,
+    dateIndex, dateFromIndex, datePlus, daysBetween, normalizeSchedule, hasLessonSchedule,
     isLessonDay, lessonCount, nextReceiptDayOnOrAfter, nextLessonAfter,
     delayUnits, penaltyFor, submissionEvaluation, scoreRecord
   });
