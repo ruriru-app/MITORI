@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mitori-app-v8';
+const CACHE_NAME = 'mitori-app-v9';
 const APP_SHELL = [
   './',
   './index.html',
@@ -11,7 +11,7 @@ const APP_SHELL = [
   './checklist/palette.js',
   './checklist/workspace.js',
   './checklist/model.js',
-  './checklist/domain.js',
+  './checklist/domain.js?v=0388',
   './checklist/interactions.js',
   './checklist/bridge.js',
   './checklist/storage.js',
@@ -22,7 +22,7 @@ const APP_SHELL = [
   './checklist/csv-export.js',
   './checklist/xlsx-export.js',
   './checklist/print-export.js',
-  './checklist/pwa.js',
+  './checklist/pwa.js?v=0388',
   './checklist/app.js',
   './checklist/styles.css'
 ];

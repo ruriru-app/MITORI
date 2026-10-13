@@ -177,20 +177,17 @@
   }
 
   function scoreRecord({ sheetType, column, value, meta, schedule, today }) {
+    if (sheetType === 'submission') {
+      return submissionEvaluation({ column, value, meta, schedule, today }).current;
+    }
     if (sheetType === 'number' && column?.inputMethod === 'number') {
       if (!value || value === '欠' || value === '再') return null;
       return Number.isNaN(Number(value)) ? null : Number(value);
-    }
-    const isSubmissionRecord = sheetType === 'submission'
-      && (dateIndex(value) !== null || Boolean(meta?.submitted) || Boolean(meta?.redo) || value === '再');
-    if (isSubmissionRecord) {
-      return submissionEvaluation({ column, value, meta, schedule, today }).current;
     }
     if (column && column.paletteSnapshot && column.paletteSnapshot.scoringEnabled && root.MitoriChecklistPalette) {
       const linked = root.MitoriChecklistPalette.scoreForValue(column.paletteSnapshot, value);
       return linked.matched ? linked.score : null;
     }
-    if (sheetType === 'submission') return submissionEvaluation({ column, value, meta, schedule, today }).current;
     if (!value || value === '欠' || value === '再') return null;
     if (sheetType === 'number') return Number.isNaN(Number(value)) ? null : Number(value);
     if (sheetType === 'evaluation') return ({ A: 3, B: 2, C: 1, '○': 3, '△': 2, '×': 1 })[value] ?? null;

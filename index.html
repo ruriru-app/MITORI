@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MITORI v0.3.87</title>
+<title>MITORI v0.3.88</title>
 <meta name="theme-color" content="#8ccbc2">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -902,6 +902,14 @@ h2,.title,.sideTitle{color:#6f625b}.small{color:#8b817b}
   body.weeklyPlanPrintReady .weeklyLessonCard.weeklyLessonSelected{outline:0!important;box-shadow:none!important}
 }
 
+@media (max-width:700px){
+  .header{flex-wrap:wrap!important}
+  .logoSvgWrap{flex:1 1 250px!important;min-width:250px!important;max-width:none!important}
+  .logoSvgWrap .mitoriInlineLogo,.logoSvgWrap svg{width:250px!important;max-width:250px!important}
+  .header>.spacer{display:none}
+  .mode{order:10;flex:1 0 100%}
+  .mode button{flex:1 1 auto;padding:7px 4px!important;font-size:12px}
+}
 </style>
 <link rel="stylesheet" href="checklist/styles.css">
 </head>
@@ -1034,6 +1042,7 @@ h2,.title,.sideTitle{color:#6f625b}.small{color:#8b817b}
     <div class="datePickerWrap" id="datePickerWrap"><button class="headerDateButton" id="headerDateButton" type="button" aria-label="日付を選択" aria-expanded="false"><span id="dateDisplay">----</span></button><input type="hidden" id="dateInput"><div class="headerCalendarPopover" id="headerCalendarPopover"><div class="weeklyCalendar"><div class="weeklyCalendarHeader"><button id="headerCalendarPrevBtn" type="button" aria-label="前月">‹</button><div class="weeklyCalendarTitle" id="headerCalendarTitle"></div><button id="headerCalendarNextBtn" type="button" aria-label="次月">›</button></div><div class="weeklyCalendarWeekdays"><span>月</span><span>火</span><span>水</span><span>木</span><span>金</span><span>土</span><span>日</span></div><div id="headerCalendarGrid"></div></div></div></div>
     <div class="mode"><button id="recordMode" class="active">授業記録</button><button id="reportMode">レポート</button><button id="testMode">ﾊﾟﾌｫｰﾏﾝｽﾃｽﾄ</button><button id="checklistMode">ﾁｪｯｸ表</button><button id="weeklyPlanMode">週案</button></div>
     <div class="spacer"></div>
+    <button class="navIconBtn refreshNavButton" id="pwaRefreshBtn" title="保存して最新版を確認" aria-label="保存して最新版を確認"><span class="icon" aria-hidden="true">↻</span><span class="label">更新</span></button>
     <button class="navIconBtn" id="homeBtn" title="ホーム" aria-label="ホーム"><span class="icon svgIconWrap"><svg class="navSvgIcon" aria-hidden="true" focusable="false" height="1024.0px" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 1024 1024" width="1024.0px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <defs/>
 <g id="レイヤー-1">
@@ -1088,7 +1097,7 @@ h2,.title,.sideTitle{color:#6f625b}.small{color:#8b817b}
       </div>
       <div class="footer">
         <img class="footerArtwork" src="mitori-footer.svg" alt="">
-        <div class="footerInfo"><span id="status">未保存</span><span class="footerVersion">v0.3.87：チェック表の提出日減点・集計修正</span></div>
+        <div class="footerInfo"><span id="status">未保存</span><span class="footerVersion">v0.3.88：PWA更新・提出物集計修正</span></div>
       </div>
     </div>
   </div>
@@ -1544,7 +1553,7 @@ h2,.title,.sideTitle{color:#6f625b}.small{color:#8b817b}
 <script src="checklist/palette.js"></script>
 <script src="checklist/workspace.js"></script>
 <script src="checklist/model.js"></script>
-<script src="checklist/domain.js"></script>
+<script src="checklist/domain.js?v=0388"></script>
 <script src="checklist/interactions.js"></script>
 <script src="checklist/bridge.js"></script>
 <script src="checklist/storage.js"></script>
@@ -1555,7 +1564,7 @@ h2,.title,.sideTitle{color:#6f625b}.small{color:#8b817b}
 <script src="checklist/csv-export.js"></script>
 <script src="checklist/xlsx-export.js"></script>
 <script src="checklist/print-export.js"></script>
-<script src="checklist/pwa.js"></script>
+<script src="checklist/pwa.js?v=0388"></script>
 <script src="checklist/app.js"></script>
 <script>
 const KEY='MITORI_V033_SETTINGS_LAYOUT_SYNC';
