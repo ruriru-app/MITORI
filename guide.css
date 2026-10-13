@@ -1,0 +1,42 @@
+#mitoriGuideRoot{color:#6f625b;font-family:inherit;font-size:15px;line-height:1.7}
+#mitoriGuideRoot [hidden]{display:none!important}
+#mitoriGuideRoot button{font:inherit;line-height:1.4;border:1px solid #a9d9d1;border-radius:10px;background:#eaf7f4;color:#398e84;padding:9px 12px;cursor:pointer;min-height:44px}
+#mitoriGuideRoot button:hover{background:#dcf1eb}
+#mitoriGuideRoot button:disabled{opacity:.45;cursor:default}
+#mitoriGuideRoot button:focus-visible,#mitoriGuideRoot summary:focus-visible,#mitoriGuideRoot input:focus-visible{outline:3px solid #63c3b7;outline-offset:2px}
+.guidePanel{position:fixed;z-index:115;right:12px;top:90px;width:min(400px,calc(100vw - 24px));max-height:min(560px,80vh);background:#fff;border:1px solid #e4d9d0;border-radius:18px;box-shadow:0 14px 44px #5d484529;display:flex;flex-direction:column;overflow:hidden}
+#mitoriGuideRoot header{display:flex;align-items:center;gap:12px;justify-content:space-between;padding:14px 18px;border-bottom:1px solid #d7ebe5;flex-shrink:0}
+#mitoriGuideRoot header h2{font-size:20px;margin:0}
+#mitoriGuideRoot header button{background:#fff;border-color:#e4d9d0;min-width:44px}
+.guideProgress{font-size:13px;margin:4px 18px!important}
+#guideProgressBar{width:100%;height:6px;flex-shrink:0;accent-color:#63c3b7}
+#guideInstructions,#guideSaveWarning,#guideRecent{margin:10px 16px;font-size:13px;flex-shrink:0}
+.guideWarning{color:#a64343}
+.guideTodoScroll{overflow:auto;min-height:0;overscroll-behavior:contain;padding:0 16px 16px}
+.guideRow{padding:10px 0;border-bottom:1px solid #eadfd8}
+.guideRowTop{display:grid;grid-template-columns:24px minmax(0,1fr) auto;gap:10px;align-items:start}
+.guideRowTop label{padding-top:7px;overflow-wrap:anywhere;cursor:pointer}
+#mitoriGuideRoot .guideRowTop button{max-width:132px;font-size:12px;padding:8px;white-space:normal}
+#mitoriGuideRoot input.guideCheck{width:22px;height:22px;margin:10px 0 0;padding:0;accent-color:#63c3b7;cursor:pointer}
+.guideRow details{margin:6px 0 0 34px}
+#mitoriGuideRoot summary{color:#399b90;cursor:pointer;min-height:36px;padding:4px 0;font-size:13px}
+.guideExplanation{font-size:14px}
+.guideExplanation p{margin:10px 0}
+.guideExplanation ol{padding-left:22px}
+.guideExplanation li{margin:7px 0}
+#mitoriGuideRoot table{width:100%;font-size:11px;border-collapse:collapse}
+#mitoriGuideRoot td,#mitoriGuideRoot th{padding:5px;border:1px solid #d7ebe5;text-align:left;overflow-wrap:anywhere}
+#mitoriGuideRoot .guideReset{font-size:12px;background:#fff;margin-top:15px}
+.guideOverlay{position:fixed;inset:0;z-index:160;background:#403a3555;display:grid;place-items:center;padding:12px}
+.guideConfirm{z-index:180}
+.guideDialog{display:flex;flex-direction:column;width:min(740px,100%);max-height:calc(100dvh - 24px);background:#fffdfa;border:1px solid #e4d9d0;border-radius:20px;box-shadow:0 20px 60px #5d484533;overflow:hidden}
+.guideDialogBody{overflow:auto;min-height:0;padding:20px 28px;overscroll-behavior:contain}
+.guideDialogBody h2{font-size:26px;line-height:1.5;margin:5px 0 18px}
+.guideDialogBody h3{font-size:17px}
+.guideDialogBody p{margin:12px 0}
+.guideDialog footer{display:flex;justify-content:space-between;padding:12px 20px;border-top:1px solid #eadfd8}
+.guideNotice{position:fixed;z-index:114;right:12px;bottom:12px;width:min(390px,calc(100vw - 24px));padding:16px;background:#fffdfa;border:1px solid #e4d9d0;border-radius:16px;box-shadow:0 14px 38px #5d484529}
+.guideNotice h3{margin:0}
+#mitoriGuideRoot .guideClassChoice{display:block;width:100%;margin-bottom:10px;text-align:left}
+@media(max-width:600px){.guideDialogBody{padding:16px}.guideDialogBody h2{font-size:22px}.guideRowTop{gap:7px}.guideRowTop label{font-size:14px}}
+@media print{#mitoriGuideRoot{display:none!important}}

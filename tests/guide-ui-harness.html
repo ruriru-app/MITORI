@@ -1,0 +1,12 @@
+<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MITORI ガイド操作確認</title><link rel="stylesheet" href="../guide.css">
+<body><h1>ガイド単独の操作確認</h1><p>このページは本体データを読み書きしません。</p>
+<button id="guideHelpBtn">？ ガイドを開く</button><input aria-label="保持確認用の入力" placeholder="ガイドを操作しても残る入力"><p id="destination"></p><div id="mitoriGuideRoot"></div>
+<script src="../guide-content.js"></script><script src="../guide-model.js"></script><script src="../guide-storage.js"></script><script src="../guide-app.js"></script><script src="../guide-view.js"></script>
+<script>
+const memory=new Map();const storage={getItem:k=>memory.get(k)||null,setItem:(k,v)=>memory.set(k,v)};
+const store=MitoriGuideStorage.createGuideStore({storage});let controller;
+const view=MitoriGuideView.createGuideView({document,window,root:document.getElementById('mitoriGuideRoot'),onAction:a=>controller.dispatch(a)});
+controller=MitoriGuideApp.createGuideController({catalog:MitoriGuideContent.GUIDES,store,view,navigate:async target=>{document.getElementById('destination').textContent=JSON.stringify(target);return true;}});
+document.getElementById('guideHelpBtn').onclick=()=>controller.dispatch({type:'menu'});controller.restore();
+</script></body></html>
