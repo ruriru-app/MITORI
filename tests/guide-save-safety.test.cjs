@@ -51,6 +51,13 @@ test('invalid term dates leave saved and memory ranges intact',()=>{
   assert.equal(JSON.stringify(ctx.state),before);
   assert.equal(ctx.persisted,undefined);
 });
+test('a successful normal term save refreshes its comparison baseline',()=>{
+  const ctx=fixture(false),captured=[];
+  ctx.state.termSettings={system:'trimester',trimester:[],breaks:[]};
+  ctx.readDateRangeRows=()=>[];ctx.captureGuideEditorBaseline=id=>captured.push(id);
+  vm.runInContext(extract('saveTermSettings'),ctx);
+  assert.equal(ctx.saveTermSettings(false),true);assert.deepEqual(captured,['term']);
+});
 test('missing class name and cancelled reference change do not alter data',()=>{
   const ctx=fixture(false);ctx.fields.sharedClassNameInput.value='';
   assert.equal(ctx.saveSharedClassEdit(false),false);

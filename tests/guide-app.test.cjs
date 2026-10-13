@@ -46,6 +46,8 @@ test('intro review preserves started status and checks',async()=>{
   assert.equal(x.store.read(guide).started,true);
   assert.equal(x.store.read(guide).checks.class,true);
   assert.equal(x.states.at(-1).visible,true);
+  await x.controller.dispatch({type:'intro',guideId:guide.id});
+  assert.equal(x.states.at(-1).introPage,0,'overview replay should start at the welcome page');
 });
 test('completion keeps panel open and backup is only navigation',async()=>{
   const x=setup();await x.controller.dispatch({type:'open',guideId:guide.id});

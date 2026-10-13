@@ -2691,6 +2691,7 @@ function saveTermSettings(notify=true){
     state.termSettings[key]=terms;state.termSettings.breaks=breaks;save();return true;
   });
   if(!committed)return false;
+  captureGuideEditorBaseline('term');
   if(notify)alert('学期・休業日設定を保存しました。');return true;
 }
 function renderTagSettings(){

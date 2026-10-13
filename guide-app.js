@@ -40,7 +40,7 @@
             saveUi();break;
           case 'intro':
             if(!select(action.guideId||guide.id))return;
-            state={...state,screen:'intro'};break;
+            state={...state,screen:'intro',introPage:0};break;
           case 'intro-page':
             state={...state,introPage:Math.max(0,Math.min(state.guide.intro.length-1,Number(action.page)||0))};
             store.saveIntro(guide.id,{started:store.read(guide).started,introPage:state.introPage});break;
