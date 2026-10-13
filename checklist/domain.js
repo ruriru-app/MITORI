@@ -181,6 +181,11 @@
       if (!value || value === '欠' || value === '再') return null;
       return Number.isNaN(Number(value)) ? null : Number(value);
     }
+    const isSubmissionRecord = sheetType === 'submission'
+      && (dateIndex(value) !== null || Boolean(meta?.submitted) || Boolean(meta?.redo) || value === '再');
+    if (isSubmissionRecord) {
+      return submissionEvaluation({ column, value, meta, schedule, today }).current;
+    }
     if (column && column.paletteSnapshot && column.paletteSnapshot.scoringEnabled && root.MitoriChecklistPalette) {
       const linked = root.MitoriChecklistPalette.scoreForValue(column.paletteSnapshot, value);
       return linked.matched ? linked.score : null;
