@@ -93,6 +93,7 @@ test('invalid custom periods clear stale report data and disable exports', () =>
   };
   const context = {
     reportModel: { recordCount: 1 },
+    reportSelectionMode: true,
     reportSelection: new Set(['current:1']),
     $: id => elements[id],
     renderReportSelectionControls: () => { context.controlsRendered = true; },
@@ -102,11 +103,24 @@ test('invalid custom periods clear stale report data and disable exports', () =>
   invalidate('開始日は終了日以前にしてください');
 
   assert.equal(context.reportModel, null);
+  assert.equal(context.reportSelectionMode, false);
   assert.equal(context.reportSelection.size, 0);
   assert.equal(elements.reportStudentGrid.innerHTML, '');
   assert.equal(elements.reportLegacyGrid.innerHTML, '');
   assert.equal(elements.reportLegacySection.hidden, true);
   assert.equal(elements.reportPeriodError.textContent, '開始日は終了日以前にしてください');
+  assert.equal(context.controlsRendered, true);
+});
+
+test('student rendering remains safe while a custom period is invalid', () => {
+  const context = {
+    reportModel: null,
+    renderReportSelectionControls: () => { context.controlsRendered = true; },
+    $: () => { throw new Error('stale card DOM must not be read without a report model'); },
+  };
+  const renderStudents = vm.runInNewContext(`(${extractFunction('renderReportStudents')})`, context);
+
+  assert.doesNotThrow(() => renderStudents());
   assert.equal(context.controlsRendered, true);
 });
 
