@@ -77,5 +77,8 @@
     }
     return {dispatch,restore};
   }
-  return {createGuideController};
+  function shouldShowInitialNotice({startupStatus,checklistStartupStatus,noticeShown}){
+    return startupStatus==='fresh'&&checklistStartupStatus==='fresh'&&noticeShown!==true;
+  }
+  return {createGuideController,shouldShowInitialNotice};
 });

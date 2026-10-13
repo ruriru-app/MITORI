@@ -1247,6 +1247,8 @@
     }
 
     const stored = await storage.load();
+    // 起動前の保存有無だけを通知する。内容や名簿はガイドへ渡さない。
+    try { options.onInitialStorageRead?.(stored == null ? 'fresh' : 'existing'); } catch {}
     try { workspace = stored ? Model.migrateState(stored) : Model.createBlankState(); }
     catch (error) {
       workspace = Model.createBlankState();
