@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MITORI v0.3.86</title>
+<title>MITORI v0.3.90</title>
 <meta name="theme-color" content="#8ccbc2">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -902,6 +902,14 @@ h2,.title,.sideTitle{color:#6f625b}.small{color:#8b817b}
   body.weeklyPlanPrintReady .weeklyLessonCard.weeklyLessonSelected{outline:0!important;box-shadow:none!important}
 }
 
+@media (max-width:700px){
+  .header{flex-wrap:wrap!important}
+  .logoSvgWrap{flex:1 1 250px!important;min-width:250px!important;max-width:none!important}
+  .logoSvgWrap .mitoriInlineLogo,.logoSvgWrap svg{width:250px!important;max-width:250px!important}
+  .header>.spacer{display:none}
+  .mode{order:10;flex:1 0 100%}
+  .mode button{flex:1 1 auto;padding:7px 4px!important;font-size:12px}
+}
 </style>
 <link rel="stylesheet" href="checklist/styles.css">
 </head>
@@ -1088,7 +1096,7 @@ h2,.title,.sideTitle{color:#6f625b}.small{color:#8b817b}
       </div>
       <div class="footer">
         <img class="footerArtwork" src="mitori-footer.svg" alt="">
-        <div class="footerInfo"><span id="status">未保存</span><span class="footerVersion">v0.3.86：手動バックアップ</span></div>
+        <div class="footerInfo"><span id="status">未保存</span><span class="footerVersion">v0.3.90：PWA最上部の更新操作を復元</span></div>
       </div>
     </div>
   </div>
@@ -1544,9 +1552,9 @@ h2,.title,.sideTitle{color:#6f625b}.small{color:#8b817b}
 <script src="checklist/palette.js"></script>
 <script src="checklist/workspace.js"></script>
 <script src="checklist/model.js"></script>
-<script src="checklist/domain.js"></script>
+<script src="checklist/domain.js?v=0389"></script>
 <script src="checklist/interactions.js"></script>
-<script src="checklist/bridge.js"></script>
+<script src="checklist/bridge.js?v=0389"></script>
 <script src="checklist/storage.js"></script>
 <script src="checklist/palette-settings.js"></script>
 <script src="checklist/settings.js"></script>
@@ -1555,12 +1563,12 @@ h2,.title,.sideTitle{color:#6f625b}.small{color:#8b817b}
 <script src="checklist/csv-export.js"></script>
 <script src="checklist/xlsx-export.js"></script>
 <script src="checklist/print-export.js"></script>
-<script src="checklist/pwa.js"></script>
-<script src="checklist/app.js"></script>
+<script src="checklist/pwa.js?v=0390"></script>
+<script src="checklist/app.js?v=0389"></script>
 <script>
 const KEY='MITORI_V033_SETTINGS_LAYOUT_SYNC';
 const BACKUP_META_KEY='MITORI_BACKUP_META_V1';
-const APP_VERSION='0.3.86';
+const APP_VERSION='0.3.90';
 const startupDate=new Date();
 const today=`${startupDate.getFullYear()}-${String(startupDate.getMonth()+1).padStart(2,'0')}-${String(startupDate.getDate()).padStart(2,'0')}`;
 const initialClasses=[];

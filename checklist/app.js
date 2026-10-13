@@ -158,7 +158,9 @@
           year: gradeNames.get(source.gradeId) || source.gradeId || previous?.year || '',
           gradeId: source.gradeId,
           count: currentStudents.length,
-          weekdays: previous?.weekdays || [],
+          weekdays: Array.isArray(source.weekdays) ? source.weekdays : (previous?.weekdays || []),
+          lessonDates: Array.isArray(source.lessonDates) ? source.lessonDates : (previous?.lessonDates || []),
+          boardDates: Array.isArray(source.boardDates) ? source.boardDates : (previous?.boardDates || []),
           exceptions: previous?.exceptions || {},
           students: currentStudents.length ? currentStudents : previous.students
         });
@@ -276,6 +278,7 @@
     }
 
     function openList() {
+      synchronizeCatalog();
       screen = 'list';
       editingSheetId = null;
       activeSheetId = null;
@@ -472,7 +475,12 @@
         column: columnForClass(sheet, column, row.classId),
         value: bucket?.values?.[key] || '',
         meta: bucket?.meta?.[key] || {},
-        schedule: { weekdays: classRecord?.weekdays || [], exceptions: classRecord?.exceptions || {} },
+        schedule: {
+          weekdays: classRecord?.weekdays || [],
+          lessonDates: classRecord?.lessonDates || [],
+          boardDates: classRecord?.boardDates || [],
+          exceptions: classRecord?.exceptions || {}
+        },
         today: localDateKey()
       });
     }

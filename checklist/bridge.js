@@ -38,6 +38,32 @@
       });
   }
 
+  function timetableWeekdays(mitoriState, sharedClassId) {
+    const dayNumbers = { mon: 1, tue: 2, wed: 3, thu: 4, fri: 5, sat: 6, sun: 0 };
+    const tileIds = new Set((Array.isArray(mitoriState?.classes) ? mitoriState.classes : [])
+      .filter(tile => String(tile?.sharedClassId || tile?.id || '') === sharedClassId)
+      .map(tile => String(tile.id)));
+    if (!tileIds.size) return [];
+    return Object.entries(dayNumbers)
+      .filter(([day]) => Object.values(mitoriState?.timetable?.[day] || {}).some(tileId => tileIds.has(String(tileId))))
+      .map(([, dayNumber]) => dayNumber);
+  }
+
+  function lessonBoardDates(mitoriState, sharedClassId) {
+    const tileIds = new Set((Array.isArray(mitoriState?.classes) ? mitoriState.classes : [])
+      .filter(tile => String(tile?.sharedClassId || tile?.id || '') === sharedClassId)
+      .map(tile => String(tile.id)));
+    const entries = Object.entries(mitoriState?.board && typeof mitoriState.board === 'object' ? mitoriState.board : {})
+      .filter(([date]) => /^\d{4}-\d{2}-\d{2}$/.test(date))
+      .sort(([left], [right]) => left.localeCompare(right));
+    return {
+      boardDates: entries.map(([date]) => date),
+      lessonDates: entries
+        .filter(([, board]) => Object.values(board && typeof board === 'object' ? board : {}).some(tileId => tileIds.has(String(tileId))))
+        .map(([date]) => date),
+    };
+  }
+
   function syncCatalog(checklistState, mitoriState, now = new Date().toISOString()) {
     const nextState = clone(checklistState && typeof checklistState === 'object' ? checklistState : {}) || {};
     nextState.classRefs = nextState.classRefs && typeof nextState.classRefs === 'object' && !Array.isArray(nextState.classRefs)
@@ -106,12 +132,16 @@
         },
         syncedAt: now,
       };
+      const boardSchedule = lessonBoardDates(mitoriState, classId);
       classes.push({
         id: classId,
         school: String(sourceClass.school || ''),
         name: String(sourceClass.name || ''),
         gradeId: String(sourceClass.gradeId || ''),
         count: Math.max(0, Number(sourceClass.count) || 0),
+        weekdays: timetableWeekdays(mitoriState, classId),
+        lessonDates: boardSchedule.lessonDates,
+        boardDates: boardSchedule.boardDates,
         students,
       });
     }
