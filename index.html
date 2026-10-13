@@ -103,8 +103,13 @@ h2{font-size:18px;margin:0 0 10px}
 .balanceList{display:flex;flex-wrap:wrap;gap:6px 12px}
 .records{height:150px;overflow:auto;border:1px solid var(--line);border-radius:12px;background:#f8fafc;padding:8px;font-size:13px}
 .record{padding:4px 0;border-bottom:1px solid var(--line)}
-.reportGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;align-content:start;flex:1}
-.reportCard{background:white;border:1px solid var(--line);border-radius:14px;padding:12px}.obs{background:#fff7ed;border-color:#fed7aa;margin-top:8px}
+.reportShell{flex:1;display:flex;min-height:0}.reportScreen{flex:1;min-height:0;display:flex;flex-direction:column;gap:10px}.reportScreen[hidden]{display:none!important}
+.reportScreenHeader{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.reportScreenHeader h2{margin:0}.reportScreenIntro{font-size:12px;color:var(--muted)}
+.reportTileGrid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));grid-auto-rows:82px;gap:8px;align-content:start}.reportTileGrid.archived{grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:82px}
+.reportTileGrid .classSlot{min-width:0}.reportTileCard{width:100%;text-align:left;cursor:pointer}.reportTileCard .classMeta{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.reportTileCard:hover{box-shadow:0 5px 16px rgba(100,82,70,.12);transform:translateY(-1px)}
+.reportArchivedSection{border-top:1px solid var(--line);padding-top:10px;margin-top:2px}.reportArchivedSection[hidden]{display:none}.reportArchivedTitle{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}.reportArchivedTitle h3{margin:0;font-size:15px}
+.reportEmpty{border:1px dashed #d9cec7;border-radius:14px;background:#fffdfa;color:#8b817b;padding:22px;text-align:center}.reportStudentPlaceholder{flex:1;display:flex;align-items:center;justify-content:center;border:1px dashed #d9cec7;border-radius:14px;color:#8b817b;background:#fffdfa}
+@media(max-width:1100px){.reportTileGrid{grid-template-columns:repeat(4,minmax(0,1fr))}.reportTileGrid.archived{grid-template-columns:repeat(3,minmax(0,1fr))}}
 .settings{display:grid;grid-template-columns:260px 1fr;gap:12px;flex:1;min-height:0}.dangerZone{margin-top:auto;border:1px solid #fecaca;background:#fff7f7;border-radius:16px;padding:12px;display:flex;flex-direction:column;align-items:stretch;gap:8px}.dangerZone h2{margin:0;color:#991b1b;font-size:15px}
 .settingsNav{display:flex;flex-direction:column;gap:5px;min-height:0;overflow:hidden}.settingsNav>button{min-height:31px;padding:5px 10px;border-radius:10px;text-align:left;font-size:12px;line-height:1.15}.settingsNav button.active{background:var(--accent);color:white;border-color:var(--accent);font-weight:800}.settingsNav>.dangerZone{padding:8px;gap:5px}.settingsNav>.dangerZone h2{font-size:13px}.settingsNav>.dangerZone .small{font-size:10px;line-height:1.3}.settingsNav>.dangerZone .btn{padding:5px 8px;font-size:11px}
 .settingsContent{overflow:auto}.settingGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-content:start}
@@ -1207,7 +1212,22 @@ h2,.title,.sideTitle{color:#6f625b}.small{color:#8b817b}
     </div>
   </div>
 
-  <div id="reportView" class="view"><div class="panel" style="flex:1;display:flex;flex-direction:column;gap:10px"><h2>レポートモード</h2><div class="reportGrid" id="reportGrid"></div></div></div>
+  <div id="reportView" class="view"><div class="panel reportShell">
+    <section class="reportScreen" id="reportTileScreen">
+      <div class="reportScreenHeader"><div><h2>授業タイル一覧</h2><div class="reportScreenIntro">見取り記録を確認する授業タイルを選んでください。</div></div><button class="btn" id="reportShowArchivedBtn" type="button">保管済みを表示</button></div>
+      <div class="reportTileGrid" id="reportActiveTileGrid"></div>
+      <div class="reportEmpty" id="reportTileEmpty" hidden>授業タイルがありません。各種設定から授業タイルを作成してください。</div>
+      <section class="reportArchivedSection" id="reportArchivedSection" hidden>
+        <div class="reportArchivedTitle"><h3>保管済みの授業タイル</h3><span class="small">過去の見取り記録を閲覧できます。</span></div>
+        <div class="reportTileGrid archived" id="reportArchivedTileGrid"></div>
+        <div class="reportEmpty" id="reportArchivedEmpty" hidden>保管済みの授業タイルはありません。</div>
+      </section>
+    </section>
+    <section class="reportScreen" id="reportStudentScreen" hidden>
+      <div class="reportScreenHeader"><button class="btn" id="reportBackToTilesBtn" type="button">← 授業タイル一覧</button><h2 id="reportStudentTitle">児童生徒の見取り記録</h2><span></span></div>
+      <div class="reportStudentPlaceholder" id="reportStudentContent">児童生徒の一覧を準備しています。</div>
+    </section>
+  </div></div>
 
   <div id="weeklyPlanView" class="view weeklyPlanView">
     <div class="weeklyPlanShell" id="weeklyPlanShell">
@@ -1541,6 +1561,10 @@ h2,.title,.sideTitle{color:#6f625b}.small{color:#8b817b}
   <div class="performanceSummaryWrap"><table class="performanceSummaryTable" id="performanceSummaryTable"></table></div>
 </div></div>
 <script src="backup.js"></script>
+<script src="report-model.js"></script>
+<script src="report-export.js"></script>
+<script src="report-xlsx.js"></script>
+<script src="report-print.js"></script>
 <script src="checklist/palette.js"></script>
 <script src="checklist/workspace.js"></script>
 <script src="checklist/model.js"></script>
@@ -1708,6 +1732,7 @@ let selectedStudentNos=new Set(), selectionDrag=null;
 let classArrangeMode=false,selectedArrangeClassId=null;
 let classPointerDrag=null,suppressClassClickUntil=0;
 let selectedTimetableClassId=null;
+let reportScreen='tiles',reportTileId='',reportTileArchived=false,reportArchivedVisible=false;
 let activeSharedSeatClassId=null,sharedSeatSelectedNo=null,sharedSeatDragging=null,sharedSeatDragOffset={x:0,y:0};
 let observedSystemDate=today;
 const SHARED_SEAT_CARD_W=104,SHARED_SEAT_CARD_H=84,SHARED_SEAT_CARD_MARGIN=5;
@@ -2324,7 +2349,25 @@ function toggleBalancePanel(){const p=$('balancePanel');if(!p)return;p.classList
 
 function openRecordModal(num,type){const set=tagSet(getDayMeta().observationId||cls(state.currentClass)?.tagSetId);if(!set){alert('設定で見取り内容を作成してください。');return}selectedRecord={num,tags:{good:[],bad:[]}};$('recordModalTitle').textContent=`${num}番：記録`;function renderTagButtons(kind,items,gridId){const grid=$(gridId);grid.innerHTML='';items.forEach(t=>{const b=document.createElement('button');b.textContent=t;b.onclick=()=>{const arr=selectedRecord.tags[kind];if(arr.includes(t)){selectedRecord.tags[kind]=arr.filter(x=>x!==t);b.classList.remove('selected')}else{arr.push(t);b.classList.add('selected')}};grid.appendChild(b)});}renderTagButtons('good',set.good||[],'recordGoodTagGrid');renderTagButtons('bad',set.bad||[],'recordBadTagGrid');$('memo').value='';$('recordModal').style.display='flex'}
 function renderRecords(){const box=$('records');box.innerHTML='';if(!state.currentClass)return;const list=state.records.filter(r=>r.date===state.date&&r.classId===state.currentClass).slice().reverse();if(!list.length){box.innerHTML='<span class="small">今日の記録はまだありません</span>';return}list.forEach(r=>{const div=document.createElement('div');div.className='record';div.textContent=`${r.time}｜${r.num}番｜${r.type==='good'?'👍':'✏️'}｜${r.tag}${r.test?'｜テスト実施':''}${r.memo?'｜'+r.memo:''}`;box.appendChild(div)})}
-function renderReport(){const box=$('reportGrid');box.innerHTML='';state.classes.forEach(c=>{const all=state.records.filter(r=>r.classId===c.id),good=all.filter(r=>r.type==='good').length,bad=all.filter(r=>r.type==='bad').length,recorded=new Set(all.map(r=>String(r.num))),none=[];for(let i=1;i<=Math.min(40,Number(c.count||40));i++)if(!recorded.has(String(i)))none.push(i+'番');const div=document.createElement('div');div.className='reportCard';div.innerHTML=`<h2>${c.name}</h2><p>実施時間数：<b>${c.hours||0}</b>時間</p><p>👍 ${good}件　✏️ ${bad}件</p><div class="reportCard obs"><b>観察バランス</b><br><span class="small">記録がまだない番号</span><br>${none.length?none.join('、'):'全員に記録あり'}</div>`;box.appendChild(div)})}
+function reportArchivedEntry(tileId){return state.archivedTiles.find(entry=>entry?.tile?.id===tileId)||null}
+function reportSelectedTile(){return reportTileArchived?reportArchivedEntry(reportTileId)?.tile||null:cls(reportTileId)}
+function createReportTileCard(tile,{archived=false,label=''}={}){
+  const card=document.createElement('button');card.type='button';card.className='classCard reportTileCard '+(tile?.color||'gray');card.style.setProperty('--class-color',classColorValue(tile?.color||'gray'));
+  const school=tileSchoolLabel(tile,true),title=String(tile?.name||tile?.legacyName||label||'名称未設定の授業'),observation=tagSet(tile?.tagSetId)?.name||'未設定',lesson=classLessonList(tile?.id)?.name||'未設定';
+  card.innerHTML=`${school?`<div class="tileSchoolMeta">${escapeOptionText(school)}</div>`:''}<div class="classTitle">${escapeOptionText(title)}</div><div class="classMeta">見取り：${escapeOptionText(observation)}</div><div class="classMeta">授業：${escapeOptionText(lesson)}</div>`;
+  card.onclick=()=>openReportTile(tile.id,archived);return card;
+}
+function showReportTileScreen(){reportScreen='tiles';reportTileId='';reportTileArchived=false;renderReport()}
+function openReportTile(tileId,archived=false){const tile=archived?reportArchivedEntry(tileId)?.tile:cls(tileId);if(!tile)return;reportScreen='students';reportTileId=tile.id;reportTileArchived=!!archived;renderReport()}
+function renderReport(){
+  const tileScreen=$('reportTileScreen'),studentScreen=$('reportStudentScreen');if(!tileScreen||!studentScreen)return;
+  const studentMode=reportScreen==='students'&&!!reportSelectedTile();tileScreen.hidden=studentMode;studentScreen.hidden=!studentMode;
+  if(studentMode){const tile=reportSelectedTile();$('reportStudentTitle').textContent=tile.name||tile.legacyName||'児童生徒の見取り記録';return}
+  reportScreen='tiles';const layout=MitoriReportModel.reportTileLayout(state.classes,state.archivedTiles,state.classLayout),activeGrid=$('reportActiveTileGrid');activeGrid.innerHTML='';
+  for(let index=0;index<classSlotCount();index++){const slot=document.createElement('div'),tile=cls(layout.activeSlots[index]);slot.className='classSlot'+(tile?'':' empty');if(tile)slot.appendChild(createReportTileCard(tile));activeGrid.appendChild(slot)}
+  $('reportTileEmpty').hidden=state.classes.length>0;$('reportShowArchivedBtn').textContent=reportArchivedVisible?'保管済みを隠す':'保管済みを表示';$('reportArchivedSection').hidden=!reportArchivedVisible;
+  const archivedGrid=$('reportArchivedTileGrid');archivedGrid.innerHTML='';if(reportArchivedVisible)layout.archivedTiles.forEach(entry=>{const slot=document.createElement('div');slot.className='classSlot';slot.appendChild(createReportTileCard(entry.tile,{archived:true,label:entry.label}));archivedGrid.appendChild(slot)});$('reportArchivedEmpty').hidden=layout.archivedTiles.length>0;
+}
 
 function renderSettings(){renderGradeSettings();renderSubjectSettings();renderSharedClassSettings();renderClassSettings();renderTimetableSettings();renderTermSettings();renderTagSettings();renderLessonListSettings();renderBackupSettings()}
 function renderSharedClassSettings(){
@@ -3650,7 +3693,8 @@ $('headerCalendarPrevBtn').onclick=()=>moveHeaderCalendarMonth(-1);$('headerCale
 document.addEventListener('pointerdown',event=>{if(!$('datePickerWrap')?.contains(event.target))setHeaderCalendarOpen(false)});document.addEventListener('keydown',event=>{if(event.key==='Escape'){setHeaderCalendarOpen(false);cancelWeeklyLessonMove()}});
 $('homeLogoBtn').onclick=()=>setMode('record');
 $('homeLogoBtn').onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();setMode('record')}};
-$('recordMode').onclick=()=>setMode('record');$('testMode').onclick=()=>setMode('test');$('checklistMode').onclick=()=>setMode('checklist');$('reportMode').onclick=()=>setMode('report');$('weeklyPlanMode').onclick=()=>setMode('weekly');$('homeBtn').onclick=()=>{if(state.mode==='test'){show('testView');showPerformanceScreen('performanceListScreen');renderPerformanceTestList()}else if(state.mode==='checklist'){show('checklistView');checklistApi?.openList()}else if(state.mode==='report'){show('reportView');renderReport()}else if(state.mode==='weekly'){show('weeklyPlanView');renderWeeklyPlan()}else show('homeView')};$('backupSaveBtn').onclick=saveFullBackup;$('settingsBtn').onclick=()=>{show('settingsView');renderSettings()};$('classArrangeBtn').onclick=()=>setClassArrangeMode(!classArrangeMode);
+$('recordMode').onclick=()=>setMode('record');$('testMode').onclick=()=>setMode('test');$('checklistMode').onclick=()=>setMode('checklist');$('reportMode').onclick=()=>setMode('report');$('weeklyPlanMode').onclick=()=>setMode('weekly');$('homeBtn').onclick=()=>{if(state.mode==='test'){show('testView');showPerformanceScreen('performanceListScreen');renderPerformanceTestList()}else if(state.mode==='checklist'){show('checklistView');checklistApi?.openList()}else if(state.mode==='report'){show('reportView');showReportTileScreen()}else if(state.mode==='weekly'){show('weeklyPlanView');renderWeeklyPlan()}else show('homeView')};$('backupSaveBtn').onclick=saveFullBackup;$('settingsBtn').onclick=()=>{show('settingsView');renderSettings()};$('classArrangeBtn').onclick=()=>setClassArrangeMode(!classArrangeMode);
+$('reportShowArchivedBtn').onclick=()=>{reportArchivedVisible=!reportArchivedVisible;renderReport()};$('reportBackToTilesBtn').onclick=showReportTileScreen;
 $('clearBoardBtn').onclick=clearCurrentBoard;
 $('cancelBoardHoursBtn').onclick=openBoardHoursCancelModal;
 $('closeBoardHoursCancelBtn').onclick=()=>$('boardHoursCancelModal').style.display='none';
