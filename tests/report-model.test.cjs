@@ -148,3 +148,36 @@ test('observation grouping combines identical labels and keeps each group newest
   assert.deepEqual(groups.map(group => group.label), ['発言', '協働']);
   assert.deepEqual(groups[0].records.map(record => record.date), ['2026-04-03', '2026-04-01']);
 });
+
+test('a record-time name that differs from the current roster remains a separate legacy student', () => {
+  const report = model.buildReport({
+    tile: { id: 'tile-a' },
+    context: {},
+    roster: { 1: { kanji: '山田花子', kana: 'やまだはなこ' } },
+    period: { mode: 'all', start: null, end: null, label: '全期間', termId: '' },
+    records: [
+      { classId: 'tile-a', num: 1, date: '2026-04-01', type: 'good', tag: '現名簿', studentName: '山田花子' },
+      { classId: 'tile-a', num: 1, date: '2025-04-01', type: 'good', tag: '旧名簿', studentName: '鈴木花子' },
+      { classId: 'tile-a', num: 1, date: '2024-04-01', type: 'bad', tag: '氏名控えなし' },
+    ],
+  });
+
+  assert.equal(report.students.length, 2);
+  assert.deepEqual(report.students.map(student => [student.name, student.legacy, student.records.length]), [
+    ['山田花子', false, 2],
+    ['鈴木花子', true, 1],
+  ]);
+});
+
+test('record-time name snapshot reads kanji and kana from the shared roster', () => {
+  assert.deepEqual(model.rosterNameSnapshot({
+    3: { kanji: '佐藤太郎', kana: 'さとうたろう' },
+  }, 3), {
+    studentName: '佐藤太郎',
+    studentNameKana: 'さとうたろう',
+  });
+  assert.deepEqual(model.rosterNameSnapshot({}, 9), {
+    studentName: '',
+    studentNameKana: '',
+  });
+});

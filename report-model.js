@@ -87,6 +87,20 @@
       .sort((left, right) => left.no - right.no);
   }
 
+  function rosterNameSnapshot(roster, number) {
+    const no = Number(number);
+    let student = null;
+    if (Array.isArray(roster)) {
+      student = roster.find((entry, index) => Number(entry?.num ?? index + 1) === no) || null;
+    } else if (roster && typeof roster === 'object') {
+      student = roster[String(no)] || null;
+    }
+    return {
+      studentName: String(student?.kanji || student?.name || ''),
+      studentNameKana: String(student?.kana || ''),
+    };
+  }
+
   function normalizeType(value) {
     const text = String(value || '').trim();
     if (text === 'good' || text === '👍') return 'good';
@@ -266,5 +280,6 @@
     buildReport,
     groupStudentRecords,
     recordsForStudent,
+    rosterNameSnapshot,
   };
 });
