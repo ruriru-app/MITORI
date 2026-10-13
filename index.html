@@ -1829,6 +1829,82 @@ async function renderBackupSettings(){const supportsRememberedDestination=typeof
 async function initFullBackup(){saveBackupMeta();try{backupSupportStore=await MitoriBackup.openSupportStore(indexedDB);backupFileHandle=await backupSupportStore.loadHandle();if(backupFileHandle?.name)backupMeta.fileName=backupFileHandle.name}catch(error){console.warn(error)}saveBackupMeta();await renderBackupSettings();updateBackupReminderUi(true)}
 
 function save(){localStorage.setItem(KEY,JSON.stringify(state));$('status').textContent='保存済み '+new Date().toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit'})}
+// ガイドの比較用初期値はメモリだけに保持し、名簿などを別保存しない。
+const guideEditorBaselines=new Map();
+function guideEditorRoots(){return {
+  'shared-class':'sharedClassModal',tile:'classModal',term:'termSettingsPane',
+  'apply-start':'timetableSettingsPane',tag:'tagSettingsPane','lesson-list':'lessonListSettingsPane',
+  record:'recordModal','performance-test':'performanceEditorScreen','performance-result':'performanceStudentScreen',
+  'tag-modal':'tagEditModal',criteria:'criteriaSetModal'
+};}
+function isGuideElementVisible(element){return Boolean(element&&!element.hidden&&element.getClientRects?.().length);}
+function guideFormSignature(element){
+  const values=[...(element?.querySelectorAll?.('input,textarea,select')||[])].filter(input=>!/(Filter|Search)/i.test(input.id||'')).map(input=>[input.id||'',input.type||'',input.value||'',Boolean(input.checked)]);
+  if(element?.id==='performanceEditorScreen'&&typeof performanceDraft!=='undefined')values.push(['draft',JSON.stringify(performanceDraft)]);
+  if(element?.id==='performanceStudentScreen'&&typeof performanceResultDraft!=='undefined')values.push(['draft',JSON.stringify(performanceResultDraft)]);
+  return JSON.stringify(values);
+}
+function captureGuideEditorBaseline(id){guideEditorBaselines.set(id,guideFormSignature($(guideEditorRoots()[id])));}
+async function inspectGuideEditors(target){
+  if(target.kind==='roster'&&isGuideElementVisible($('sharedClassModal')))return [];
+  const pending=[];
+  if(checklistApi){
+    await checklistApi.flush();
+    const draft=checklistApi.getGuideNavigationState?.();
+    if(draft?.kind==='manual')pending.push({id:'checklist',kind:'manual',label:draft.label});
+  }
+  for(const [id,rootId] of Object.entries(guideEditorRoots())){
+    const element=$(rootId);
+    if(!isGuideElementVisible(element))continue;
+    const baseline=guideEditorBaselines.get(id);
+    if(baseline!==undefined&&baseline!==guideFormSignature(element))pending.push({id,kind:['shared-class','tile','term'].includes(id)?'saveable':'manual',label:({'shared-class':'クラスと名簿',tile:'授業タイル',term:'学期・休業日'})[id]||'編集中の内容'});
+  }
+  for(const id of ['newGradeNameInput','newElementarySubjectNameInput','newJuniorSubjectNameInput','newSubjectNameInput']){
+    if(isGuideElementVisible($(id))&&$(id).value.trim())pending.push({id,kind:'manual',label:'未追加の名称'});
+  }
+  if(isGuideElementVisible($('recordModal'))&&selectedRecord&&Object.values(selectedRecord.tags||{}).some(tags=>tags.length)&&!pending.some(edit=>edit.id==='record'))pending.push({id:'record',kind:'manual',label:'未確定の見取り記録'});
+  if(isGuideElementVisible($('cameraModal')))pending.push({id:'camera',kind:'manual',label:'撮影・配置中の内容'});
+  return pending;
+}
+function createMitoriGuideHost(view){
+  function finishCleanDialogs(){
+    for(const id of ['sharedClassModal','classModal','recordModal','tagEditModal','criteriaSetModal'])if($(id))$(id).style.display='none';
+    closeReportDetail();
+  }
+  function focusField(id){const field=$(id);field?.scrollIntoView?.({block:'nearest'});field?.focus?.({preventScroll:true});}
+  return {
+    inspectEditors:inspectGuideEditors,
+    notify:message=>view.notify(message),
+    confirmSave:editor=>view.confirm(editor.id==='shared-class'?'入力中のクラス・名簿を保存して移動しますか？名簿の登録内容も更新されます。':`入力中の${editor.label}を保存して移動しますか？`,{acceptLabel:'保存して移動',cancelLabel:'編集を続ける'}),
+    saveEditor:editor=>{
+      const result=editor.id==='shared-class'?saveSharedClassEdit(false):editor.id==='tile'?saveClassEdit():editor.id==='term'?saveTermSettings(false):false;
+      if(result)captureGuideEditorBaseline(editor.id);
+      return result;
+    },
+    openTarget:async target=>{
+      if(target.kind==='roster'){
+        if(isGuideElementVisible($('sharedClassModal'))){focusField('rosterText');return true;}
+        const classes=state.sharedClasses||[];
+        let id=classes.length===1?classes[0].id:null;
+        if(classes.length>1){
+          id=await view.chooseClass(classes.map(item=>({id:item.id,label:[item.school,item.name].filter(Boolean).join(' ・ ')})));
+          if(!classes.some(item=>item.id===id))return false;
+        }
+        finishCleanDialogs();show('settingsView');showSettingsPane('sharedClass');openSharedClassEdit(id);focusField('rosterText');return true;
+      }
+      finishCleanDialogs();
+      if(target.kind==='board'){setMode('record');return true;}
+      if(target.kind==='settings'){show('settingsView');showSettingsPane(target.pane);if(target.focus)focusField(target.focus);return true;}
+      return false;
+    }
+  };
+}
+function runGuideSafeSave(editorId,action){
+  const before=JSON.parse(JSON.stringify(state)),sharedId=editingSharedClassId,tileId=editingClassId;
+  const restore=()=>{state=before;editingSharedClassId=sharedId;editingClassId=tileId;};
+  try{if(action()===true)return true;restore();return false;}
+  catch{restore();alert('保存できませんでした。入力内容を残したまま、端末の保存容量やブラウザの設定を確認してください。');return false;}
+}
 function cls(id){return state.classes.find(c=>c.id===id)}
 function sharedClass(id){return state.sharedClasses.find(c=>c.id===id)||null}
 function subject(id){return state.subjects.find(x=>x.id===id)||null}
@@ -2397,7 +2473,9 @@ function renderBalancePanel(){
 }
 function toggleBalancePanel(){const p=$('balancePanel');if(!p)return;p.classList.toggle('open');renderBalancePanel()}
 
-function openRecordModal(num,type){const set=tagSet(getDayMeta().observationId||cls(state.currentClass)?.tagSetId);if(!set){alert('設定で見取り内容を作成してください。');return}selectedRecord={num,tags:{good:[],bad:[]}};$('recordModalTitle').textContent=`${num}番：記録`;function renderTagButtons(kind,items,gridId){const grid=$(gridId);grid.innerHTML='';items.forEach(t=>{const b=document.createElement('button');b.textContent=t;b.onclick=()=>{const arr=selectedRecord.tags[kind];if(arr.includes(t)){selectedRecord.tags[kind]=arr.filter(x=>x!==t);b.classList.remove('selected')}else{arr.push(t);b.classList.add('selected')}};grid.appendChild(b)});}renderTagButtons('good',set.good||[],'recordGoodTagGrid');renderTagButtons('bad',set.bad||[],'recordBadTagGrid');$('memo').value='';$('recordModal').style.display='flex'}
+function openRecordModal(num,type){const set=tagSet(getDayMeta().observationId||cls(state.currentClass)?.tagSetId);if(!set){alert('設定で見取り内容を作成してください。');return}selectedRecord={num,tags:{good:[],bad:[]}};$('recordModalTitle').textContent=`${num}番：記録`;function renderTagButtons(kind,items,gridId){const grid=$(gridId);grid.innerHTML='';items.forEach(t=>{const b=document.createElement('button');b.textContent=t;b.onclick=()=>{const arr=selectedRecord.tags[kind];if(arr.includes(t)){selectedRecord.tags[kind]=arr.filter(x=>x!==t);b.classList.remove('selected')}else{arr.push(t);b.classList.add('selected')}};grid.appendChild(b)});}renderTagButtons('good',set.good||[],'recordGoodTagGrid');renderTagButtons('bad',set.bad||[],'recordBadTagGrid');$('memo').value='';$('recordModal').style.display='flex'
+  captureGuideEditorBaseline('record');
+}
 function renderRecords(){const box=$('records');box.innerHTML='';if(!state.currentClass)return;const list=state.records.filter(r=>r.date===state.date&&r.classId===state.currentClass).slice().reverse();if(!list.length){box.innerHTML='<span class="small">今日の記録はまだありません</span>';return}list.forEach(r=>{const div=document.createElement('div');div.className='record';div.textContent=`${r.time}｜${r.num}番｜${r.type==='good'?'👍':'✏️'}｜${r.tag}${r.test?'｜テスト実施':''}${r.memo?'｜'+r.memo:''}`;box.appendChild(div)})}
 function reportArchivedEntry(tileId){return state.archivedTiles.find(entry=>entry?.tile?.id===tileId)||null}
 function reportSelectedTile(){return reportTileArchived?reportArchivedEntry(reportTileId)?.tile||null:cls(reportTileId)}
@@ -2497,7 +2575,10 @@ function removeTimetableSlot(dayKey,period){if(state.timetable?.[dayKey])delete 
 function renderTimetableSettings(){
   const grid=$('timetableGrid'),palette=$('timetableClassPalette'),hint=$('timetableSelectionHint');
   if(!grid||!palette)return;
-  if($('timetableApplyStartInput')&&document.activeElement!==$('timetableApplyStartInput'))$('timetableApplyStartInput').value=state.timetableApplyStart||systemDateKey();
+  if($('timetableApplyStartInput')&&document.activeElement!==$('timetableApplyStartInput')){
+    $('timetableApplyStartInput').value=state.timetableApplyStart||systemDateKey();
+    captureGuideEditorBaseline('apply-start');
+  }
   if($('timetableApplyStatus'))$('timetableApplyStatus').textContent=state.timetableApplyStart?`${formatHeaderDate(state.timetableApplyStart)}以降の授業日（祝日を除く）に自動反映します。既に授業が入っているボードは上書きしません。`:'開始日以降の授業日（祝日を除く）に、曜日別時間割を初期配置します。';
   if(selectedTimetableClassId&&!cls(selectedTimetableClassId))selectedTimetableClassId=null;
   grid.innerHTML='';
@@ -2572,11 +2653,19 @@ function renderTermSettings(){
   const key=state.termSettings.system==='semester'?'semester':'trimester';
   $('termDateHeading').textContent=state.termSettings.system==='semester'?'前期・後期':'1学期・2学期・3学期';
   renderDateRangeRows('termDateRows',state.termSettings[key]);renderDateRangeRows('breakDateRows',state.termSettings.breaks);
+
+  captureGuideEditorBaseline('term');
 }
 function saveTermSettings(notify=true){
-  stashTermSettingsInputs();const key=state.termSettings.system==='semester'?'semester':'trimester',ranges=[...state.termSettings[key],...state.termSettings.breaks];
-  const invalid=ranges.find(range=>range.start&&range.end&&range.start>range.end);if(invalid){alert(`${invalid.name}は終了日を開始日以降にしてください。`);return false}
-  save();if(notify)alert('学期・休業日設定を保存しました。');return true;
+  const committed=runGuideSafeSave('term',()=>{
+    const key=state.termSettings.system==='semester'?'semester':'trimester';
+    const terms=readDateRangeRows('termDateRows',state.termSettings[key]),breaks=readDateRangeRows('breakDateRows',state.termSettings.breaks);
+    const invalid=[...terms,...breaks].find(range=>range.start&&range.end&&range.start>range.end);
+    if(invalid){alert(invalid.name+'は終了日を開始日以降にしてください。');return false}
+    state.termSettings[key]=terms;state.termSettings.breaks=breaks;save();return true;
+  });
+  if(!committed)return false;
+  if(notify)alert('学期・休業日設定を保存しました。');return true;
 }
 function renderTagSettings(){
   if(!state.tagSets.length)editingTagSetId=null;
@@ -2722,6 +2811,8 @@ function loadLessonEditor(id){
   $('deleteLessonBtn').style.visibility=t?'visible':'hidden';
   $('copyLessonBtn').disabled=!t;
   $('saveLessonBtn').disabled=!t;
+
+  captureGuideEditorBaseline('tag');
 }
 function newLessonEdit(){
   const id='tag'+Date.now();
@@ -2817,6 +2908,8 @@ function renderLessonListEditor(id){
   fillGradeSelect(gradeInput,x?.gradeId||'');fillSubjectSelect(subjectInput,x?.subjectId||'');nameInput.value=x?.name||'';unitSelect.innerHTML=units.map(item=>`<option value="${escapeOptionText(item.id)}">${escapeOptionText(item.name)}</option>`).join('');unitSelect.value=unit?.id||'';unitNameInput.value=unit?.name||'';textInput.value=(unit?.items||[]).join('\n');
   [nameInput,textInput,gradeInput,subjectInput,unitSelect,unitNameInput,bulkInput].forEach(el=>{if(el)el.disabled=!x});
   $('newLessonUnitBtn').disabled=!x;$('addLessonUnitsBulkBtn').disabled=!x;$('deleteLessonUnitBtn').disabled=!x||!unit;$('deleteLessonListBtn').style.visibility=x?'visible':'hidden';$('copyLessonListBtn').disabled=!x;$('saveLessonListBtn').disabled=!x;
+
+  captureGuideEditorBaseline('lesson-list');
 }
 function splitLines(v){return String(v||'').split(/\r?\n/).map(x=>x.trim()).filter(Boolean)}
 function saveLessonUnitDraft(list){if(!list)return;const unit=lessonUnitById(list,editingLessonUnitId);if(!unit)return;unit.name=$('lessonUnitNameInput').value.trim()||'単元未設定';unit.items=splitLines($('lessonListText').value);if(!unit.items.length)unit.items=['授業内容未設定'];syncLessonListItems(list)}
@@ -2949,6 +3042,8 @@ function openPerformanceEditor(testId=null){
   fillPerformanceGradeSelect(performanceDraft.gradeId||'');
   renderPerformanceItems();
   showPerformanceScreen('performanceEditorScreen');
+
+  captureGuideEditorBaseline('performance-test');
 }
 function copyPerformanceTest(id){
   const source=performanceTest(id);if(!source)return;
@@ -3104,6 +3199,8 @@ function renderCriteriaSetManager(){
     const remove=document.createElement('button');remove.className='btn danger';remove.textContent='削除';remove.onclick=()=>deleteCriteriaSet(set.id);
     row.append(input,saveName,remove);list.appendChild(row);
   });
+
+  captureGuideEditorBaseline('criteria');
 }
 function deleteCriteriaSet(id){
   const set=criteriaSet(id);if(!set||!confirm('「'+set.name+'」を削除しますか？\n作成済みテスト内の評価基準は削除されません。'))return;
@@ -3212,6 +3309,8 @@ function openPerformanceStudent(num){
   performanceResultDraft.items=Array.isArray(performanceResultDraft.items)?performanceResultDraft.items:[];
   $('performanceMemoInput').value=performanceResultDraft.memo||'';
   renderPerformanceStudent();showPerformanceScreen('performanceStudentScreen');
+
+  captureGuideEditorBaseline('performance-result');
 }
 function renderPerformanceStudent(){
   const test=performanceTest(activePerformanceTestId),c=sharedClass(activePerformanceClassId);if(!test||!c||!performanceResultDraft)return;
@@ -3582,13 +3681,19 @@ function openSharedClassEdit(id){
   updateSchoolNameOptions();$('sharedClassModalTitle').textContent=id?'クラス設定':'クラスを登録';$('sharedSchoolInput').value=shared.school||'';$('sharedClassNameInput').value=shared.name||'';fillGradeSelect($('sharedClassGradeInput'),shared.gradeId||'');$('sharedClassCountInput').value=shared.count||35;
   const roster=id?(sharedData(id)?.roster||{}):{};$('rosterText').value=Object.entries(roster).sort((a,b)=>Number(a[0])-Number(b[0])).map(([n,r])=>`${n}\t${r.kanji||''}\t${r.kana||''}`).join('\n');updateRosterPreview();
   $('deleteSharedClassBtn').style.display=id?'inline-block':'none';$('openSharedSeatBtn').style.display=id?'inline-block':'none';$('sharedClassModal').style.display='flex';
+
+  captureGuideEditorBaseline('shared-class');
 }
 function saveSharedClassEdit(notify=true){
-  const name=$('sharedClassNameInput').value.trim();if(!name){alert('クラス名を入力してください。');return}
+  const committed=runGuideSafeSave('shared-class',()=>{
+  const name=$('sharedClassNameInput').value.trim();if(!name){alert('クラス名を入力してください。');return false}
   let id=editingSharedClassId,shared=id?sharedClass(id):null;if(!shared){id='shared_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,6);shared={id,school:'',name:'',gradeId:'',count:35};state.sharedClasses.push(shared);state.sharedClassData[id]=normalizedSharedData(null);editingSharedClassId=id}
   shared.school=$('sharedSchoolInput').value.trim();shared.name=name;shared.gradeId=grade($('sharedClassGradeInput').value)?$('sharedClassGradeInput').value:'';shared.count=Math.min(40,Math.max(1,Number($('sharedClassCountInput').value||35)));
   const roster={};parseRosterPaste($('rosterText').value).forEach(r=>roster[r.num]={kanji:r.kanji,kana:r.kana});sharedData(id).roster=roster;const max=Math.max(0,...Object.keys(roster).map(Number));if(max&&max<=40)shared.count=Math.max(shared.count,max);
-  tilesForSharedClass(id).forEach(syncTileDerivedFields);save();$('sharedClassModal').style.display='none';render();
+  tilesForSharedClass(id).forEach(syncTileDerivedFields);save();return true;
+  });
+  if(!committed)return false;
+  $('sharedClassModal').style.display='none';render();return true;
 }
 function performanceResultsForSharedClass(id){return Object.keys(state.performanceResults||{}).filter(key=>key.split('::')[1]===String(id)).length}
 function deleteSharedClass(){
@@ -3727,23 +3832,31 @@ function openClassEdit(id){
   $('tileShowSchoolInput').checked=c.showSchoolOnTile!==false;
   const tsi=$('classTagSetInput');tsi.innerHTML='<option value="">未設定</option>'+state.tagSets.map(t=>`<option value="${t.id}">${escapeOptionText(t.name)}</option>`).join('');tsi.value=c.tagSetId||'';
   renderClassLessonListOptions(c.lessonListId||'',tileSharedClass(c)?.gradeId||'',c.subjectId||'');updateTileClassShareInfo();$('deleteClassBtn').style.display=id?'inline-block':'none';$('classModal').style.display='flex';
+
+  captureGuideEditorBaseline('tile');
 }
 function sharedDataHasContent(sharedId){const d=sharedData(sharedId);return !!(d&&(d.image||Object.keys(d.positions||{}).length||Object.keys(d.roster||{}).length||Object.keys(d.absences||{}).length))}
 function saveClassEdit(){
-  const selectedSharedId=$('tileClassInput')?.value||'';if(!sharedClass(selectedSharedId)){alert('参照クラスを選択してください。先に「クラス設定」でクラスを登録できます。');return}
-  let id=editingClassId,c=id?cls(id):null;if(c&&c.sharedClassId!==selectedSharedId&&sharedDataHasContent(c.sharedClassId)&&!confirm('この授業タイルが参照するクラスを変更します。\n今後は選択したクラスの名簿・座席表を使用します。元のクラスの名簿・座席表は上書き・削除されません。\n\n変更してよいですか？'))return;
+  const committed=runGuideSafeSave('tile',()=>{
+  const selectedSharedId=$('tileClassInput')?.value||'';if(!sharedClass(selectedSharedId)){alert('参照クラスを選択してください。先に「クラス設定」でクラスを登録できます。');return false}
+  let id=editingClassId,c=id?cls(id):null;if(c&&c.sharedClassId!==selectedSharedId&&sharedDataHasContent(c.sharedClassId)&&!confirm('この授業タイルが参照するクラスを変更します。\n今後は選択したクラスの名簿・座席表を使用します。元のクラスの名簿・座席表は上書き・削除されません。\n\n変更してよいですか？'))return false;
   const selectedSubjectId=subject($('tileSubjectInput')?.value)?$('tileSubjectInput').value:'',selectedTagSetId=$('classTagSetInput')?.value||'',selectedLessonListId=lessonList($('classLessonListInput')?.value)?$('classLessonListInput').value:'';
   if(!c){id='tile_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,6);c={id,sharedClassId:selectedSharedId,subjectId:selectedSubjectId,name:'',gradeId:'',count:35,color:'grade3',hours:0,tagSetId:selectedTagSetId,lessonListId:selectedLessonListId,showSchoolOnTile:true};state.classes.push(c);state.classData[id]={dayMeta:{},lastLessonUnitId:'',lastLessonContent:'',lastObservationId:selectedTagSetId};const lastUsed=state.classLayout.reduce((last,x,i)=>x?i:last,-1),target=lastUsed+1;while(state.classLayout.length<=target)state.classLayout.push(null);state.classLayout[target]=id}
   const oldTagSetId=c.tagSetId,oldLessonListId=c.lessonListId;c.sharedClassId=selectedSharedId;c.subjectId=selectedSubjectId;c.color=$('classColorInput').value;c.tagSetId=selectedTagSetId;c.lessonListId=selectedLessonListId;c.showSchoolOnTile=$('tileShowSchoolInput').checked;syncTileDerivedFields(c);
   const td=tileData(id);if(oldTagSetId!==c.tagSetId){td.lastObservationId=c.tagSetId;Object.values(td.dayMeta||{}).forEach(m=>{if(m&&!m.confirmed)m.observationId=c.tagSetId})}if(oldLessonListId!==c.lessonListId){const firstUnit=classLessonUnits(id)[0]||null,first=firstUnit?.items?.[0]||'';td.lastLessonUnitId=firstUnit?.id||'';td.lastLessonContent=first;Object.values(td.dayMeta||{}).forEach(m=>{if(m&&!m.confirmed){m.lessonUnitId=firstUnit?.id||'';m.lessonUnitName=firstUnit?.name||'';m.lessonContent=first}})}
-  if(state.currentClass===id||!state.currentClass)state.currentClass=id;save();$('classModal').style.display='none';render();
+  if(state.currentClass===id||!state.currentClass)state.currentClass=id;save();return true;
+  });
+  if(!committed)return false;
+  $('classModal').style.display='none';render();return true;
 }
 function deleteClass(){
   const c=cls(editingClassId);if(!c||!confirm(`授業タイル「${c.name}」を削除しますか？\n過去の授業記録は安全のため削除せず保管します。共有クラスの名簿・座席表も削除されません。`))return;
   state.archivedTiles.push({tile:JSON.parse(JSON.stringify(c)),classData:JSON.parse(JSON.stringify(state.classData[c.id]||{})),archivedAt:new Date().toISOString()});state.classes=state.classes.filter(x=>x.id!==c.id);state.classLayout=state.classLayout.map(x=>x===c.id?null:x);TIMETABLE_DAYS.forEach(meta=>{for(let period=1;period<=6;period++)if(state.timetable?.[meta.key]?.[period]===c.id)delete state.timetable[meta.key][period]});Object.values(state.board||{}).forEach(board=>{Object.keys(board||{}).forEach(period=>{if(board[period]===c.id)delete board[period]})});if(state.currentClass===c.id)state.currentClass=state.classes[0]?.id||null;editingClassId=null;save();$('classModal').style.display='none';render();
 }
 
-function openTagEdit(id,type){editingTagSetId=id;editingTagType=type;const t=tagSet(id);if(!t)return;$('tagEditTitle').textContent=`${t.name}：${type==='good'?'👍 よかったこと':'✏️ 気になったこと'}`;$('editableTagList').innerHTML='';(type==='good'?t.good:t.bad).forEach(addEditableTag);$('tagEditModal').style.display='flex'}
+function openTagEdit(id,type){editingTagSetId=id;editingTagType=type;const t=tagSet(id);if(!t)return;$('tagEditTitle').textContent=`${t.name}：${type==='good'?'👍 よかったこと':'✏️ 気になったこと'}`;$('editableTagList').innerHTML='';(type==='good'?t.good:t.bad).forEach(addEditableTag);$('tagEditModal').style.display='flex'
+  captureGuideEditorBaseline('tag-modal');
+}
 function addEditableTag(v=''){const div=document.createElement('div');div.className='tagItem';div.innerHTML=`<input value="${String(v).replaceAll('"','&quot;')}"><button class="btn danger">削除</button>`;div.querySelector('button').onclick=()=>div.remove();$('editableTagList').appendChild(div)}
 function saveTagEdit(){const vals=[...$('editableTagList').querySelectorAll('input')].map(i=>i.value.trim()).filter(Boolean);const t=tagSet(editingTagSetId);if(!t)return;editingTagType==='good'?t.good=vals:t.bad=vals;save();$('tagEditModal').style.display='none';render()}
 function showSettingsPane(k){

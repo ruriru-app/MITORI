@@ -69,6 +69,7 @@
     let editingGroupId = null;
     let pendingRestoreInspection = null;
     let filters = { school: '', grade: '' };
+    const guideDraftBaselines = new Map();
 
     const byId = target => document.getElementById(target);
     const listScreen = byId('checklistListScreen');
@@ -76,6 +77,22 @@
     const targetScreen = byId('checklistTargetScreen');
     const recordScreen = byId('checklistRecordScreen');
     const settingsScreen = byId('checklistSettingsScreen');
+
+    function checklistGuideSignature(kind) {
+      const roots = { editor:'checklistEditorScreen', palette:'checklistPaletteSettingsPane', column:'checklistColumnModal', group:'checklistGroupSettingsPane' };
+      const values = [...(byId(roots[kind])?.querySelectorAll('input,textarea,select') || [])].map(input => [input.id || '', input.type, input.value, Boolean(input.checked)]);
+      if (kind === 'palette') values.push(['draft', JSON.stringify(paletteDraft)]);
+      return JSON.stringify(values);
+    }
+    function captureChecklistGuideBaseline(kind) { guideDraftBaselines.set(kind, checklistGuideSignature(kind)); }
+    function getGuideNavigationState() {
+      const roots = { editor:'checklistEditorScreen', palette:'checklistPaletteSettingsPane', column:'checklistColumnModal', group:'checklistGroupSettingsPane' };
+      for (const [kind, id] of Object.entries(roots)) {
+        const element = byId(id), baseline = guideDraftBaselines.get(kind);
+        if (element && !element.hidden && element.getClientRects?.().length && baseline !== undefined && baseline !== checklistGuideSignature(kind)) return { kind:'manual', label:'チェック表の未保存編集' };
+      }
+      return { kind:'safe', label:'' };
+    }
 
     function classIdsForSheet(sheet) {
       if (sheet.scope.type === 'class') return [sheet.scope.classId];
@@ -275,6 +292,7 @@
       byId('checklistPaletteInput').innerHTML = paletteOptions(sheet?.columns?.[0]?.paletteSnapshot?.paletteId || defaultPaletteId);
       renderClassChoices(sheet ? classIdsForSheet(sheet) : []);
       byId('checklistEditorError').textContent = '';
+      captureChecklistGuideBaseline('editor');
     }
 
     function openList() {
@@ -805,6 +823,7 @@
       byId('checklistColumnError').textContent = '';
       byId('checklistColumnModal').hidden = false;
       updateColumnIntervalState();
+      captureChecklistGuideBaseline('column');
     }
 
     function closeColumnEditor() {
@@ -945,6 +964,7 @@
         const sizeLabel = ({ small:'小', standard:'標準', large:'大' })[paletteSize(palette.size)];
         return `<article class="checklistPaletteLibraryItem${palette.id === selectedPaletteId ? ' active' : ''}" data-palette-id="${palette.id}"><button type="button" class="checklistPaletteLibrarySelect" data-palette-select="${palette.id}"><strong>${escapeText(name)}</strong><small>${palette.scoringEnabled ? '点数連動' : '記号のみ'}・${sizeLabel}${palette.preset ? '' : '・保存済み'}</small></button><details class="checklistPaletteItemMenu"><summary aria-label="${escapeText(name)}のメニュー">…</summary><div><button type="button" data-palette-duplicate="${palette.id}">複製</button></div></details></article>`;
       }).join('');
+      const initializingDraft = !paletteDraft;
       if (!paletteDraft) {
         const selected = workspace.preferences.palettes.find(item => item.id === selectedPaletteId) || workspace.preferences.palettes[0];
         selectedPaletteId = selected?.id || null;
@@ -964,6 +984,7 @@
       entryList.querySelectorAll('input,select,button').forEach(control => { if (preset) control.disabled = true; });
       renderPalettePreview();
       if (preserveScroll) { list.scrollTop = oldListScroll; entryList.scrollTop = oldEntryScroll; }
+      if (initializingDraft) captureChecklistGuideBaseline('palette');
     }
 
     function newPaletteDraft() {
@@ -971,6 +992,7 @@
       selectedPaletteId = null;
       renderPaletteEditor({ preserveScroll: true });
       byId('checklistPaletteNameInput').focus();
+      captureChecklistGuideBaseline('palette');
     }
 
     async function savePaletteDraft() {
@@ -990,6 +1012,7 @@
         byId('checklistPaletteError').textContent = '';
         await persist();
         renderPaletteEditor({ preserveScroll: true });
+        captureChecklistGuideBaseline('palette');
       } catch (error) { byId('checklistPaletteError').textContent = error.message; }
     }
 
@@ -1001,6 +1024,7 @@
       paletteDraft = PaletteEditor.createDraft(workspace.preferences.palettes.find(item => item.id === selectedPaletteId));
       await persist();
       renderPaletteEditor({ preserveScroll: true });
+      captureChecklistGuideBaseline('palette');
     }
 
     async function deleteSelectedPalette() {
@@ -1030,6 +1054,7 @@
       byId('checklistGroupNameInput').value = group?.name || '';
       byId('checklistGroupClassChoices').innerHTML = classes.map(item => `<label><input type="checkbox" data-group-class-id="${item.id}"${group?.classIds.includes(item.id) ? ' checked' : ''}>${escapeText(item.name)}</label>`).join('');
       byId('checklistGroupList').innerHTML = workspace.groups.length ? workspace.groups.map(item => `<article class="checklistGroupCard"><h3>${escapeText(item.name)}</h3><div class="small">${item.classIds.map(classId => escapeText(workspace.classes.find(value => value.id === classId)?.name || classId)).join('・')}</div><div class="checklistGroupCardActions"><button class="btn" type="button" data-group-edit="${item.id}">編集</button><button class="btn danger" type="button" data-group-delete="${item.id}">削除</button></div></article>`).join('') : '<div class="checklistEmpty">合同グループはまだありません。</div>';
+      captureChecklistGuideBaseline('group');
     }
 
     async function saveGroup() {
@@ -1406,6 +1431,7 @@
       selectedPaletteId = item.dataset.paletteSelect;
       paletteDraft = PaletteEditor.createDraft(workspace.preferences.palettes.find(palette => palette.id === selectedPaletteId));
       renderPaletteEditor({ preserveScroll: true });
+      captureChecklistGuideBaseline('palette');
     });
     byId('checklistPaletteNameInput').addEventListener('input', event => { if (paletteDraft) paletteDraft.name = event.target.value; });
     byId('checklistPaletteSizeInput').addEventListener('change', event => { if (paletteDraft) { paletteDraft.size = event.target.value; renderPalettePreview(); } });
@@ -1461,6 +1487,7 @@
       refreshCatalog: async () => { synchronizeCatalog(); await persist(); render(); },
       render,
       flush: () => storage.flush(),
+      getGuideNavigationState,
       setOffline: value => storage.setOffline(Boolean(value)),
       countClassReferences: classId => workspace.sheetDefinitions.filter(sheet => classIdsForSheet(sheet).includes(classId)).length,
       getWorkspace: () => clone(workspace),
