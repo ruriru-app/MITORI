@@ -8,7 +8,6 @@
     if (!host.navigator?.serviceWorker || host.location?.protocol === 'file:') return { supported:false };
     const updateBar = documentRef?.getElementById('pwaUpdateBar');
     const updateButton = documentRef?.getElementById('pwaUpdateBtn');
-    const refreshButton = documentRef?.getElementById('pwaRefreshBtn');
     let registration = null;
     let waitingWorker = null;
     let switching = false;
@@ -38,16 +37,14 @@
         updateButton.disabled = busy;
         updateButton.textContent = busy ? '保存して更新中…' : '保存して更新';
       }
-      if (refreshButton) refreshButton.disabled = busy;
     };
-    const saveAndUpdate = async checkForUpdate => {
+    const saveAndUpdate = async () => {
       if (switching) return;
       switching = true;
       setBusy(true);
       try {
         await saveMitori();
         await flushChecklist();
-        if (checkForUpdate) await registration?.update?.();
         const candidate = registration?.waiting || waitingWorker || registration?.installing;
         const installed = await waitUntilInstalled(candidate);
         const worker = registration?.waiting || installed;
@@ -77,8 +74,7 @@
     if (registration.waiting) showWaiting(registration.waiting);
     observeInstalling(registration.installing);
     registration.addEventListener('updatefound', () => observeInstalling(registration.installing));
-    updateButton?.addEventListener('click', () => saveAndUpdate(false));
-    refreshButton?.addEventListener('click', () => saveAndUpdate(true));
+    updateButton?.addEventListener('click', saveAndUpdate);
     try { await host.navigator.storage?.persist?.(); } catch {}
     return { supported:true, registration };
   }
