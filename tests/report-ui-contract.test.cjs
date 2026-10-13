@@ -62,3 +62,9 @@ test('report output controls cover multi-selection, print, Excel, and spreadshee
   assert.match(html, />記録一覧</);
   assert.match(html, /児童生徒の個人情報を含みます/);
 });
+
+test('report mode release is labeled MITORI v0.4.0', () => {
+  assert.match(html, /<title>MITORI v0\.4\.0<\/title>/);
+  assert.match(html, /const APP_VERSION='0\.4\.0'/);
+  assert.match(html, /class="footerVersion">v0\.4\.0/);
+});
