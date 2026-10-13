@@ -150,9 +150,13 @@
 
   function snapshotMatchesCurrent(record, student) {
     if (!record.studentName && !record.studentNameKana) return true;
-    const rosterNames = new Set([student.kanji, student.kana].filter(Boolean));
-    return [record.studentName, record.studentNameKana].filter(Boolean)
-      .some(name => rosterNames.has(name));
+    const savedKanji = String(record.studentName || '').trim();
+    const currentKanji = String(student.kanji || '').trim();
+    if (savedKanji && currentKanji) return savedKanji === currentKanji;
+    const savedKana = String(record.studentNameKana || '').trim();
+    const currentKana = String(student.kana || '').trim();
+    if (savedKana && currentKana) return savedKana === currentKana;
+    return false;
   }
 
   function legacyKey(record) {
@@ -236,7 +240,7 @@
       tile,
       context: { ...(source.context || {}) },
       period: source.period || { ...ALL_PERIOD },
-      columns: current.length > 35 ? 8 : 7,
+      columns: Math.max(7, ...current.map(student => Math.floor((student.no - 1) / 5) + 1)),
       students,
       recordCount: normalizedRecords.length,
     };

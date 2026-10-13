@@ -169,6 +169,31 @@ test('a record-time name that differs from the current roster remains a separate
   ]);
 });
 
+test('matching kana does not merge a conflicting saved kanji name into the current student', () => {
+  const report = model.buildReport({
+    tile: { id: 'tile-a' },
+    roster: { 1: { kanji: '山田華子', kana: 'やまだはなこ' } },
+    records: [{ classId: 'tile-a', num: 1, date: '2026-05-01', type: 'good', studentName: '山田花子', studentNameKana: 'やまだはなこ' }],
+    period: { mode: 'all', start: null, end: null },
+  });
+
+  assert.equal(report.students.length, 2);
+  assert.equal(report.students.find(student => !student.legacy).goodCount, 0);
+  assert.equal(report.students.find(student => student.legacy).goodCount, 1);
+});
+
+test('partial rosters size the grid from the highest occupied attendance-number column', () => {
+  const report = model.buildReport({
+    tile: { id: 'tile-a' },
+    roster: { 40: { kanji: '40番の児童' } },
+    records: [],
+    period: { mode: 'all', start: null, end: null },
+  });
+
+  assert.equal(report.students[0].column, 8);
+  assert.equal(report.columns, 8);
+});
+
 test('record-time name snapshot reads kanji and kana from the shared roster', () => {
   assert.deepEqual(model.rosterNameSnapshot({
     3: { kanji: '佐藤太郎', kana: 'さとうたろう' },
