@@ -1,5 +1,6 @@
 #mitoriGuideRoot{color:#6f625b;font-family:inherit;font-size:15px;line-height:1.7}
 #mitoriGuideRoot [hidden]{display:none!important}
+.guidePanel,.guideNotice{box-sizing:border-box}
 #mitoriGuideRoot button{font:inherit;line-height:1.4;border:1px solid #a9d9d1;border-radius:10px;background:#eaf7f4;color:#398e84;padding:9px 12px;cursor:pointer;min-height:44px}
 #mitoriGuideRoot button:hover{background:#dcf1eb}
 #mitoriGuideRoot button:disabled{opacity:.45;cursor:default}
@@ -14,12 +15,12 @@
 .guideWarning{color:#a64343}
 .guideTodoScroll{overflow:auto;min-height:0;overscroll-behavior:contain;padding:0 16px 16px}
 .guideRow{padding:10px 0;border-bottom:1px solid #eadfd8}
-.guideRowTop{display:grid;grid-template-columns:24px minmax(0,1fr) auto;gap:10px;align-items:start}
+.guideRowTop{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:6px;align-items:start}
 .guideRowTop label{padding-top:7px;overflow-wrap:anywhere;cursor:pointer}
 #mitoriGuideRoot .guideRowTop button{max-width:132px;font-size:12px;padding:8px;white-space:normal}
-#mitoriGuideRoot input.guideCheck{width:22px;height:22px;margin:10px 0 0;padding:0;accent-color:#63c3b7;cursor:pointer}
-.guideRow details{margin:6px 0 0 34px}
-#mitoriGuideRoot summary{color:#399b90;cursor:pointer;min-height:36px;padding:4px 0;font-size:13px}
+#mitoriGuideRoot input.guideCheck{width:22px;height:22px;margin:0;padding:11px;box-sizing:content-box;accent-color:#63c3b7;cursor:pointer;align-self:start}
+.guideRow details{margin:6px 0 0 50px}
+#mitoriGuideRoot summary{color:#399b90;cursor:pointer;min-height:44px;padding:4px 0;font-size:13px;box-sizing:border-box}
 .guideExplanation{font-size:14px}
 .guideExplanation p{margin:10px 0}
 .guideExplanation ol{padding-left:22px}
@@ -39,4 +40,9 @@
 .guideNotice h3{margin:0}
 #mitoriGuideRoot .guideClassChoice{display:block;width:100%;margin-bottom:10px;text-align:left}
 @media(max-width:600px){.guideDialogBody{padding:16px}.guideDialogBody h2{font-size:22px}.guideRowTop{gap:7px}.guideRowTop label{font-size:14px}}
+#mitoriGuideRoot .guideMoveHandle{touch-action:none;cursor:move;font-size:12px;min-width:64px}
+.guideCompact header{padding:4px 12px!important}
+.guideCompact #guideInstructions,.guideCompact #guideSaveWarning{margin:4px 12px;font-size:11px;line-height:1.4}
+.guideCompact #guideInstructions br{display:none}
+.guideCriticalModal{z-index:170!important}
 @media print{#mitoriGuideRoot{display:none!important}}

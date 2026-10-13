@@ -1402,7 +1402,7 @@ h2,.title,.sideTitle{color:#6f625b}.small{color:#8b817b}
 
   <div class="checklistColumnModal" id="checklistInputMethodModal" hidden><div class="checklistColumnDialog checklistInputMethodDialog" role="dialog" aria-modal="true" aria-labelledby="checklistInputMethodTitle"><div class="checklistHeader"><h2 id="checklistInputMethodTitle">入力方法とパレット</h2><button type="button" id="closeChecklistInputMethodBtn" aria-label="閉じる">×</button></div><p class="small">初回だけ選択します。後から列メニューで変更できます。</p><div class="checklistColumnForm"><label>使用するパレット<select id="checklistInputPaletteSelect"></select></label><fieldset class="checklistInputMethods" id="checklistInputMethods"></fieldset></div><div class="checklistEditorError" id="checklistInputMethodError" role="alert"></div><div class="checklistEditorActions"><button class="btn" id="cancelChecklistInputMethodBtn">キャンセル</button><button class="btn primary" id="saveChecklistInputMethodBtn">この設定で入力</button></div></div></div>
 
-  <div class="modalBack" id="checklistExportModal"><div class="modal checklistExportDialog" role="dialog" aria-modal="true" aria-labelledby="checklistExportTitle"><h2 id="checklistExportTitle">チェック表を出力</h2><p class="small" id="checklistExportSheetName"></p><div class="checklistExportOptions"><fieldset><legend>形式</legend><label><input type="radio" name="checklistExportFormat" value="xlsx" checked><span><b>Excel（.xlsx）</b><small>クラスごとに別シートで保存</small></span></label><label><input type="radio" name="checklistExportFormat" value="csv"><span><b>CSV（UTF-8）</b><small>選択したクラスを1つの表で保存</small></span></label><label><input type="radio" name="checklistExportFormat" value="print-records"><span><b>記録入りPDF・印刷</b><small>A4縦の印刷画面を開く</small></span></label><label><input type="radio" name="checklistExportFormat" value="print-blank"><span><b>空欄ひな形PDF・印刷</b><small>氏名と記録を載せないひな形</small></span></label></fieldset><fieldset><legend>対象</legend><label><input type="radio" name="checklistExportScope" value="current" checked><span><b>現在表示中</b><small id="checklistExportCurrentLabel"></small></span></label><label><input type="radio" name="checklistExportScope" value="all"><span><b>このチェック表の全クラス</b><small id="checklistExportAllLabel"></small></span></label></fieldset><div class="checklistExportPrivacy"><b>個人情報を含みます</b><br>出力したファイルやPDFは、学校が指定するGoogleドライブ等で管理してください。</div></div><div class="checklistEditorError" id="checklistExportError" role="alert"></div><div class="checklistEditorActions"><button class="btn" id="cancelChecklistExportBtn">キャンセル</button><button class="btn primary" id="runChecklistExportBtn">出力する</button></div></div></div>
+  <div class="modalBack guideCriticalModal" id="checklistExportModal"><div class="modal checklistExportDialog" role="dialog" aria-modal="true" aria-labelledby="checklistExportTitle"><h2 id="checklistExportTitle">チェック表を出力</h2><p class="small" id="checklistExportSheetName"></p><div class="checklistExportOptions"><fieldset><legend>形式</legend><label><input type="radio" name="checklistExportFormat" value="xlsx" checked><span><b>Excel（.xlsx）</b><small>クラスごとに別シートで保存</small></span></label><label><input type="radio" name="checklistExportFormat" value="csv"><span><b>CSV（UTF-8）</b><small>選択したクラスを1つの表で保存</small></span></label><label><input type="radio" name="checklistExportFormat" value="print-records"><span><b>記録入りPDF・印刷</b><small>A4縦の印刷画面を開く</small></span></label><label><input type="radio" name="checklistExportFormat" value="print-blank"><span><b>空欄ひな形PDF・印刷</b><small>氏名と記録を載せないひな形</small></span></label></fieldset><fieldset><legend>対象</legend><label><input type="radio" name="checklistExportScope" value="current" checked><span><b>現在表示中</b><small id="checklistExportCurrentLabel"></small></span></label><label><input type="radio" name="checklistExportScope" value="all"><span><b>このチェック表の全クラス</b><small id="checklistExportAllLabel"></small></span></label></fieldset><div class="checklistExportPrivacy"><b>個人情報を含みます</b><br>出力したファイルやPDFは、学校が指定するGoogleドライブ等で管理してください。</div></div><div class="checklistEditorError" id="checklistExportError" role="alert"></div><div class="checklistEditorActions"><button class="btn" id="cancelChecklistExportBtn">キャンセル</button><button class="btn primary" id="runChecklistExportBtn">出力する</button></div></div></div>
 
   <div id="settingsView" class="view">
     <div class="settings">
@@ -1527,7 +1527,7 @@ h2,.title,.sideTitle{color:#6f625b}.small{color:#8b817b}
 <div class="backupReminder" id="backupReminder" hidden role="dialog" aria-labelledby="backupReminderTitle"><h3 id="backupReminderTitle">バックアップの時期です</h3><p id="backupReminderText">前回のバックアップから日数が経過しています。大切なデータを保存してください。</p><div class="backupReminderActions"><button class="btn" id="backupRemindLaterBtn" type="button">今回は後で</button><button class="btn primary" id="backupReminderSaveBtn" type="button">保存する</button></div></div>
 <div class="backupToast" id="backupToast" role="status" aria-live="polite"></div>
 
-<div class="modalBack" id="sharedSeatPrintModal"><div class="modal sharedSeatPrintModalCard">
+<div class="modalBack guideCriticalModal" id="sharedSeatPrintModal"><div class="modal sharedSeatPrintModalCard">
   <div class="sharedSeatPrintToolbar"><div><h2>座席表プレビュー</h2><div class="small">A4横向きで、表示されている座席表をそのまま印刷・PDF保存します。</div></div><div class="sharedSeatEditorActions"><button class="btn" id="closeSharedSeatPrintBtn">閉じる</button><button class="btn primary" id="executeSharedSeatPrintBtn">印刷・PDF保存</button></div></div>
   <div class="sharedSeatPrintPreview">
     <section class="sharedSeatPrintPage" id="sharedSeatPrintPage"><div class="sharedSeatPrintMeta"><span id="sharedSeatPrintLabel"></span><span id="sharedSeatPrintCreatedAt"></span></div><div class="sharedSeatPrintStage" id="sharedSeatPrintStage"></div><div class="sharedSeatBlackboard">黒板</div></section>
@@ -1560,7 +1560,7 @@ h2,.title,.sideTitle{color:#6f625b}.small{color:#8b817b}
 
 <div class="modalBack" id="classModal"><div class="modal"><h2 id="classModalTitle">授業タイル編集</h2><div class="formRow"><label>参照クラス</label><select id="tileClassInput"></select></div><div class="formRow"><label>教科</label><select id="tileSubjectInput"></select></div><div class="formRow"><label>色</label><div class="tileColorDropdown" id="classColorDropdown"><input id="classColorInput" type="hidden" value="grade3"><button class="tileColorDropdownButton" id="classColorDropdownButton" type="button" aria-haspopup="listbox" aria-expanded="false"></button><div class="tileColorDropdownMenu" id="classColorDropdownMenu" role="listbox" aria-label="授業タイルの色" hidden></div></div></div><div class="formRow"><label>見取り内容</label><select id="classTagSetInput"></select></div><div class="formRow"><label>授業内容リスト</label><select id="classLessonListInput"></select></div><label class="tileSchoolToggle"><input id="tileShowSchoolInput" type="checkbox" checked><span>学校名をタイル内に表示する</span></label><div class="small" id="tileClassShareInfo">名簿と座席表は、選択した参照クラスの共有データを使用します。</div><div style="display:flex;justify-content:space-between;margin-top:12px"><button class="btn danger" id="deleteClassBtn">削除</button><div><button class="btn" id="cancelClassBtn">閉じる</button> <button class="btn primary" id="saveClassBtn">授業タイルを保存</button></div></div></div></div>
 
-<div class="modalBack" id="boardHoursCancelModal"><div class="modal" style="width:min(620px,92vw)">
+<div class="modalBack guideCriticalModal" id="boardHoursCancelModal"><div class="modal" style="width:min(620px,92vw)">
   <h2>時数確定の取消</h2>
   <div class="small" id="boardHoursCancelDate"></div>
   <div class="boardHoursCancelList" id="boardHoursCancelList"></div>
@@ -1568,18 +1568,18 @@ h2,.title,.sideTitle{color:#6f625b}.small{color:#8b817b}
   <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px"><button class="btn" id="closeBoardHoursCancelBtn">閉じる</button><button class="btn danger" id="confirmBoardHoursCancelBtn" disabled>選択した時数確定を取り消す</button></div>
 </div></div>
 
-<div class="modalBack" id="gradeDeleteModal"><div class="modal" style="width:min(560px,92vw)"><h2>学年削除の確認</h2><div class="gradeDeleteWarning" id="gradeDeleteMessage"></div><div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px"><button class="btn" id="cancelGradeDeleteBtn">キャンセル</button><button class="btn danger" id="confirmGradeDeleteBtn">学年を削除</button></div></div></div>
+<div class="modalBack guideCriticalModal" id="gradeDeleteModal"><div class="modal" style="width:min(560px,92vw)"><h2>学年削除の確認</h2><div class="gradeDeleteWarning" id="gradeDeleteMessage"></div><div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px"><button class="btn" id="cancelGradeDeleteBtn">キャンセル</button><button class="btn danger" id="confirmGradeDeleteBtn">学年を削除</button></div></div></div>
 
 <div class="modalBack" id="tagEditModal"><div class="modal"><h2 id="tagEditTitle">タグ編集</h2><div class="tagList" id="editableTagList"></div><button class="btn" id="addTagBtn" style="margin-top:12px">＋タグ追加</button><div style="display:flex;justify-content:space-between;margin-top:12px"><button class="btn" id="cancelTagEditBtn">閉じる</button><button class="btn primary" id="saveTagEditBtn">保存</button></div></div></div>
 
 <div class="modalBack" id="criteriaSetModal"><div class="modal"><h2>保存済み評価基準</h2><div class="small">名称変更や削除をしても、作成済みテスト内の評価基準はそのまま保持されます。</div><div class="criteriaSetList" id="criteriaSetList"></div><div style="display:flex;justify-content:flex-end;margin-top:14px"><button class="btn" id="closeCriteriaSetModalBtn">閉じる</button></div></div></div>
 
-<div class="modalBack" id="performancePrintModal"><div class="modal performancePrintModalCard">
+<div class="modalBack guideCriticalModal" id="performancePrintModal"><div class="modal performancePrintModalCard">
   <div class="performancePrintToolbar"><div><h2 id="performancePrintTitle">個票プレビュー</h2><div class="small" id="performancePrintInfo">A4縦・1人1ページで印刷します。</div></div><div class="performanceActions"><button class="btn" id="closePerformancePrintBtn">閉じる</button><button class="btn primary" id="executePerformancePrintBtn">印刷・PDF保存</button></div></div>
   <div class="performancePrintPreview" id="performancePrintPreview"></div>
 </div></div>
 
-<div class="modalBack" id="performanceSummaryChoiceModal"><div class="modal" style="width:min(620px,92vw)">
+<div class="modalBack guideCriticalModal" id="performanceSummaryChoiceModal"><div class="modal" style="width:min(620px,92vw)">
   <h2 style="margin-top:0">観点別結果を出力</h2>
   <div class="small">ExcelやGoogleスプレッドシートへ出力する内容を選んでください。</div>
   <div class="performanceExportChoices">
@@ -1589,7 +1589,7 @@ h2,.title,.sideTitle{color:#6f625b}.small{color:#8b817b}
   <div style="display:flex;justify-content:flex-end"><button class="btn" id="cancelPerformanceSummaryChoiceBtn">キャンセル</button></div>
 </div></div>
 
-<div class="modalBack" id="performanceSummaryModal"><div class="modal performanceSummaryModalCard">
+<div class="modalBack guideCriticalModal" id="performanceSummaryModal"><div class="modal performanceSummaryModalCard">
   <div class="performanceSummaryToolbar"><div><h2 id="performanceSummaryTitle">観点別結果を出力</h2><div class="small" id="performanceSummaryDescription"></div></div><div class="performanceActions"><button class="btn" id="closePerformanceSummaryBtn">閉じる</button><button class="btn" id="copyPerformanceSummaryBtn">Excel／スプレッドシートへコピー</button><button class="btn primary" id="downloadPerformanceSummaryBtn">CSV保存</button></div></div>
   <div class="copyStatus" id="performanceCopyStatus"></div>
   <div class="performanceSummaryWrap"><table class="performanceSummaryTable" id="performanceSummaryTable"></table></div>
@@ -1600,12 +1600,12 @@ h2,.title,.sideTitle{color:#6f625b}.small{color:#8b817b}
   <div class="reportGrouping"><button id="reportGroupDateBtn" type="button">日付順</button><button id="reportGroupTagBtn" type="button">見取り内容別</button></div>
   <div class="reportDetailContent" id="reportDetailContent"></div>
 </div></div>
-<div class="modalBack" id="reportPrintModal" role="dialog" aria-modal="true" aria-labelledby="reportPrintTitle"><div class="modal reportChoiceModal">
+<div class="modalBack guideCriticalModal" id="reportPrintModal" role="dialog" aria-modal="true" aria-labelledby="reportPrintTitle"><div class="modal reportChoiceModal">
   <h2 id="reportPrintTitle">印刷・PDFの形式</h2><p class="reportPrivacyNotice">出力データは児童生徒の個人情報を含みます。保存先と取り扱いにご注意ください。</p>
   <div class="reportChoiceGrid"><button class="reportChoice" id="reportPrintIndividualBtn" type="button"><strong>個票形式</strong><span>1人ずつ1ページで印刷します。</span></button><button class="reportChoice" id="reportPrintListBtn" type="button"><strong>一覧形式</strong><span>選択した児童生徒を連続して印刷します。</span></button></div>
   <div class="reportChoiceFooter"><button class="btn" id="reportPrintCancelBtn" type="button">キャンセル</button></div>
 </div></div>
-<div class="modalBack" id="reportCopyModal" role="dialog" aria-modal="true" aria-labelledby="reportCopyTitle"><div class="modal reportChoiceModal">
+<div class="modalBack guideCriticalModal" id="reportCopyModal" role="dialog" aria-modal="true" aria-labelledby="reportCopyTitle"><div class="modal reportChoiceModal">
   <h2 id="reportCopyTitle">Excel・スプレッドシートへコピー</h2><p class="reportPrivacyNotice">出力データは児童生徒の個人情報を含みます。貼り付け先と取り扱いにご注意ください。</p>
   <div class="reportChoiceGrid"><button class="reportChoice" id="reportCopySummaryBtn" type="button"><strong>児童別まとめ</strong><span>1人1行で、件数と内容をまとめます。</span></button><button class="reportChoice" id="reportCopyDetailBtn" type="button"><strong>記録一覧</strong><span>1件1行で、すべての見取り記録を並べます。</span></button></div>
   <div class="reportChoiceFooter"><button class="btn" id="reportCopyCancelBtn" type="button">キャンセル</button></div>

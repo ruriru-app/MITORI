@@ -29,5 +29,16 @@
   function countCompleted(guide,checks){
     return guide.steps.filter(step=>checks?.[step.id]===true).length;
   }
-  return {createTodoSession,setStepExpanded,setStepChecked,countCompleted};
+  function clampGuidePosition(position,size,viewport,margin=12){
+    const minX=viewport.left+margin,minY=viewport.top+margin;
+    const maxX=Math.max(minX,viewport.left+viewport.width-size.width-margin);
+    const maxY=Math.max(minY,viewport.top+viewport.height-size.height-margin);
+    return {x:Math.min(maxX,Math.max(minX,Number.isFinite(position?.x)?position.x:minX)),y:Math.min(maxY,Math.max(minY,Number.isFinite(position?.y)?position.y:minY))};
+  }
+  function resolveTodoScroll({scrollTop,viewportHeight,lastRow,nextSummary}){
+    if(!lastRow||!nextSummary)return {scrollTop,showRecent:false};
+    const fit=nextSummary.top>=lastRow.bottom&&nextSummary.bottom-lastRow.top<=viewportHeight;
+    return {scrollTop:Math.max(0,fit?lastRow.top:nextSummary.top),showRecent:!fit};
+  }
+  return {createTodoSession,setStepExpanded,setStepChecked,countCompleted,clampGuidePosition,resolveTodoScroll};
 });
