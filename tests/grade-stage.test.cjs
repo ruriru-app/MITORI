@@ -19,10 +19,13 @@ function node(tagName = 'div') {
 function host(state, overrides = {}) {
   const nodes = Object.fromEntries(['gradeSettingsList','gradePresetGrid','elementaryGradePresetGrid',
     'juniorGradePresetGrid','lessonListGradeFilter','performanceGradeFilter','performanceTestGradeInput',
-    'classLessonListInput'].map(id => [id, node()]));
+    'classLessonListInput','timetableGrid','timetableClassPalette','timetableSelectionHint'].map(id => [id, node()]));
   const context = { state, document: { createElement: node }, $: id => nodes[id] || null,
     save() {}, refreshGradeDependentViews() {}, escapeOptionText: String,
-    lessonListGradeFilterId: 'all', performanceGradeFilterId: 'all',
+    lessonListGradeFilterId: 'all', performanceGradeFilterId: 'all', selectedTimetableClassId: null,
+    TIMETABLE_DAYS: [{ key: 'mon', label: '月' }], classSlotCount: () => state.classLayout?.length || 0,
+    tileSchoolLabel: tile => state.sharedClasses?.find(item => item.id === tile.sharedClassId)?.school || '',
+    classLessonList: () => null,
     subjectName: id => state.subjects?.find(item => item.id === id)?.name || '教科未設定',
     ...overrides };
   const functions = ['gradePresetOptions','setCatalogPresetActive','gradePresetFor','findGradePresetItem',
@@ -30,7 +33,8 @@ function host(state, overrides = {}) {
     'availableCatalogItems','availableGrades','fillGradeSelect','renderGradeSettings','renderLessonListGradeFilter',
     'renderPerformanceGradeFilter','fillPerformanceGradeSelect','lessonListMatchesGradeFilter',
     'lessonListMatchesSubjectFilter','appendLessonListGroup','renderClassLessonListOptions','lessonList',
-    'getChecklistMitoriState','syncTileDerivedFields','tileSharedClass','sharedClass','cls','subject'];
+    'getChecklistMitoriState','syncTileDerivedFields','tileSharedClass','sharedClass','cls','subject',
+    'timetableSlot','renderTimetableSettings'];
   vm.createContext(context);
   vm.runInContext(functions.filter(name => new RegExp('function\\s+' + name + '\\s*\\(').test(html))
     .map(name => extract(name)).join('\n'), context);
@@ -179,4 +183,22 @@ test('school-qualified grade labels do not add school stages to lesson tile name
   assert.deepEqual(state.classes.map(item => item.name), ['1年1組 国語','1年1組 国語']);
   assert.deepEqual(state.classes.map(item => item.gradeId), ['grade_primary_1','grade_junior_1']);
   assert.deepEqual(state.sharedClasses.map(item => item.school), ['確認用小学校','確認用中学校']);
+});
+
+test('placed timetable tiles and palette keep their original in-tile grade text', () => {
+  const state = { grades: [{ id: 'grade_primary_1', name: '1年生' }, { id: 'grade_junior_1', name: '1年生' }],
+    sharedClasses: [{ id: 'primary-class', school: '確認用小学校' }, { id: 'junior-class', school: '確認用中学校' }],
+    classes: [{ id: 'primary-tile', name: '1年1組 国語', gradeId: 'grade_primary_1', sharedClassId: 'primary-class', count: 35 },
+      { id: 'junior-tile', name: '1年1組 国語', gradeId: 'grade_junior_1', sharedClassId: 'junior-class', count: 35 }],
+    timetable: { mon: { 1: 'primary-tile', 2: 'junior-tile' } }, classLayout: ['primary-tile','junior-tile'] };
+  const { context, nodes } = host(state);
+  context.renderTimetableSettings();
+  const descendants = parent => parent.children.flatMap(child => [child,...descendants(child)]);
+  for (const id of ['timetableGrid','timetableClassPalette']) {
+    const rendered = descendants(nodes[id]);
+    const gradeText = rendered.filter(item => /Meta$/.test(item.className || '') && /人$/.test(item.textContent || ''));
+    assert.deepEqual(gradeText.map(item => item.textContent), ['1年生・35人','1年生・35人']);
+    assert.deepEqual(rendered.filter(item => /School$/.test(item.className || '')).map(item => item.textContent),
+      ['確認用小学校','確認用中学校']);
+  }
 });
