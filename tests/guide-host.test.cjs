@@ -76,3 +76,15 @@ test('returning to an unsaved initial-setup pane preserves its draft for manual 
   vm.runInContext(extract('showSettingsPane'),x.ctx);x.ctx.showSettingsPane('term');
   assert.equal(input.value,'draft');assert.equal(pane.style.display,'block');
 });
+
+test('both school-specific grade add drafts block guide navigation without adding or clearing them',async()=>{
+  const x=setup();
+  x.nodes.newElementaryGradeNameInput={value:'小学校の未追加学年',getClientRects:()=>[1]};
+  x.nodes.newJuniorGradeNameInput={value:'中学校の未追加学年',getClientRects:()=>[1]};
+  const pending=await x.host.inspectEditors({kind:'board'});
+  assert.deepEqual(Array.from(pending,item=>item.id),['newElementaryGradeNameInput','newJuniorGradeNameInput']);
+  assert.ok(pending.every(item=>item.kind==='manual'));
+  assert.equal(x.nodes.newElementaryGradeNameInput.value,'小学校の未追加学年');
+  assert.equal(x.nodes.newJuniorGradeNameInput.value,'中学校の未追加学年');
+  assert.deepEqual(x.calls,[]);
+});

@@ -141,6 +141,7 @@ h2{font-size:18px;margin:0 0 10px}
 .presetSettingsCard{max-width:760px;border:1px solid var(--line);border-radius:14px;background:#fffdfa;padding:12px;margin-bottom:14px}.presetSettingsTitle{font-weight:900;margin-bottom:9px}.presetCheckGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.presetCheckItem{display:flex;align-items:center;gap:8px;min-height:38px;border:1px solid #eadfd8;border-radius:10px;background:#fff;padding:7px 10px;font-weight:800;cursor:pointer}.presetCheckItem:has(input:checked){border-color:#91d7cf;background:#effbf9}.presetCheckItem input{width:17px;height:17px;accent-color:#63c3b7}.catalogCustomTitle{font-size:14px;margin:0 0 8px}.subjectSettingsColumns{display:grid;grid-template-columns:1fr 1fr;gap:12px}.subjectSettingsColumn{min-width:0;border:1px solid var(--line);border-radius:14px;background:#fffdfa;padding:12px}.subjectColumnHeader{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}.subjectColumnHeader h3{margin:0}.catalogTextBtn{border:0;background:transparent;color:#399b90;font-size:11px;font-weight:800;padding:4px;cursor:pointer}.catalogTextBtn:hover{text-decoration:underline}.subjectPresetGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.subjectAddRow{min-width:0;margin:12px 0 8px}.subjectCustomList{max-width:none}.subjectCustomList .gradeSettingRow,.legacySubjectSection .gradeSettingRow{grid-template-columns:26px minmax(80px,1fr) auto auto auto auto;gap:5px}.subjectCustomList .gradeSettingRow .btn,.legacySubjectSection .gradeSettingRow .btn{padding:5px 7px;font-size:11px}.legacySubjectSection{margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}.legacySubjectSection h3{margin:0 0 4px}.legacySubjectSection .gradeSettingsList{margin-top:9px}.classListTitleLine{display:flex;align-items:baseline;gap:10px;min-width:0}.classListTitleLine h2{margin:0}.emptyTileHint{font-size:11px;color:#9a8f86;font-weight:600}.homeBoardGuide{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}.homeBoardGuide strong{color:#6f625b}
 @media(max-width:900px){.subjectSettingsColumns{grid-template-columns:1fr}.presetCheckGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .gradePresetColumns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:14px}.gradePresetColumns .presetSettingsCard{min-width:0;max-width:none;margin-bottom:0}.gradePresetColumns .presetCheckGrid{grid-template-columns:repeat(auto-fit,minmax(min(110px,100%),1fr))}.gradePresetColumns .presetCheckItem span{white-space:nowrap}.gradeLegacyNote{margin:0 0 9px}
+.gradeSchoolAddRow{min-width:0;margin:12px 0 8px;flex-wrap:wrap}.gradeSchoolAddRow input{flex:1 1 130px}.gradeSchoolAddRow .btn{white-space:nowrap}.gradeCustomList{max-width:none}.gradeCustomList .gradeSettingRow{display:flex;flex-wrap:wrap;gap:6px}.gradeCustomList .gradeDragHandle{flex:0 0 26px}.gradeCustomList .gradeSettingRow input{flex:1 1 calc(100% - 32px)}.gradeCustomList .gradeSettingRow .btn{padding:5px 7px;font-size:11px}
 @media(max-width:600px){.settings{grid-template-columns:110px minmax(0,1fr)}.settingsNav{overflow:auto}.gradePresetColumns{grid-template-columns:1fr}}
 .sharedClassHeader{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap}
 .sharedClassHeader h2{margin-bottom:4px}
@@ -1429,14 +1430,13 @@ h2,.title,.sideTitle{color:#6f625b}.small{color:#8b817b}
         <div id="gradeSettingsPane" style="display:none">
           <div class="gradeSettingsHeader">
             <div><h2>学年設定</h2><div class="small">小学校・中学校から、担当する学年を選択します。必要な名称は自由に追加できます。</div></div>
-            <div class="gradeAddRow"><input id="newGradeNameInput" placeholder="例：中学1年、特別支援学級"><button class="btn primary" id="newGradeBtn">＋選択項目を追加</button></div>
           </div>
           <div class="gradePresetColumns">
-            <section class="presetSettingsCard" aria-labelledby="elementaryGradeHeading"><h3 class="presetSettingsTitle" id="elementaryGradeHeading">小学校</h3><div class="presetCheckGrid" id="elementaryGradePresetGrid"></div></section>
-            <section class="presetSettingsCard" aria-labelledby="juniorGradeHeading"><h3 class="presetSettingsTitle" id="juniorGradeHeading">中学校</h3><div class="presetCheckGrid" id="juniorGradePresetGrid"></div></section>
+            <section class="presetSettingsCard" aria-labelledby="elementaryGradeHeading"><h3 class="presetSettingsTitle" id="elementaryGradeHeading">小学校</h3><div class="presetCheckGrid" id="elementaryGradePresetGrid"></div><div class="gradeAddRow gradeSchoolAddRow"><input id="newElementaryGradeNameInput" aria-label="小学校に追加する学年名" placeholder="例：特別支援学級"><button class="btn primary" id="newElementaryGradeBtn" type="button">＋学年を追加</button></div><div class="gradeSettingsList gradeCustomList" id="elementaryGradeCustomList"></div></section>
+            <section class="presetSettingsCard" aria-labelledby="juniorGradeHeading"><h3 class="presetSettingsTitle" id="juniorGradeHeading">中学校</h3><div class="presetCheckGrid" id="juniorGradePresetGrid"></div><div class="gradeAddRow gradeSchoolAddRow"><input id="newJuniorGradeNameInput" aria-label="中学校に追加する学年名" placeholder="例：特別支援学級"><button class="btn primary" id="newJuniorGradeBtn" type="button">＋学年を追加</button></div><div class="gradeSettingsList gradeCustomList" id="juniorGradeCustomList"></div></section>
           </div>
           <h3 class="catalogCustomTitle">既存・その他の学年</h3>
-          <div class="small gradeLegacyNote">学校種別が分からない既存の学年や、追加した独自の学年はここに表示します。名前だけで小学校・中学校へ自動分類せず、クラスや単元との関連を保持します。</div>
+          <div class="small gradeLegacyNote">学校種別が分からない既存の学年はここに表示します。名前だけで小学校・中学校へ自動分類せず、クラスや単元との関連を保持します。</div>
           <div class="gradeSettingsList" id="gradeSettingsList"></div>
         </div>
         <div id="subjectSettingsPane" style="display:none">
@@ -1666,13 +1666,14 @@ function setGradePresetActive(items,preset,active){
   if(!item){item={...preset};items.push(item)}
   item.stage=preset.stage;item.preset=true;item.presetId=preset.id;item.active=!!active;return item;
 }
+function gradeSchoolStage(item){const stage=gradePresetFor(item)?.stage||item?.stage;return ['elementary','junior'].includes(stage)?stage:'other'}
 function gradeCatalogLabel(item){
   if(!item)return '学年未設定';
-  const name=String(item.name||'学年未設定'),stage=gradePresetFor(item)?.stage||item.stage;
+  const name=String(item.name||'学年未設定'),stage=gradeSchoolStage(item);
   if(stage==='elementary'||stage==='junior')return /^\d+年生$/.test(name)?`${stage==='elementary'?'小学':'中学'}${name}`:`${name}（${stage==='elementary'?'小学校':'中学校'}）`;
   return `${name}（既存・その他）`;
 }
-function customGrades(){return state.grades.filter(item=>!gradePresetFor(item))}
+function customGrades(stage='other'){return state.grades.filter(item=>!gradePresetFor(item)&&gradeSchoolStage(item)===stage)}
 function subjectPresetOptions(stage){
   const names=stage==='junior'?['国語','社会','数学','理科','音楽','美術','保健体育','技術・家庭','外国語','道徳','総合','学級活動']:['国語','社会','算数','理科','生活','音楽','図画工作','家庭','体育','外国語活動','外国語','道徳','総合','学級活動'];
   const prefix=stage==='junior'?'junior':'elementary';return names.map((name,index)=>({id:`subject_${prefix}_${index+1}`,name,stage:prefix,preset:true}));
@@ -1888,7 +1889,7 @@ async function inspectGuideEditors(target){
     const baseline=guideEditorBaselines.get(id);
     if(baseline!==undefined&&baseline!==guideFormSignature(element))pending.push({id,kind:['shared-class','tile','term'].includes(id)?'saveable':'manual',label:({'shared-class':'クラスと名簿',tile:'授業タイル',term:'学期・休業日','apply-start':'反映開始日（未実行）',tag:'見取り内容','lesson-list':'授業内容リスト'})[id]||'編集中の内容'});
   }
-  for(const id of ['newGradeNameInput','newElementarySubjectNameInput','newJuniorSubjectNameInput','newSubjectNameInput']){
+  for(const id of ['newElementaryGradeNameInput','newJuniorGradeNameInput','newElementarySubjectNameInput','newJuniorSubjectNameInput','newSubjectNameInput']){
     if(isGuideElementVisible($(id))&&$(id).value.trim())pending.push({id,kind:'manual',label:'未追加の名称'});
   }
   if(isGuideElementVisible($('recordModal'))&&selectedRecord&&Object.values(selectedRecord.tags||{}).some(tags=>tags.length)&&!pending.some(edit=>edit.id==='record'))pending.push({id:'record',kind:'manual',label:'未確定の見取り記録'});
@@ -2731,11 +2732,15 @@ function reorderById(arr,fromId,toId){
 }
 function refreshGradeDependentViews(){syncAllTileDerivedFields();renderGradeSettings();renderSharedClassSettings();renderClassSettings();renderLessonListSettings();renderPerformanceTestList();if(performanceDraft)fillPerformanceGradeSelect(performanceDraft.gradeId||'');if(activePerformanceTestId&&$('performanceClassScreen')?.classList.contains('active'))renderPerformanceClassGroups()}
 function toggleGradePreset(id,active){const preset=[...gradePresetOptions(),...gradePresetOptions('junior')].find(item=>item.id===id);if(!preset)return;setGradePresetActive(state.grades,preset,active);save();refreshGradeDependentViews()}
-function addGrade(){
-  const input=$('newGradeNameInput'),name=(input?.value||'').trim();
+function addGrade(stage){
+  if(!['elementary','junior'].includes(stage))return;
+  const input=$(stage==='elementary'?'newElementaryGradeNameInput':'newJuniorGradeNameInput'),name=(input?.value||'').trim();
   if(!name){alert('学年名を入力してください。');return}
-  if(state.grades.some(g=>g.name===name)){alert('同じ学年名がすでに登録されています。');return}
-  state.grades.push({id:'grade_'+Date.now(),name});
+  const preset=gradePresetOptions(stage).find(item=>item.name===name);
+  if(preset){setGradePresetActive(state.grades,preset,true);if(input)input.value='';save();refreshGradeDependentViews();return}
+  if(state.grades.some(g=>gradeSchoolStage(g)===stage&&g.name===name)){alert('同じ学校種別に同名の学年がすでに登録されています。');return}
+  const base='grade_'+Date.now();let id=base,sequence=1;while(state.grades.some(item=>item.id===id))id=base+'_'+sequence++;
+  state.grades.push({id,name,stage,active:true,preset:false});
   if(input)input.value='';
   save();refreshGradeDependentViews();
 }
@@ -2743,13 +2748,17 @@ function saveGradeName(id,input){
   const g=grade(id),name=input.value.trim();
   if(!g)return;
   if(!name){alert('学年名を入力してください。');input.value=g.name;return}
-  if(state.grades.some(x=>x.id!==id&&x.name===name)){alert('同じ学年名がすでに登録されています。');input.value=g.name;return}
+  if(state.grades.some(x=>x.id!==id&&gradeSchoolStage(x)===gradeSchoolStage(g)&&x.name===name)){alert('同じ学校種別に同名の学年がすでに登録されています。');input.value=g.name;return}
   g.name=name;save();refreshGradeDependentViews();
 }
 function moveGrade(id,delta){
-  const group=customGrades(),from=group.findIndex(item=>item.id===id),to=from+delta;if(from<0||to<0||to>=group.length)return;
+  const group=customGrades(gradeSchoolStage(grade(id))),from=group.findIndex(item=>item.id===id),to=from+delta;if(from<0||to<0||to>=group.length)return;
   const targetId=group[to].id,fromAll=state.grades.findIndex(item=>item.id===id);if(fromAll<0)return;const [item]=state.grades.splice(fromAll,1),targetAll=state.grades.findIndex(entry=>entry.id===targetId);state.grades.splice(delta>0?targetAll+1:targetAll,0,item);
   save();refreshGradeDependentViews();
+}
+function reorderGrade(fromId,toId){
+  const from=grade(fromId),to=grade(toId);if(!from||!to||gradePresetFor(from)||gradePresetFor(to)||gradeSchoolStage(from)!==gradeSchoolStage(to))return;
+  reorderById(state.grades,fromId,toId);save();refreshGradeDependentViews();
 }
 function deleteGrade(id){
   const g=grade(id);if(!g)return;
@@ -2757,7 +2766,7 @@ function deleteGrade(id){
   const listCount=state.lessonLists.filter(x=>x.gradeId===id).length;
   const testCount=state.performanceTests.filter(x=>x.gradeId===id).length;
   pendingDeleteGradeId=id;
-  $('gradeDeleteMessage').textContent=`この学年は${classCount}件のクラス、${listCount}件の授業内容リスト、${testCount}件のテストで使用されています。\n\n「${g.name}」を削除しますか？\nクラス・授業内容リスト・テストは削除されず、学年との関連だけが「未設定」に戻ります。`;
+  $('gradeDeleteMessage').textContent=`この学年は${classCount}件のクラス、${listCount}件の授業内容リスト、${testCount}件のテストで使用されています。\n\n「${gradeCatalogLabel(g)}」を削除しますか？\nクラス・授業内容リスト・テストは削除されず、学年との関連だけが「未設定」に戻ります。`;
   $('gradeDeleteModal').style.display='flex';
 }
 function confirmGradeDelete(){
@@ -2772,24 +2781,28 @@ function confirmGradeDelete(){
 }
 function cancelGradeDelete(){pendingDeleteGradeId=null;$('gradeDeleteModal').style.display='none'}
 function renderGradeSettings(){
-  const list=$('gradeSettingsList');if(!list)return;list.innerHTML='';
   [['primary','elementaryGradePresetGrid'],['junior','juniorGradePresetGrid']].forEach(([stage,id])=>{
     const grid=$(id);if(!grid)return;grid.innerHTML='';
     gradePresetOptions(stage).forEach(preset=>{const current=findGradePresetItem(state.grades,preset),label=document.createElement('label');label.className='presetCheckItem';const checkbox=document.createElement('input');checkbox.type='checkbox';checkbox.setAttribute('aria-label',gradeCatalogLabel(preset));checkbox.checked=!!current&&current.active!==false;checkbox.onchange=()=>toggleGradePreset(preset.id,checkbox.checked);const text=document.createElement('span');text.textContent=preset.name;label.append(checkbox,text);grid.appendChild(label)});
   });
-  const custom=customGrades();
-  if(!custom.length){list.innerHTML='<div class="gradeEmpty">既存・その他の学年はありません。</div>';return}
-  custom.forEach((g,index)=>{
+  renderGradeRows($('elementaryGradeCustomList'),customGrades('elementary'));
+  renderGradeRows($('juniorGradeCustomList'),customGrades('junior'));
+  renderGradeRows($('gradeSettingsList'),customGrades());
+}
+function renderGradeRows(list,items){
+  if(!list)return;list.innerHTML='';
+  if(!items.length){list.innerHTML='<div class="gradeEmpty">'+(list.id==='gradeSettingsList'?'既存・その他の学年はありません。':'追加した学年はありません。')+'</div>';return}
+  items.forEach((g,index)=>{
     const row=document.createElement('div');row.className='gradeSettingRow';row.dataset.id=g.id;
     const handle=document.createElement('span');handle.className='gradeDragHandle';handle.textContent='≡';handle.title='ドラッグして並べ替え';handle.draggable=true;
     handle.ondragstart=e=>{e.dataTransfer.setData('gradeId',g.id)};
-    const input=document.createElement('input');input.value=g.name;input.setAttribute('aria-label',`${g.name}の学年名`);input.onkeydown=e=>{if(e.key==='Enter')saveGradeName(g.id,input)};
+    const input=document.createElement('input');input.value=g.name;input.setAttribute('aria-label',`${gradeCatalogLabel(g)}の学年名`);input.onkeydown=e=>{if(e.key==='Enter')saveGradeName(g.id,input)};
     const saveBtn=document.createElement('button');saveBtn.className='btn';saveBtn.textContent='保存';saveBtn.onclick=()=>saveGradeName(g.id,input);
     const up=document.createElement('button');up.className='btn';up.textContent='↑';up.title='上へ';up.disabled=index===0;up.onclick=()=>moveGrade(g.id,-1);
-    const down=document.createElement('button');down.className='btn';down.textContent='↓';down.title='下へ';down.disabled=index===custom.length-1;down.onclick=()=>moveGrade(g.id,1);
+    const down=document.createElement('button');down.className='btn';down.textContent='↓';down.title='下へ';down.disabled=index===items.length-1;down.onclick=()=>moveGrade(g.id,1);
     const del=document.createElement('button');del.className='btn danger';del.textContent='削除';del.onclick=()=>deleteGrade(g.id);
     row.ondragover=e=>{e.preventDefault();row.classList.add('dragOver')};row.ondragleave=()=>row.classList.remove('dragOver');
-    row.ondrop=e=>{e.preventDefault();row.classList.remove('dragOver');const from=e.dataTransfer.getData('gradeId');reorderById(state.grades,from,g.id);save();refreshGradeDependentViews()};
+    row.ondrop=e=>{e.preventDefault();row.classList.remove('dragOver');reorderGrade(e.dataTransfer.getData('gradeId'),g.id)};
     row.append(handle,input,saveBtn,up,down,del);list.appendChild(row);
   });
 }
@@ -4092,8 +4105,8 @@ $('gradeSettingsTab').onclick=()=>showSettingsPane('grade');$('subjectSettingsTa
 $('backupNowSettingsBtn').onclick=saveFullBackup;$('changeBackupDestinationBtn').onclick=async()=>{if(backupBusy)return;setBackupBusy(true);try{await chooseBackupDestination();showBackupToast('保存先を設定しました。次回の保存からこのファイルへ上書きします。')}catch(error){if(error?.name!=='AbortError')showBackupToast(error?.message||'保存先を変更できませんでした',true)}finally{setBackupBusy(false)}};$('restoreBackupBtn').onclick=restoreFullBackup;$('restoreSafetyBackupBtn').onclick=restoreSafetyBackup;$('backupIntervalSelect').onchange=e=>{backupMeta.intervalDays=Number(e.target.value)||0;backupMeta.remindAfter='';saveBackupMeta();updateBackupReminderUi(false);renderBackupSettings()};$('backupReminderSaveBtn').onclick=()=>{if($('backupReminder'))$('backupReminder').hidden=true;saveFullBackup()};$('backupRemindLaterBtn').onclick=()=>{backupMeta.remindAfter=new Date(Date.now()+86400000).toISOString();saveBackupMeta();updateBackupReminderUi(false);showBackupToast('明日、もう一度お知らせします。')};$('backupRestoreFileInput').onchange=async e=>{const file=e.target.files?.[0];e.target.value='';if(!file)return;try{await restoreFullBackupEnvelope(MitoriBackup.parseBackup(await file.text()))}catch(error){showBackupToast(error?.message||'バックアップを復元できませんでした',true)}};
 $('clearTimetableBtn').onclick=clearTimetable;$('applyTimetableBtn').onclick=applyTimetableFromStart;
 $('termSystemSelect').onchange=e=>{stashTermSettingsInputs();state.termSettings.system=e.target.value==='semester'?'semester':'trimester';save();renderTermSettings()};$('saveTermSettingsBtn').onclick=()=>saveTermSettings(true);
-$('newGradeBtn').onclick=addGrade;
-$('newGradeNameInput').addEventListener('keydown',e=>{if(e.key==='Enter')addGrade()});
+$('newElementaryGradeBtn').onclick=()=>addGrade('elementary');$('newElementaryGradeNameInput').addEventListener('keydown',e=>{if(e.key==='Enter')addGrade('elementary')});
+$('newJuniorGradeBtn').onclick=()=>addGrade('junior');$('newJuniorGradeNameInput').addEventListener('keydown',e=>{if(e.key==='Enter')addGrade('junior')});
 $('newElementarySubjectBtn').onclick=()=>addSubject('elementary');$('newElementarySubjectNameInput').addEventListener('keydown',e=>{if(e.key==='Enter')addSubject('elementary')});
 $('newJuniorSubjectBtn').onclick=()=>addSubject('junior');$('newJuniorSubjectNameInput').addEventListener('keydown',e=>{if(e.key==='Enter')addSubject('junior')});
 document.querySelectorAll('[data-subject-action]').forEach(button=>button.onclick=()=>setAllSubjectPresets(button.dataset.subjectStage,button.dataset.subjectAction==='all'));

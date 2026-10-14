@@ -8,7 +8,9 @@ const html = fs.readFileSync(path.join(__dirname, '../index.html'), 'utf8');
 
 function node(tagName = 'div') {
   return {
-    tagName, children: [], style: {}, dataset: {}, attributes: {}, value: '', innerHTML: '',
+    tagName, children: [], style: {}, dataset: {}, attributes: {}, value: '', markup: '',
+    get innerHTML() { return this.markup; },
+    set innerHTML(value) { this.markup = value; this.children = []; },
     classList: { toggle() {}, add() {}, remove() {} },
     appendChild(child) { this.children.push(child); },
     append(...children) { this.children.push(...children); },
@@ -19,9 +21,11 @@ function node(tagName = 'div') {
 function host(state, overrides = {}) {
   const nodes = Object.fromEntries(['gradeSettingsList','gradePresetGrid','elementaryGradePresetGrid',
     'juniorGradePresetGrid','lessonListGradeFilter','performanceGradeFilter','performanceTestGradeInput',
-    'classLessonListInput','timetableGrid','timetableClassPalette','timetableSelectionHint'].map(id => [id, node()]));
+    'classLessonListInput','timetableGrid','timetableClassPalette','timetableSelectionHint',
+    'newGradeNameInput','newElementaryGradeNameInput','newJuniorGradeNameInput',
+    'elementaryGradeCustomList','juniorGradeCustomList'].map(id => [id, node()]));
   const context = { state, document: { createElement: node }, $: id => nodes[id] || null,
-    save() {}, refreshGradeDependentViews() {}, escapeOptionText: String,
+    save() {}, refreshGradeDependentViews() {}, alert() {}, escapeOptionText: String,
     lessonListGradeFilterId: 'all', performanceGradeFilterId: 'all', selectedTimetableClassId: null,
     TIMETABLE_DAYS: [{ key: 'mon', label: '月' }], classSlotCount: () => state.classLayout?.length || 0,
     tileSchoolLabel: tile => state.sharedClasses?.find(item => item.id === tile.sharedClassId)?.school || '',
@@ -29,7 +33,8 @@ function host(state, overrides = {}) {
     subjectName: id => state.subjects?.find(item => item.id === id)?.name || '教科未設定',
     ...overrides };
   const functions = ['gradePresetOptions','setCatalogPresetActive','gradePresetFor','findGradePresetItem',
-    'setGradePresetActive','gradeCatalogLabel','customGrades','toggleGradePreset','grade','gradeName',
+    'setGradePresetActive','gradeSchoolStage','gradeCatalogLabel','customGrades','toggleGradePreset','grade','gradeName',
+    'addGrade','saveGradeName','moveGrade','reorderById','reorderGrade','renderGradeRows',
     'availableCatalogItems','availableGrades','fillGradeSelect','renderGradeSettings','renderLessonListGradeFilter',
     'renderPerformanceGradeFilter','fillPerformanceGradeSelect','lessonListMatchesGradeFilter',
     'lessonListMatchesSubjectFilter','appendLessonListGroup','renderClassLessonListOptions','lessonList',
@@ -201,4 +206,98 @@ test('placed timetable tiles and palette keep their original in-tile grade text'
     assert.deepEqual(rendered.filter(item => /School$/.test(item.className || '')).map(item => item.textContent),
       ['確認用小学校','確認用中学校']);
   }
+});
+
+test('both school add controls create scoped grades with different ids even at the same timestamp', () => {
+  const state = { grades: [] }, FixedDate = class extends Date { static now() { return 42; } };
+  const { context, nodes } = host(state, { Date: FixedDate });
+  nodes.newElementaryGradeNameInput.value = '特別支援学級';
+  nodes.newJuniorGradeNameInput.value = '特別支援学級';
+  context.addGrade('elementary');
+  assert.equal(nodes.newElementaryGradeNameInput.value, '');
+  assert.equal(nodes.newJuniorGradeNameInput.value, '特別支援学級');
+  context.addGrade('junior');
+  assert.deepEqual(state.grades.map(item => [item.name,item.stage,item.active]),
+    [['特別支援学級','elementary',true],['特別支援学級','junior',true]]);
+  assert.notEqual(state.grades[0].id, state.grades[1].id);
+  assert.equal(context.gradeName(state.grades[0].id), '特別支援学級（小学校）');
+  assert.equal(context.gradeName(state.grades[1].id), '特別支援学級（中学校）');
+});
+
+test('duplicate add is blocked only in its own school category without clearing the draft', () => {
+  const state = { grades: [{ id: 'saved', name: '特別支援学級', stage: 'elementary', active: true }] };
+  const messages = [], { context, nodes } = host(state, { alert: message => messages.push(message) });
+  nodes.newElementaryGradeNameInput.value = '特別支援学級';
+  context.addGrade('elementary');
+  assert.equal(state.grades.length, 1);
+  assert.equal(nodes.newElementaryGradeNameInput.value, '特別支援学級');
+  assert.equal(messages.length, 1);
+  nodes.newJuniorGradeNameInput.value = '特別支援学級';
+  context.addGrade('junior');
+  assert.equal(state.grades.length, 2);
+});
+
+test('adding a standard grade selects its existing preset rather than making a duplicate', () => {
+  const state = { grades: [{ id: 'grade_junior_1', name: '1年生', active: false }] };
+  const { context, nodes } = host(state);
+  nodes.newJuniorGradeNameInput.value = '1年生';
+  context.addGrade('junior');
+  assert.equal(state.grades.length, 1);
+  assert.equal(state.grades[0].id, 'grade_junior_1');
+  assert.equal(state.grades[0].active, true);
+  assert.equal(nodes.newJuniorGradeNameInput.value, '');
+});
+
+test('new school-scoped rows render in their own cards and unknown legacy rows remain separate', () => {
+  const state = { grades: [{ id: 'primary-custom', name: '特別支援学級', stage: 'elementary' },
+    { id: 'junior-custom', name: '特別支援学級', stage: 'junior' },
+    { id: 'legacy', name: '特別支援学級' }] };
+  const { context, nodes } = host(state), before = JSON.stringify(state);
+  context.renderGradeSettings();
+  for (const [list,id] of [['elementaryGradeCustomList','primary-custom'],['juniorGradeCustomList','junior-custom'],['gradeSettingsList','legacy']]) {
+    assert.deepEqual(nodes[list].children.map(row => row.dataset.id), [id]);
+  }
+  assert.equal(JSON.stringify(state), before);
+});
+
+test('grade rename duplicate validation is scoped to its own school and preserves saved relationships', () => {
+  const state = { grades: [{ id: 'primary', name: '小学校の独自学年', stage: 'elementary' },
+    { id: 'junior', name: '同じ名称', stage: 'junior' }], sharedClasses: [{ gradeId: 'primary' }] };
+  const messages = [], { context } = host(state, { alert: message => messages.push(message) });
+  context.saveGradeName('primary', { value: '同じ名称' });
+  assert.equal(state.grades[0].name, '同じ名称');
+  assert.equal(state.sharedClasses[0].gradeId, 'primary');
+  assert.equal(messages.length, 0);
+  state.grades.push({ id: 'another-primary', name: '同区分の既存名', stage: 'elementary' });
+  const input = { value: '同区分の既存名' };
+  context.saveGradeName('primary', input);
+  assert.equal(state.grades[0].name, '同じ名称');
+  assert.equal(input.value, '同じ名称');
+  assert.equal(messages.length, 1);
+});
+
+test('moving a custom grade cannot swap it with another school category', () => {
+  const state = { grades: [{ id: 'p1', name: '小学校A', stage: 'elementary' },
+    { id: 'j1', name: '中学校A', stage: 'junior' }, { id: 'p2', name: '小学校B', stage: 'elementary' },
+    { id: 'legacy', name: '既存学年' }, { id: 'j2', name: '中学校B', stage: 'junior' }] };
+  const { context } = host(state);
+  context.moveGrade('p1', 1);
+  assert.deepEqual(state.grades.filter(item => item.stage === 'elementary').map(item => item.id), ['p2','p1']);
+  assert.deepEqual(state.grades.filter(item => item.stage === 'junior').map(item => item.id), ['j1','j2']);
+  const before = JSON.stringify(state);
+  context.moveGrade('p1', 1);
+  assert.equal(JSON.stringify(state), before);
+});
+
+test('drag reordering rejects another school category and predefined grades', () => {
+  const state = { grades: [{ id: 'p1', name: 'A', stage: 'elementary' }, { id: 'j1', name: 'B', stage: 'junior' },
+    { id: 'p2', name: 'C', stage: 'elementary' }, { id: 'grade_primary_1', name: '1年生' }] };
+  const { context } = host(state);
+  assert.equal(typeof context.reorderGrade, 'function');
+  const before = JSON.stringify(state);
+  context.reorderGrade('p1','j1');
+  context.reorderGrade('p1','grade_primary_1');
+  assert.equal(JSON.stringify(state), before);
+  context.reorderGrade('p1','p2');
+  assert.deepEqual(state.grades.filter(item => item.stage === 'elementary').map(item => item.id), ['p2','p1']);
 });
