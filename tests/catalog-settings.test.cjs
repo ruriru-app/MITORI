@@ -23,17 +23,20 @@ function loadFunction(name, context = {}) {
   return vm.runInNewContext(`(${extractFunction(name)})`, context);
 }
 
-test('preset grade selection can be hidden and restored without deleting the grade object', () => {
-  const setCatalogPresetActive = loadFunction('setCatalogPresetActive');
-  const items = [{ id: 'existing-grade-5', name: '5年生', active: true }];
-  const preset = { id: 'grade_primary_5', name: '5年生' };
+test('an explicitly staged grade can be hidden and restored without replacing its saved id', () => {
+  const gradePresetOptions = loadFunction('gradePresetOptions');
+  const gradePresetFor = loadFunction('gradePresetFor', { gradePresetOptions });
+  const findGradePresetItem = loadFunction('findGradePresetItem', { gradePresetFor });
+  const setGradePresetActive = loadFunction('setGradePresetActive', { findGradePresetItem });
+  const items = [{ id: 'existing-grade-5', name: '5年生', stage: 'elementary', active: true }];
+  const preset = { id: 'grade_primary_5', name: '5年生', stage: 'elementary' };
 
-  const hidden = setCatalogPresetActive(items, preset, false, true);
+  const hidden = setGradePresetActive(items, preset, false);
   assert.equal(items.length, 1);
   assert.equal(hidden.id, 'existing-grade-5');
   assert.equal(hidden.active, false);
 
-  const restored = setCatalogPresetActive(items, preset, true, true);
+  const restored = setGradePresetActive(items, preset, true);
   assert.equal(items.length, 1);
   assert.equal(restored.id, 'existing-grade-5');
   assert.equal(restored.active, true);
