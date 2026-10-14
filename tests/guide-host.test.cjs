@@ -88,3 +88,12 @@ test('both school-specific grade add drafts block guide navigation without addin
   assert.equal(x.nodes.newJuniorGradeNameInput.value,'中学校の未追加学年');
   assert.deepEqual(x.calls,[]);
 });
+
+test('an unsaved school-scoped grade rename remains manual during guide navigation',async()=>{
+  const x=setup(),input={dataset:{gradeId:'custom-grade'},value:'未保存の学年名'};
+  x.ctx.grade=()=>({id:'custom-grade',name:'保存済みの学年名'});
+  x.nodes.elementaryGradeCustomList={getClientRects:()=>[1],querySelectorAll:()=>[input]};
+  const pending=await x.host.inspectEditors({kind:'board'});
+  assert.equal(pending.length,1);assert.equal(pending[0].kind,'manual');
+  assert.equal(input.value,'未保存の学年名');assert.deepEqual(x.calls,[]);
+});

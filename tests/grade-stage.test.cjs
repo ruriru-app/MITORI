@@ -15,6 +15,10 @@ function node(tagName = 'div') {
     appendChild(child) { this.children.push(child); },
     append(...children) { this.children.push(...children); },
     setAttribute(name, value) { this.attributes[name] = String(value); },
+    querySelectorAll(selector) {
+      const descendants = parent => parent.children.flatMap(child => [child,...descendants(child)]);
+      return descendants(this).filter(child => selector === 'input[data-grade-id]' && child.tagName === 'input' && child.dataset.gradeId);
+    },
   };
 }
 
@@ -300,4 +304,30 @@ test('drag reordering rejects another school category and predefined grades', ()
   assert.equal(JSON.stringify(state), before);
   context.reorderGrade('p1','p2');
   assert.deepEqual(state.grades.filter(item => item.stage === 'elementary').map(item => item.id), ['p2','p1']);
+});
+
+test('adding elsewhere and redrawing grade rows preserves an unsaved name without committing it', () => {
+  const state = { grades: [{ id: 'primary', name: '保存済み小学校名', stage: 'elementary' }] };
+  const { context, nodes } = host(state);
+  context.renderGradeSettings();
+  nodes.elementaryGradeCustomList.children[0].children[1].value = '未保存の編集';
+  state.grades.push({ id: 'junior', name: '追加した中学校名', stage: 'junior' });
+  context.renderGradeSettings();
+  assert.equal(nodes.elementaryGradeCustomList.children[0].children[1].value, '未保存の編集');
+  assert.equal(state.grades[0].name, '保存済み小学校名');
+});
+
+test('saving one category does not discard the other category name being edited', () => {
+  const state = { grades: [{ id: 'primary', name: '小学校の保存名', stage: 'elementary' },
+    { id: 'junior', name: '中学校の保存名', stage: 'junior' }] };
+  const { context, nodes } = host(state);
+  context.refreshGradeDependentViews = () => context.renderGradeSettings();
+  context.renderGradeSettings();
+  nodes.elementaryGradeCustomList.children[0].children[1].value = '小学校の下書き';
+  const juniorInput = nodes.juniorGradeCustomList.children[0].children[1];
+  juniorInput.value = '中学校の新しい保存名';
+  context.saveGradeName('junior', juniorInput);
+  assert.equal(state.grades[1].name, '中学校の新しい保存名');
+  assert.equal(state.grades[0].name, '小学校の保存名');
+  assert.equal(nodes.elementaryGradeCustomList.children[0].children[1].value, '小学校の下書き');
 });

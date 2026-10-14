@@ -1892,6 +1892,10 @@ async function inspectGuideEditors(target){
   for(const id of ['newElementaryGradeNameInput','newJuniorGradeNameInput','newElementarySubjectNameInput','newJuniorSubjectNameInput','newSubjectNameInput']){
     if(isGuideElementVisible($(id))&&$(id).value.trim())pending.push({id,kind:'manual',label:'未追加の名称'});
   }
+  for(const id of ['elementaryGradeCustomList','juniorGradeCustomList','gradeSettingsList']){
+    const list=$(id);if(!isGuideElementVisible(list))continue;
+    for(const input of list.querySelectorAll('input[data-grade-id]'))if(input.value.trim()!==grade(input.dataset.gradeId)?.name)pending.push({id:'grade-name-'+input.dataset.gradeId,kind:'manual',label:'未保存の学年名'});
+  }
   if(isGuideElementVisible($('recordModal'))&&selectedRecord&&Object.values(selectedRecord.tags||{}).some(tags=>tags.length)&&!pending.some(edit=>edit.id==='record'))pending.push({id:'record',kind:'manual',label:'未確定の見取り記録'});
   if(isGuideElementVisible($('cameraModal')))pending.push({id:'camera',kind:'manual',label:'撮影・配置中の内容'});
   return pending;
@@ -2790,13 +2794,15 @@ function renderGradeSettings(){
   renderGradeRows($('gradeSettingsList'),customGrades());
 }
 function renderGradeRows(list,items){
-  if(!list)return;list.innerHTML='';
+  if(!list)return;
+  const drafts=new Map(Array.from(list.querySelectorAll('input[data-grade-id]')).filter(input=>input.value.trim()!==grade(input.dataset.gradeId)?.name).map(input=>[input.dataset.gradeId,input.value]));
+  list.innerHTML='';
   if(!items.length){list.innerHTML='<div class="gradeEmpty">'+(list.id==='gradeSettingsList'?'既存・その他の学年はありません。':'追加した学年はありません。')+'</div>';return}
   items.forEach((g,index)=>{
     const row=document.createElement('div');row.className='gradeSettingRow';row.dataset.id=g.id;
     const handle=document.createElement('span');handle.className='gradeDragHandle';handle.textContent='≡';handle.title='ドラッグして並べ替え';handle.draggable=true;
     handle.ondragstart=e=>{e.dataTransfer.setData('gradeId',g.id)};
-    const input=document.createElement('input');input.value=g.name;input.setAttribute('aria-label',`${gradeCatalogLabel(g)}の学年名`);input.onkeydown=e=>{if(e.key==='Enter')saveGradeName(g.id,input)};
+    const input=document.createElement('input');input.dataset.gradeId=g.id;input.value=drafts.has(g.id)?drafts.get(g.id):g.name;input.setAttribute('aria-label',`${gradeCatalogLabel(g)}の学年名`);input.onkeydown=e=>{if(e.key==='Enter')saveGradeName(g.id,input)};
     const saveBtn=document.createElement('button');saveBtn.className='btn';saveBtn.textContent='保存';saveBtn.onclick=()=>saveGradeName(g.id,input);
     const up=document.createElement('button');up.className='btn';up.textContent='↑';up.title='上へ';up.disabled=index===0;up.onclick=()=>moveGrade(g.id,-1);
     const down=document.createElement('button');down.className='btn';down.textContent='↓';down.title='下へ';down.disabled=index===items.length-1;down.onclick=()=>moveGrade(g.id,1);
