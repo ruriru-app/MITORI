@@ -65,6 +65,7 @@
 /* The checklist recorder intentionally follows TSUKERU's compact, two-card layout. */
 #checklistRecordScreen.active{display:flex;min-height:0;flex-direction:column;gap:12px}
 .checklistRecordControlsCard{flex:0 0 auto;overflow:visible;padding:0!important}
+.checklistRecordGuide{padding:0 14px 12px;color:#6b554d;font-size:13px;line-height:1.6}.checklistRecordGuide p{margin:0}.checklistRecordGuide p+p{margin-top:3px}
 .checklistRecordTableCard{position:relative;display:flex;flex:1;min-height:0;overflow:hidden;padding:0!important}
 .checklistRecordToolbar{grid-template-columns:auto minmax(250px,.85fr) minmax(300px,1.15fr) auto auto;align-items:center;border-bottom:0;border-radius:inherit;padding:10px 14px}
 .checklistRecordToolbar label{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:8px;font-size:12px;white-space:nowrap}

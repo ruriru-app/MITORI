@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mitori-app-v19';
+const CACHE_NAME = 'mitori-app-v20';
 const APP_SHELL = [
   './',
   './index.html',
