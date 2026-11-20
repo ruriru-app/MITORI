@@ -1,0 +1,33 @@
+.speakingTypeTabs{display:flex;gap:10px;flex-wrap:wrap;margin:4px 0 14px}
+.speakingTypeTabs button{min-height:48px;padding:10px 22px}
+.speakingTypeTabs button.active{background:#dff2ee;border-color:#63bdb0;font-weight:900}
+.pairRoleEditor{display:flex;gap:20px;margin-top:14px;flex-wrap:wrap}
+.pairRoleEditor[hidden]{display:none}
+.pairRoleEditor label,.pairItemRole{display:flex;align-items:center;gap:10px}
+.pairItemRole{padding:10px;background:#eef7f5;border-radius:10px;margin:8px 0}
+.pairRoleEditor input,.pairItemRole select{padding:9px;border:1px solid var(--line);border-radius:8px;min-width:0}
+#performancePairScreen .performancePanel{overflow:hidden;min-height:0}
+.pairPanels{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;flex:1;min-height:0}
+.pairPanel{display:flex;flex-direction:column;min-width:0;min-height:0;border:1px solid #b7d9d1;border-radius:14px;overflow:hidden;background:#fff}
+.pairPanel:nth-child(2){border-color:#d6c5ad}
+.pairPanelTop{padding:12px;background:#edf7f4;border-bottom:1px solid var(--line);display:grid;gap:10px}
+.pairPanel:nth-child(2) .pairPanelTop{background:#faf4e9}
+.pairStudentLabel{display:grid;gap:5px;font-size:12px;font-weight:700}
+.pairStudentLabel select{width:100%;min-width:0;font:inherit;font-size:16px;padding:9px;border:1px solid var(--line);border-radius:8px;background:#fff}
+.pairRoleSwitch{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.pairRoleSwitch button{min-height:44px;overflow-wrap:anywhere;white-space:normal}
+.pairPanelBody{overflow-y:auto;padding:12px;min-height:0;display:flex;flex-direction:column;gap:12px;overscroll-behavior:contain}
+.pairProgress{font-weight:800;color:#55766d}
+.pairScoreCard{border:1px solid var(--line);border-radius:12px;margin:0;padding:12px;min-width:0}
+.pairScoreCard legend{font-weight:800;overflow-wrap:anywhere;padding:0 5px;max-width:100%}
+.pairScoreChoices{display:grid;gap:7px;margin-top:8px}
+.pairScoreChoice{display:grid;grid-template-columns:24px minmax(0,1fr);gap:4px 8px;align-items:center;padding:10px;border:1px solid var(--line);border-radius:9px;cursor:pointer;min-height:48px}
+.pairScoreChoice.selected{background:#e5f5ef;border:2px solid #65b6a6;padding:9px}
+.pairScoreChoice input{width:20px;height:20px;grid-row:span 2;accent-color:#399b90}
+.pairScoreChoice span{font-size:13px;overflow-wrap:anywhere}
+.pairClearScore{font-size:11px;margin-top:8px}
+.pairTotal{font-weight:800;padding:10px;background:#edf7f4;border-radius:8px}
+.pairMemo{display:grid;gap:5px;font-size:13px}
+.pairMemo textarea{width:100%;min-height:70px;padding:8px;border:1px solid var(--line);border-radius:8px;resize:vertical;font:inherit}
+#pairSaveStatus{font-size:12px;color:#537369}#pairSaveStatus.error{color:#b91c1c;font-weight:700}
+@media(max-width:650px){.pairPanels{gap:6px}.pairPanelTop,.pairPanelBody{padding:7px}.pairScoreCard{padding:7px}.pairStudentLabel select{font-size:13px}.pairRoleSwitch{gap:4px}.pairRoleSwitch .btn{padding:7px;font-size:12px}}
