@@ -18,7 +18,12 @@ const server=http.createServer((req,res)=>{
   await page.evaluate(()=>{
     state.grades=[{id:'g',name:'5年生',active:true}];state.sharedClasses=[{id:'c',name:'5年1組',gradeId:'g',school:'サンプル小学校'}];
     state.sharedClassData={c:{roster:{'1':{kanji:'サンプル児童A'},'2':{kanji:'サンプル児童B'},'3':{kanji:'サンプル児童C'}},positions:{},studentCount:3}};
-    state.performanceTests=[{id:'legacy',name:'既存テスト',gradeId:'g',items:[]}];save();
+    state.performanceTests=[{id:'legacy',name:'既存テスト',gradeId:'g',items:[{
+      id:'legacy-item',perspective:'knowledge',content:'発表する',levels:[
+        {id:'low',label:'1',score:1,criterion:'一部を伝えられる'},
+        {id:'high',label:'2',score:2,criterion:'内容を伝えられる'}
+      ]
+    }]}];save();
     document.querySelectorAll('.modalBack').forEach(node=>node.style.display='none');setMode('test');
   });
   await page.locator('#performancePairTab').click();
@@ -36,8 +41,13 @@ const server=http.createServer((req,res)=>{
   await page.locator('#savePerformanceTestBtn').click();
   await page.getByRole('button',{name:'このテストを使う',exact:true}).click();
   await page.locator('.performanceClassCard').click();
-  await page.locator('.pairStudentLabel select').nth(0).selectOption('1');
-  await page.locator('.pairStudentLabel select').nth(1).selectOption('2');
+  const header=page.locator('.app > .header');
+  assert.equal(await header.isVisible(),false,'the app header should be hidden during pair scoring');
+  await page.locator('.pairStudentSelect').nth(0).selectOption('1');
+  await page.locator('.pairStudentSelect').nth(1).selectOption('2');
+  assert.deepEqual(await page.locator('.pairPanel').first().locator('.scoreMatrix thead th').allTextContents(),[
+    '評価内容','支援があればできる1点','おおむねできる2点','十分にできる3点'
+  ]);
   await page.locator('.pairPanel').nth(0).locator('input[type=radio]').nth(2).check();
   await page.locator('.pairPanel').nth(1).locator('input[type=radio]').nth(1).check();
   await page.locator('.pairPanel').nth(0).getByRole('button',{name:'お客さん',exact:true}).click();
@@ -56,25 +66,44 @@ const server=http.createServer((req,res)=>{
   assert.deepEqual(content,['【お店屋さん】必要な情報を伝える','【お客さん】相手の話に応じる']);
   await page.screenshot({path:path.join(outputDir,'mitori-pair-return-sheet.png')});
   await page.locator('#closePerformancePrintBtn').click();
+  await page.locator('#pairBackBtn').click();
+  assert.equal(await header.isVisible(),true,'the app header should return after scoring');
   await page.reload();
   await page.evaluate(()=>{document.querySelectorAll('.modalBack').forEach(node=>node.style.display='none');setMode('test')});
   assert.equal(await page.locator('.performanceTestCard h3').innerText(),'既存テスト');
+  await page.getByRole('button',{name:'このテストを使う',exact:true}).click();
+  await page.locator('.performanceClassCard').click();
+  await page.locator('#performanceRosterTab').click();
+  await page.locator('.performanceRosterRow').first().click();
+  assert.equal(await header.isVisible(),true);
+  await page.locator('#performanceScoreItems .scoreMatrixRadio').last().check();
+  assert.match(await page.locator('#performanceScoreSummary').innerText(),/2 \/ 2点/);
+  await page.locator('#savePerformanceResultBtn').click();
+  assert.equal(await page.locator('.performanceRosterRow').first().locator('.performanceRosterState').innerText(),'評価済');
+  await page.locator('#performanceRunBackBtn').click();
+  await page.locator('#performanceClassBackBtn').click();
   await page.locator('#performancePairTab').click();await page.getByRole('button',{name:'このテストを使う',exact:true}).click();await page.locator('.performanceClassCard').click();
-  await page.locator('.pairStudentLabel select').nth(0).selectOption('1');
+  await page.locator('.pairStudentSelect').nth(0).selectOption('1');
   assert.equal(await page.locator('.pairPanel').nth(0).locator('input[type=radio]').nth(2).isChecked(),true);
   await page.locator('.pairPanel').nth(0).getByRole('button',{name:'お客さん',exact:true}).click();
   assert.equal(await page.locator('.pairPanel').nth(0).locator('input[type=radio]').nth(1).isChecked(),true);
   await page.setViewportSize({width:1024,height:768});
   assert.equal(await page.locator('.pairPanel').count(),2);
-  await page.locator('.pairStudentLabel select').nth(1).selectOption('2');
+  await page.locator('.pairStudentSelect').nth(1).selectOption('2');
+  const rows=await page.locator('.pairPanelTop').evaluateAll(tops=>tops.map(top=>{
+    const controls=[...top.querySelectorAll('select,button')].map(node=>node.getBoundingClientRect());
+    return controls.every(control=>Math.abs(control.top-controls[0].top)<1&&control.height===controls[0].height);
+  }));
+  assert.deepEqual(rows,[true,true],'each pupil and their role buttons must occupy one row');
   const positions=await page.evaluate(()=>{
-    pairPanels.forEach(panel=>{const item=panel.result.items.find(item=>item.roleId===panel.role);panel.result.items=Array.from({length:8},(_,i)=>({...performanceClone(item),id:'long'+i}))});
+    pairPanels.forEach(panel=>{const item=panel.result.items.find(item=>item.roleId===panel.role);panel.result.items=Array.from({length:40},(_,i)=>({...performanceClone(item),id:'long'+i}))});
     renderPairPerformance();
     const bodies=document.querySelectorAll('.pairPanelBody');bodies[0].scrollTop=250;bodies[1].scrollTop=200;
     const before=[bodies[0].scrollTop,bodies[1].scrollTop];
     setPairScore(0,'long1',pairPanels[0].result.items[1].levels[0].id);
     return {before,after:Array.from(document.querySelectorAll('.pairPanelBody'),node=>node.scrollTop)};
   });
+  assert.ok(positions.before.every(position=>position>0),'both panels must actually be scrolled');
   assert.deepEqual(positions.after,positions.before,'scoring must preserve both pupils scroll positions');
   assert.deepEqual(errors,[]);console.log('PASS: editor, pair scores, role switching, printed role prefixes, reload, legacy category, landscape layout, scroll preservation; no browser errors');
  }finally{if(browser)await browser.close();server.close()}

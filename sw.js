@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mitori-app-v21';
+const CACHE_NAME = 'mitori-app-v22';
 const APP_SHELL = [
   './',
   './index.html',
@@ -6,8 +6,8 @@ const APP_SHELL = [
   './mitori-footer.svg',
   './backup.js',
   './pair-model.js',
-  './pair-dialogue.js',
-  './pair-dialogue.css',
+  './pair-dialogue.js?v=2',
+  './pair-dialogue.css?v=2',
   './guide-content.js?v=0401',
   './guide-model.js?v=0401',
   './guide-storage.js?v=0401',

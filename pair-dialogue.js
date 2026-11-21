@@ -3,11 +3,16 @@ let pairPanels=[];
 function pairElement(tag,className='',text=''){
   const node=document.createElement(tag);node.className=className;node.textContent=text;return node;
 }
+function setPairSaveStatus(message,failed=false){
+  $('pairSaveStatus').textContent=message;
+  $('pairSaveStatus').classList.toggle('error',failed);
+  $('pairRetrySaveBtn').hidden=!failed;
+}
 function openPairPerformance(){
   pairPanels=[{num:'',role:'role1',result:null,dirty:false},{num:'',role:'role2',result:null,dirty:false}];
   const test=performanceTest(activePerformanceTestId),c=sharedClass(activePerformanceClassId);
   $('pairTitle').textContent=c.name+'／'+test.name;
-  $('pairSaveStatus').textContent='入力すると自動保存されます';
+  setPairSaveStatus('自動保存');
   showPerformanceScreen('performancePairScreen');renderPairPerformance();
 }
 function savePairPerformance(){
@@ -24,11 +29,11 @@ function savePairPerformance(){
   try{save()}
   catch(error){
     previous.forEach(([key,result])=>{if(result)state.performanceResults[key]=result;else delete state.performanceResults[key]});
-    $('pairSaveStatus').textContent='保存できません。入力は画面に残っています。「再保存」を押してください。';
-    $('pairSaveStatus').classList.toggle('error',true);return false;
+    setPairSaveStatus('保存できません。入力は画面に残っています。「再保存」を押してください。',true);
+    return false;
   }
   pending.forEach(panel=>panel.dirty=false);
-  $('pairSaveStatus').textContent='保存済み';$('pairSaveStatus').classList.toggle('error',false);return true;
+  setPairSaveStatus('保存済み');return true;
 }
 function selectPairStudent(side,num){
   const panel=pairPanels[side],other=pairPanels[1-side];
@@ -43,7 +48,7 @@ function selectPairStudent(side,num){
   renderPairPerformance(side);return true;
 }
 function setPairRole(side,role){
-  if(!MitoriPair.roles.includes(role))return;
+  if(!MitoriPair.roles.includes(role)||pairPanels[side].role===role)return;
   pairPanels[side].role=role;renderPairPerformance(side);
 }
 function setPairScore(side,itemId,levelId){
@@ -54,33 +59,41 @@ function setPairScore(side,itemId,levelId){
 function clearPairResult(side){
   const panel=pairPanels[side];if(!panel?.result)return;
   if(!confirm(panel.num+'番の両方の役割の評価とメモを消しますか？'))return;
+  if(!savePairPerformance())return;
   const key=performanceResultKey(panel.result.testId,panel.result.classId,panel.num),previous=state.performanceResults[key];
   delete state.performanceResults[key];
   try{save()}catch(error){if(previous)state.performanceResults[key]=previous;$('pairSaveStatus').textContent='保存できません。評価は消去されていません。';return}
   panel.result=createPerformanceResultDraft(performanceTest(activePerformanceTestId),sharedClass(activePerformanceClassId),panel.num);
-  panel.dirty=false;$('pairSaveStatus').textContent='未評価に戻しました';renderPairPerformance();
+  panel.dirty=false;setPairSaveStatus('未評価に戻しました');renderPairPerformance();
 }
 function renderPairPerformance(resetSide=-1){
   const root=$('pairPanels');
-  const positions=Array.from(root.querySelectorAll?.('.pairPanelBody')||[],node=>node.scrollTop);
+  const positions=Array.from(root.querySelectorAll('.pairPanelBody'),node=>({
+    top:node.scrollTop,
+    matrices:Array.from(node.querySelectorAll('.scoreMatrixWrap'),matrix=>matrix.scrollLeft)
+  }));
   const focusId=document.activeElement?.id;
   root.innerHTML='';
   const test=performanceTest(activePerformanceTestId),c=sharedClass(activePerformanceClassId);
   pairPanels.forEach((panel,side)=>{
     const section=pairElement('section','pairPanel'),top=pairElement('div','pairPanelTop');
-    const label=pairElement('label','pairStudentLabel',side===0?'左の児童・生徒':'右の児童・生徒');
-    const select=pairElement('select');select.id='pairStudent_'+side;select.setAttribute('aria-label',label.textContent);
+    const select=pairElement('select','pairStudentSelect');
+    select.id='pairStudent_'+side;
+    select.setAttribute('aria-label',side===0?'左の児童・生徒':'右の児童・生徒');
     const empty=pairElement('option','','児童・生徒を選択');empty.value='';select.appendChild(empty);
     for(let num=1;num<=getVisibleStudentCount(c.id);num++){
       const saved=performanceResult(test.id,c.id,num);
       const option=pairElement('option','',num+'番　'+(studentName(c.id,num)||'名前未登録')+'　'+MitoriPair.progress(saved));
       option.value=String(num);option.disabled=String(num)===pairPanels[1-side].num;select.appendChild(option);
     }
-    select.value=panel.num;select.onchange=()=>selectPairStudent(side,select.value);label.appendChild(select);top.appendChild(label);
+    select.value=panel.num;
+    select.title=panel.num?panel.num+'番　'+(studentName(c.id,panel.num)||'名前未登録'):'';
+    select.onchange=()=>selectPairStudent(side,select.value);top.appendChild(select);
     const roles=pairElement('div','pairRoleSwitch');roles.setAttribute('aria-label','評価する役割');
     MitoriPair.roles.forEach(role=>{
       const button=pairElement('button','btn'+(panel.role===role?' primary':''),MitoriPair.roleName(panel.result||test,role));
       button.id='pairRole_'+side+'_'+role;
+      button.title=button.textContent;
       button.setAttribute('aria-pressed',String(panel.role===role));button.onclick=()=>setPairRole(side,role);roles.appendChild(button);
     });
     top.appendChild(roles);section.appendChild(top);
@@ -90,19 +103,9 @@ function renderPairPerformance(resetSide=-1){
       body.appendChild(pairElement('div','pairProgress',MitoriPair.progress(panel.result)));
       const items=MitoriPair.roleItems(panel.result,panel.role);
       if(!items.length)body.appendChild(pairElement('p','performanceEmpty','この役割の評価項目はありません。'));
-      items.forEach(item=>{
-        const card=pairElement('fieldset','pairScoreCard');card.appendChild(pairElement('legend','',item.content||'評価内容未設定'));
-        card.appendChild(pairElement('div','small',perspectiveName(item)));
-        const choices=pairElement('div','pairScoreChoices');
-        item.levels.forEach(level=>{
-          const choice=pairElement('label','pairScoreChoice'+(item.selectedLevelId===level.id?' selected':''));
-          const radio=pairElement('input');radio.type='radio';radio.name='pair_'+side+'_'+item.id;radio.value=level.id;radio.checked=item.selectedLevelId===level.id;
-          radio.id='pairScore_'+side+'_'+item.id+'_'+level.id;
-          radio.onchange=()=>setPairScore(side,item.id,level.id);
-          choice.append(radio,pairElement('strong','',level.label+'（'+Number(level.score)+'点）'),pairElement('span','',level.criterion));choices.appendChild(choice);
-        });
-        const clear=pairElement('button','btn pairClearScore','この項目を未評価に戻す');clear.disabled=!item.selectedLevelId;clear.onclick=()=>setPairScore(side,item.id,'');
-        card.append(choices,clear);body.appendChild(card);
+      const changeScore=(item,levelId)=>setPairScore(side,item.id,levelId);
+      appendPerformanceScoreItems(body,items,{
+        compact:true,radioPrefix:'pairScore_'+side+'_',onSelect:changeScore,onClear:changeScore
       });
       const total=panel.result.items.reduce((sum,item)=>sum+resultItemScore(item),0),max=panel.result.items.reduce((sum,item)=>sum+resultItemMax(item),0);
       body.appendChild(pairElement('div','pairTotal','両役割合計　'+total+' / '+max+'点'));
@@ -113,9 +116,14 @@ function renderPairPerformance(resetSide=-1){
       const clear=pairElement('button','btn','両役割を未評価に戻す');clear.onclick=()=>clearPairResult(side);actions.append(print,clear);body.appendChild(actions);
     }
     section.appendChild(body);root.appendChild(section);
-    body.scrollTop=side===resetSide?0:(positions[side]||0);
+    if(side!==resetSide&&positions[side]){
+      body.scrollTop=positions[side].top;
+      body.querySelectorAll('.scoreMatrixWrap').forEach((matrix,index)=>{
+        matrix.scrollLeft=positions[side].matrices[index]||0;
+      });
+    }
   });
-  if(focusId)document.getElementById?.(focusId)?.focus({preventScroll:true});
+  if(focusId)document.getElementById(focusId)?.focus({preventScroll:true});
 }
 function renderPairEditor(){
   const box=$('pairRoleEditor');box.innerHTML='';box.hidden=!MitoriPair.isPair(performanceDraft);

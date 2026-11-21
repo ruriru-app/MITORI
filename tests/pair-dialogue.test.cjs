@@ -5,14 +5,14 @@ const path=require('node:path');
 const vm=require('node:vm');
 const Pair=require('../pair-model.js');
 const extract=require('./helpers/extract-function.cjs');
-function element(){return {children:[],style:{},dataset:{},classList:{toggle(){}},append(...n){this.children.push(...n)},appendChild(n){this.children.push(n)},setAttribute(){},replaceChildren(...n){this.children=n},set innerHTML(v){this.children=[]},get innerHTML(){return ''}}}
+function element(){return {children:[],style:{},dataset:{},classList:{toggle(){}},append(...n){this.children.push(...n)},appendChild(n){this.children.push(n)},setAttribute(){},querySelectorAll(){return []},replaceChildren(...n){this.children=n},set innerHTML(v){this.children=[]},get innerHTML(){return ''}}}
 function host(){
  const nodes={};const t={id:'t',kind:'pair',name:'対話',roleNames:{role1:'役割1',role2:'役割2'},items:[{id:'a',roleId:'role1',content:'項目A',levels:[{id:'x',score:1,criterion:'基準'}]},{id:'b',roleId:'role2',content:'項目B',levels:[{id:'y',score:2,criterion:'基準'}]}]};
  const c={id:'c',name:'5年1組'};
  const ctx={MitoriPair:Pair,document:{createElement:element},$:id=>nodes[id]??=(element()),state:{performanceResults:{}},activePerformanceTestId:'t',activePerformanceClassId:'c',performanceTest:()=>t,sharedClass:()=>c,sharedData:()=>({roster:{}}),studentName:(id,num)=>'児童'+num,getVisibleStudentCount:()=>3,performanceClone:v=>JSON.parse(JSON.stringify(v)),performanceResultKey:(t,c,n)=>t+'::'+c+'::'+Number(n),save(){},showPerformanceScreen(){},renderPerformanceClassGroups(){},perspectiveName:()=> '知識・技能',resultItemScore:item=>item.levels.find(l=>l.id===item.selectedLevelId)?.score||0,resultItemMax:item=>Math.max(...item.levels.map(l=>l.score)),alert(){},confirm:()=>true};
  ctx.performanceResult=(t,c,n)=>ctx.state.performanceResults[ctx.performanceResultKey(t,c,n)]||null;
  vm.createContext(ctx);
- vm.runInContext(extract('createPerformanceResultDraft'),ctx);
+ vm.runInContext(['createPerformanceResultDraft','performanceCriteriaSignature','createPerformanceScoreMatrix','appendPerformanceScoreItems'].map(name=>extract(name)).join('\n'),ctx);
  const file=path.join(__dirname,'../pair-dialogue.js');
  if(fs.existsSync(file))vm.runInContext(fs.readFileSync(file,'utf8'),ctx);
  return {ctx,nodes,t};
