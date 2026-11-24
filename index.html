@@ -1639,8 +1639,8 @@ h2,.title,.sideTitle{color:#6f625b}.small{color:#8b817b}
 <script src="guide-app.js?v=0401"></script>
 <script src="guide-view.js?v=0401"></script>
 <script src="backup.js"></script>
-<script src="pair-model.js"></script>
-<script src="pair-dialogue.js?v=2"></script>
+<script src="pair-model.js?v=2"></script>
+<script src="pair-dialogue.js?v=3"></script>
 <script src="report-model.js"></script>
 <script src="report-export.js"></script>
 <script src="report-xlsx.js"></script>
@@ -3271,7 +3271,9 @@ function savePerformanceTest(){
   if(!performanceDraft.name){alert('テスト名を入力してください。');return}
   if(!grade(performanceDraft.gradeId)){alert('対象学年を選択してください。学年がない場合は、各種設定の「学年設定」で登録してください。');return}
   if(!performanceDraft.items?.length){alert('評価項目を1つ以上追加してください。');return}
-  if(MitoriPair.isPair(performanceDraft)&&MitoriPair.roles.some(role=>!performanceDraft.items.some(item=>item.roleId===role))){alert('役割1・役割2それぞれに評価項目を1つ以上設定してください。');return}
+  if(MitoriPair.isPair(performanceDraft)&&MitoriPair.roles.some(role=>!MitoriPair.roleItems(performanceDraft,role).length)){
+    alert('両方の役割で採点できるように、役割ごとの評価項目または共通の評価項目を設定してください。');return;
+  }
   for(let index=0;index<performanceDraft.items.length;index++){
     const item=performanceDraft.items[index];
     if(!item.content.trim()){alert('評価項目 '+(index+1)+' の評価内容を入力してください。');return}
@@ -3430,7 +3432,7 @@ function renderPerformanceStudent(){
 function performanceCriteriaSignature(item){
   return JSON.stringify((item.levels||[]).map(level=>[String(level.label??''),Number(level.score),String(level.criterion||'')]));
 }
-function createPerformanceScoreMatrix(items,{onSelect,onClear,radioPrefix='performanceScore_',compact=false}){
+function createPerformanceScoreMatrix(items,{onSelect,onClear,itemText,radioPrefix='performanceScore_',compact=false}){
   const group=document.createElement('div');group.className='scoreCriteriaGroup';
   const wrap=document.createElement('div');wrap.className='scoreMatrixWrap';
   const table=document.createElement('table');table.className='scoreMatrix';
@@ -3449,16 +3451,17 @@ function createPerformanceScoreMatrix(items,{onSelect,onClear,radioPrefix='perfo
   const tbody=document.createElement('tbody');
   items.forEach(item=>{
     const row=document.createElement('tr');
-    const content=document.createElement('td');content.className='scoreContentCell';content.textContent=item.content||'評価内容未設定';row.appendChild(content);
+    const text=itemText?.(item)||item.content||'評価内容未設定';
+    const content=document.createElement('td');content.className='scoreContentCell';content.textContent=text;row.appendChild(content);
     if(onClear){
       const clear=document.createElement('button');clear.type='button';clear.className='pairClearScore';clear.textContent='×';
-      clear.title='この項目を未評価に戻す';clear.setAttribute('aria-label',(item.content||'評価内容')+'を未評価に戻す');
+      clear.title='この項目を未評価に戻す';clear.setAttribute('aria-label',text+'を未評価に戻す');
       clear.disabled=!item.selectedLevelId;clear.onclick=()=>onClear(item,'');content.appendChild(clear);
     }
     (item.levels||[]).forEach(level=>{
       const cell=document.createElement('td');
       const selected=item.selectedLevelId===level.id;
-      const radio=document.createElement('input');radio.type='radio';radio.name=radioPrefix+item.id;radio.className='scoreMatrixRadio';radio.checked=selected;radio.value=level.id;radio.setAttribute('aria-label',(item.content||'評価内容')+'：'+(level.criterion||String(level.score)+'点')+'（'+Number(level.score)+'点）');radio.title=(level.criterion||'')+'・'+Number(level.score)+'点';
+      const radio=document.createElement('input');radio.type='radio';radio.name=radioPrefix+item.id;radio.className='scoreMatrixRadio';radio.checked=selected;radio.value=level.id;radio.setAttribute('aria-label',text+'：'+(level.criterion||String(level.score)+'点')+'（'+Number(level.score)+'点）');radio.title=(level.criterion||'')+'・'+Number(level.score)+'点';
       radio.id=radio.name+'_'+level.id;
       radio.onchange=()=>onSelect(item,level.id);
       cell.appendChild(radio);row.appendChild(cell);

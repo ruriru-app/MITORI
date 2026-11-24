@@ -1,12 +1,12 @@
-const CACHE_NAME = 'mitori-app-v22';
+const CACHE_NAME = 'mitori-app-v23';
 const APP_SHELL = [
   './',
   './index.html',
   './manifest.webmanifest',
   './mitori-footer.svg',
   './backup.js',
-  './pair-model.js',
-  './pair-dialogue.js?v=2',
+  './pair-model.js?v=2',
+  './pair-dialogue.js?v=3',
   './pair-dialogue.css?v=2',
   './guide-content.js?v=0401',
   './guide-model.js?v=0401',

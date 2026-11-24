@@ -5,8 +5,8 @@ test('guide and checklist request versions match the installed PWA shell',()=>{
   for(const file of ['guide-content.js','guide-model.js','guide-storage.js','guide-navigation.js','guide-app.js','guide-view.js','guide.css','checklist/app.js']){
     const request=file+'?v=0401';assert.ok(html.includes('"'+request+'"'),request+' not requested');assert.ok(ctx.shell.includes('./'+request),request+' not precached');
   }
-  assert.equal(ctx.cache,'mitori-app-v22');assert.ok(!ctx.shell.some(file=>file.includes('tests/')));
-  for(const file of ['pair-model.js','pair-dialogue.js?v=2','pair-dialogue.css?v=2']){
+  assert.equal(ctx.cache,'mitori-app-v23');assert.ok(!ctx.shell.some(file=>file.includes('tests/')));
+  for(const file of ['pair-model.js?v=2','pair-dialogue.js?v=3','pair-dialogue.css?v=2']){
     assert.ok(html.includes('"'+file+'"'));assert.ok(ctx.shell.includes('./'+file));
   }
 });

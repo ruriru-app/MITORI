@@ -36,3 +36,14 @@ test('stale level IDs do not count as assessed and role labels use the result sn
   assert.equal(Pair.itemLabel({kind:'pair'}, {roleId:'role2',content:'応答する'}), '【役割２】応答する');
   assert.equal(Pair.itemLabel({}, {content:'伝える'}), '伝える');
 });
+
+test('a common item is visible in both roles and appears as one item in progress and output', () => {
+  const common = {id:'c',roleId:'common',content:'相手に伝わる声で話す',levels:[{id:'yes',score:1}],selectedLevelId:''};
+  const result = {kind:'pair',items:[{id:'a',roleId:'role1'}, {id:'b',roleId:'role2'}, common]};
+  assert.deepEqual(Pair.roleItems(result,'role1').map(item=>item.id), ['a','c']);
+  assert.deepEqual(Pair.roleItems(result,'role2').map(item=>item.id), ['b','c']);
+  Pair.roleItems(result,'role1')[1].selectedLevelId='yes';
+  assert.equal(Pair.roleItems(result,'role2')[1].selectedLevelId,'yes');
+  assert.equal(Pair.progress(result),'評価途中 1/3');
+  assert.equal(Pair.itemLabel(result,common),'【共通】相手に伝わる声で話す');
+});

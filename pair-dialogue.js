@@ -45,6 +45,14 @@ function selectPairStudent(side,num){
   const test=performanceTest(activePerformanceTestId),c=sharedClass(activePerformanceClassId);
   const saved=num?performanceResult(test.id,c.id,num):null;
   panel.result=num?(saved?performanceClone(saved):createPerformanceResultDraft(test,c,num)):null;
+  if(saved){
+    const additions=MitoriPair.addedCommonItems(test,saved);
+    if(additions.length){
+      // Keep the assessed criteria and scores as they were when saved.
+      const addedItems=performanceClone(additions).map(item=>({...item,selectedLevelId:''}));
+      panel.result.items=[...(panel.result.items||[]),...addedItems];
+    }
+  }
   renderPairPerformance(side);return true;
 }
 function setPairRole(side,role){
@@ -52,13 +60,15 @@ function setPairRole(side,role){
   pairPanels[side].role=role;renderPairPerformance(side);
 }
 function setPairScore(side,itemId,levelId){
-  const panel=pairPanels[side],item=panel?.result?.items.find(item=>item.id===itemId&&item.roleId===panel.role);
+  const panel=pairPanels[side];
+  if(!panel?.result)return;
+  const item=MitoriPair.roleItems(panel.result,panel.role).find(item=>item.id===itemId);
   if(!item||!(levelId===''||item.levels.some(level=>level.id===levelId)))return;
   item.selectedLevelId=levelId;panel.dirty=true;savePairPerformance();renderPairPerformance();
 }
 function clearPairResult(side){
   const panel=pairPanels[side];if(!panel?.result)return;
-  if(!confirm(panel.num+'番の両方の役割の評価とメモを消しますか？'))return;
+  if(!confirm(panel.num+'番のすべての評価とメモを消しますか？'))return;
   if(!savePairPerformance())return;
   const key=performanceResultKey(panel.result.testId,panel.result.classId,panel.num),previous=state.performanceResults[key];
   delete state.performanceResults[key];
@@ -83,7 +93,8 @@ function renderPairPerformance(resetSide=-1){
     const empty=pairElement('option','','児童・生徒を選択');empty.value='';select.appendChild(empty);
     for(let num=1;num<=getVisibleStudentCount(c.id);num++){
       const saved=performanceResult(test.id,c.id,num);
-      const option=pairElement('option','',num+'番　'+(studentName(c.id,num)||'名前未登録')+'　'+MitoriPair.progress(saved));
+      const addedCount=saved?MitoriPair.addedCommonItems(test,saved).length:0;
+      const option=pairElement('option','',num+'番　'+(studentName(c.id,num)||'名前未登録')+'　'+MitoriPair.progress(saved,addedCount));
       option.value=String(num);option.disabled=String(num)===pairPanels[1-side].num;select.appendChild(option);
     }
     select.value=panel.num;
@@ -105,15 +116,18 @@ function renderPairPerformance(resetSide=-1){
       if(!items.length)body.appendChild(pairElement('p','performanceEmpty','この役割の評価項目はありません。'));
       const changeScore=(item,levelId)=>setPairScore(side,item.id,levelId);
       appendPerformanceScoreItems(body,items,{
-        compact:true,radioPrefix:'pairScore_'+side+'_',onSelect:changeScore,onClear:changeScore
+        compact:true,radioPrefix:'pairScore_'+side+'_',onSelect:changeScore,onClear:changeScore,
+        itemText:item=>item.roleId===MitoriPair.common?MitoriPair.itemLabel(panel.result,item):item.content
       });
       const total=panel.result.items.reduce((sum,item)=>sum+resultItemScore(item),0),max=panel.result.items.reduce((sum,item)=>sum+resultItemMax(item),0);
-      body.appendChild(pairElement('div','pairTotal','両役割合計　'+total+' / '+max+'点'));
+      const hasCommon=items.some(item=>item.roleId===MitoriPair.common);
+      const totalLabel=hasCommon?'合計（共通を含む）':'両役割合計';
+      body.appendChild(pairElement('div','pairTotal',totalLabel+'　'+total+' / '+max+'点'));
       const memoLabel=pairElement('label','pairMemo','個人メモ（両役割共通）'),memo=pairElement('textarea');memo.value=panel.result.memo||'';memo.setAttribute('aria-label',panel.num+'番の個人メモ');
       memo.oninput=()=>{panel.result.memo=memo.value;panel.dirty=true;savePairPerformance()};memoLabel.appendChild(memo);body.appendChild(memoLabel);
       const actions=pairElement('div','performanceActions');
       const print=pairElement('button','btn','個票PDF');print.onclick=()=>{if(savePairPerformance())openPerformancePrintPreview([{test,c,num:panel.num,result:performanceClone(panel.result)}],c.name+' '+panel.num+'番／個票',test.name+'_'+panel.num+'番')};
-      const clear=pairElement('button','btn','両役割を未評価に戻す');clear.onclick=()=>clearPairResult(side);actions.append(print,clear);body.appendChild(actions);
+      const clear=pairElement('button','btn',hasCommon?'すべて未評価に戻す':'両役割を未評価に戻す');clear.onclick=()=>clearPairResult(side);actions.append(print,clear);body.appendChild(actions);
     }
     section.appendChild(body);root.appendChild(section);
     if(side!==resetSide&&positions[side]){
@@ -137,9 +151,10 @@ function renderPairEditor(){
 }
 function appendPairItemRole(card,item){
   if(!MitoriPair.isPair(performanceDraft))return;
-  item.roleId=MitoriPair.roles.includes(item.roleId)?item.roleId:'role1';
+  const itemRoles=[...MitoriPair.roles,MitoriPair.common];
+  if(!itemRoles.includes(item.roleId))item.roleId='role1';
   const label=pairElement('label','pairItemRole','評価する役割'),select=pairElement('select');
-  MitoriPair.roles.forEach(role=>{const option=pairElement('option','',MitoriPair.roleName(performanceDraft,role));option.value=role;select.appendChild(option)});
+  itemRoles.forEach(role=>{const option=pairElement('option','',MitoriPair.roleName(performanceDraft,role));option.value=role;select.appendChild(option)});
   select.value=item.roleId;select.onchange=()=>item.roleId=select.value;label.appendChild(select);card.appendChild(label);
 }
 function initPairPerformance(){

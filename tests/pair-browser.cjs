@@ -95,6 +95,67 @@ const server=http.createServer((req,res)=>{
     return controls.every(control=>Math.abs(control.top-controls[0].top)<1&&control.height===controls[0].height);
   }));
   assert.deepEqual(rows,[true,true],'each pupil and their role buttons must occupy one row');
+  // Add a common criterion after both pupils already have saved role ratings.
+  await page.locator('#pairBackBtn').click();
+  await page.locator('#performanceClassBackBtn').click();
+  await page.getByRole('button',{name:'編集',exact:true}).click();
+  await page.locator('#addPerformanceItemBtn').click();
+  const commonCard=page.locator('.performanceItemAccordion').last();
+  const commonOption=commonCard.locator('.pairItemRole select option[value="common"]');
+  assert.equal(await commonOption.textContent(),'共通');
+  await commonCard.locator('.pairItemRole select').selectOption('common');
+  await commonCard.locator('.performanceItemGrid input').fill('対話を続ける');
+  for(let j=0;j<3;j++)await commonCard.locator('.criteriaLevelRow input:last-child').nth(j).fill(['支援があればできる','おおむねできる','十分にできる'][j]);
+  await page.locator('#savePerformanceTestBtn').click();
+  await page.getByRole('button',{name:'このテストを使う',exact:true}).click();
+  await page.locator('.performanceClassCard').click();
+  await page.locator('.pairStudentSelect').nth(0).selectOption('1');
+  await page.locator('.pairStudentSelect').nth(1).selectOption('2');
+  const panel=side=>page.locator('.pairPanel').nth(side);
+  const scoreRow=(side,content)=>panel(side).locator('.scoreMatrix tbody tr').filter({hasText:content});
+  const commonRow=side=>scoreRow(side,'【共通】対話を続ける');
+  for(let side=0;side<2;side++){
+    assert.equal(await panel(side).locator('.pairRoleSwitch button').count(),2,'common criteria must not introduce a third role tab');
+    assert.equal(await commonRow(side).count(),1,'a common criterion must appear once in each role view');
+    assert.equal(await commonRow(side).locator('input:checked').count(),0);
+    assert.match(await panel(side).locator('.pairProgress').innerText(),/2\/3/,'adding common criteria must preserve existing role ratings');
+  }
+  assert.equal(await scoreRow(0,'必要な情報を伝える').locator('input').nth(2).isChecked(),true);
+  assert.equal(await scoreRow(1,'相手の話に応じる').locator('input').nth(1).isChecked(),true);
+  await commonRow(0).locator('input').nth(2).check();
+  assert.match(await panel(0).locator('.pairTotal').innerText(),/8 \/ 9点/,'common scores and maxima must be counted once');
+  assert.match(await panel(0).locator('.pairProgress').innerText(),/評価完了 3\/3/);
+  assert.equal(await commonRow(1).locator('input:checked').count(),0,'one pupil must not inherit the other pupil common score');
+  await panel(0).getByRole('button',{name:'お客さん',exact:true}).click();
+  assert.equal(await commonRow(0).locator('input').nth(2).isChecked(),true,'common scores must be shared between the same pupil role views');
+  assert.equal(await scoreRow(0,'相手の話に応じる').locator('input').nth(1).isChecked(),true);
+  await commonRow(0).locator('input').nth(1).check();
+  await panel(0).getByRole('button',{name:'お店屋さん',exact:true}).click();
+  assert.equal(await commonRow(0).locator('input').nth(1).isChecked(),true);
+  await commonRow(1).locator('input').nth(0).check();
+  await panel(1).getByRole('button',{name:'お店屋さん',exact:true}).click();
+  assert.equal(await commonRow(1).locator('input').nth(0).isChecked(),true);
+  assert.equal(await scoreRow(1,'必要な情報を伝える').locator('input').nth(0).isChecked(),true);
+  assert.equal(await commonRow(0).locator('input').nth(1).isChecked(),true,'editing pupil B must leave pupil A unchanged');
+  assert.match(await panel(0).locator('.pairTotal').innerText(),/7 \/ 9点/);
+  assert.match(await panel(1).locator('.pairTotal').innerText(),/4 \/ 9点/);
+  await panel(0).getByRole('button',{name:'個票PDF',exact:true}).click();
+  assert.deepEqual(await page.locator('#performancePrintPreview .printResultContent').allTextContents(),[
+    '【お店屋さん】必要な情報を伝える','【お客さん】相手の話に応じる','【共通】対話を続ける'
+  ],'the returned sheet must print each criterion once with its role or common prefix');
+  assert.match(await page.locator('#performancePrintPreview .printScoreTotal').innerText(),/7 \/ 9点/);
+  await page.locator('#closePerformancePrintBtn').click();
+  await page.reload();
+  await page.evaluate(()=>{document.querySelectorAll('.modalBack').forEach(node=>node.style.display='none');setMode('test')});
+  await page.locator('#performancePairTab').click();
+  await page.getByRole('button',{name:'このテストを使う',exact:true}).click();
+  await page.locator('.performanceClassCard').click();
+  await page.locator('.pairStudentSelect').nth(0).selectOption('1');
+  await page.locator('.pairStudentSelect').nth(1).selectOption('2');
+  assert.equal(await commonRow(0).locator('input').nth(1).isChecked(),true,'pupil A common score must survive reload');
+  assert.equal(await commonRow(1).locator('input').nth(0).isChecked(),true,'pupil B common score must survive reload');
+  assert.equal(await scoreRow(0,'必要な情報を伝える').locator('input').nth(2).isChecked(),true);
+  assert.equal(await scoreRow(1,'相手の話に応じる').locator('input').nth(1).isChecked(),true);
   const positions=await page.evaluate(()=>{
     pairPanels.forEach(panel=>{const item=panel.result.items.find(item=>item.roleId===panel.role);panel.result.items=Array.from({length:40},(_,i)=>({...performanceClone(item),id:'long'+i}))});
     renderPairPerformance();
@@ -105,6 +166,6 @@ const server=http.createServer((req,res)=>{
   });
   assert.ok(positions.before.every(position=>position>0),'both panels must actually be scrolled');
   assert.deepEqual(positions.after,positions.before,'scoring must preserve both pupils scroll positions');
-  assert.deepEqual(errors,[]);console.log('PASS: editor, pair scores, role switching, printed role prefixes, reload, legacy category, landscape layout, scroll preservation; no browser errors');
+  assert.deepEqual(errors,[]);console.log('PASS: editor, pair scores, shared common criteria, saved-result extension, pupil isolation, single-count totals and print rows, reload, legacy category, landscape layout, scroll preservation; no browser errors');
  }finally{if(browser)await browser.close();server.close()}
 })().catch(error=>{console.error(error);process.exitCode=1});

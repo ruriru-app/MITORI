@@ -43,6 +43,21 @@ test('blank pupil selection does not create an assessed result',()=>{
  ctx.openPairPerformance();ctx.selectPairStudent(0,'1');ctx.selectPairStudent(0,'3');ctx.savePairPerformance();
  assert.deepEqual(Object.keys(ctx.state.performanceResults),[]);
 });
+test('adding a common item to an existing test preserves earlier scores and records the common mark once',()=>{
+ const {ctx,nodes,t}=host();ctx.openPairPerformance();ctx.selectPairStudent(0,'1');ctx.setPairScore(0,'a','x');
+ t.items.push({id:'common-item',roleId:'common',content:'相手に伝わる声で話す',levels:[{id:'yes',score:3},{id:'no',score:0}]});
+ ctx.openPairPerformance();ctx.selectPairStudent(0,'1');ctx.selectPairStudent(1,'2');
+ const lookup=(node,text)=>node.textContent===text||node.children.some(child=>lookup(child,text));
+ assert.ok(lookup(nodes.pairPanels,'評価途中 1/3'));
+ ctx.setPairScore(0,'common-item','yes');ctx.setPairRole(0,'role2');
+ ctx.setPairScore(0,'b','y');ctx.setPairScore(1,'common-item','no');
+ const first=ctx.state.performanceResults['t::c::1'],second=ctx.state.performanceResults['t::c::2'];
+ assert.deepEqual(Array.from(first.items,item=>item.selectedLevelId),['x','y','yes']);
+ assert.deepEqual(Array.from(second.items,item=>item.selectedLevelId),['','','no']);
+ ctx.setPairScore(0,'common-item','');
+ assert.equal(ctx.state.performanceResults['t::c::1'].items[2].selectedLevelId,'');
+ assert.equal(t.items[2].selectedLevelId,undefined);
+});
 test('export does not borrow a deleted or reassigned pair item score by position',()=>{
  const ctx={};vm.createContext(ctx);vm.runInContext(extract('performanceResultItemFor'),ctx);
  const saved=[{id:'old',roleId:'role1',selectedLevelId:'high'}];
